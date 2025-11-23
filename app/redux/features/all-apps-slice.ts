@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import _, { max } from "lodash";
+import { max, uniqueId } from "lodash-es";
 import { Calculator, Chrome, Spotify, Terminal, VSCode } from "~/apps";
 
 interface AllAppsState {
@@ -21,7 +21,7 @@ interface AllAppsState {
 
 const initialState: AllAppsState[] = [
 	{
-		id: _.uniqueId(),
+		id: uniqueId(),
 		title: "Chrome",
 		slug: "chrome",
 		imageSrc: "/apps/chrome.png",
@@ -37,7 +37,7 @@ const initialState: AllAppsState[] = [
 		zIndex: 0,
 	},
 	{
-		id: _.uniqueId(),
+		id: uniqueId(),
 		title: "Calculator",
 		slug: "calculator",
 		imageSrc: "/apps/calc.png",
@@ -53,7 +53,7 @@ const initialState: AllAppsState[] = [
 		zIndex: 0,
 	},
 	{
-		id: _.uniqueId(),
+		id: uniqueId(),
 		title: "VS Code",
 		slug: "code",
 		imageSrc: "/apps/vscode.png",
@@ -69,7 +69,7 @@ const initialState: AllAppsState[] = [
 		zIndex: 0,
 	},
 	{
-		id: _.uniqueId(),
+		id: uniqueId(),
 		title: "Terminal",
 		slug: "terminal",
 		imageSrc: "/apps/bash.png",
@@ -85,7 +85,7 @@ const initialState: AllAppsState[] = [
 		zIndex: 0,
 	},
 	{
-		id: _.uniqueId(),
+		id: uniqueId(),
 		title: "Spotify",
 		slug: "spotify",
 		imageSrc: "/apps/spotify.png",
@@ -101,7 +101,7 @@ const initialState: AllAppsState[] = [
 		zIndex: 0,
 	},
 	{
-		id: _.uniqueId(),
+		id: uniqueId(),
 		title: "Settings",
 		slug: "settings",
 		imageSrc: "/apps/gnome-control-center.png",

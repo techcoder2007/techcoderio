@@ -1,6 +1,6 @@
-import React, { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface WifiProps extends SVGProps<SVGSVGElement> {}
+interface WifiProps extends IconProps {}
 
 const Wifi = (props: WifiProps) => {
 	return (

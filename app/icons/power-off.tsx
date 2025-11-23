@@ -1,6 +1,6 @@
-import React, { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface PowerOffProps extends SVGProps<SVGSVGElement> {}
+interface PowerOffProps extends IconProps {}
 
 const PowerOff = (props: PowerOffProps) => {
 	return (

@@ -1,6 +1,6 @@
-import React, { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface CloseProps extends SVGProps<SVGSVGElement> {}
+interface CloseProps extends IconProps {}
 
 const Close = (props: CloseProps) => {
 	return (

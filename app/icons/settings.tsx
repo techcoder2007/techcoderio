@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface SettingsProps extends SVGProps<SVGSVGElement> {}
+interface SettingsProps extends IconProps {}
 
 const Settings = (props: SettingsProps) => (
 	<svg xmlns="http://www.w3.org/2000/svg" width={16.015} height={16} {...props}>

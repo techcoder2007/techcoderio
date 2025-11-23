@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface BluetoothProps extends SVGProps<SVGSVGElement> {}
+interface BluetoothProps extends IconProps {}
 
 const Bluetooth = (props: BluetoothProps) => {
 	return (

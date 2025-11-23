@@ -1,6 +1,6 @@
-import React, { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface LockProps extends SVGProps<SVGSVGElement> {}
+interface LockProps extends IconProps {}
 
 const Lock = (props: LockProps) => {
 	return (

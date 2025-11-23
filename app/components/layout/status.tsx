@@ -1,8 +1,6 @@
 import { AudioVolume, Battery, Wifi } from "~/icons";
 
-interface StatusProps {}
-
-const Status = ({}: StatusProps) => {
+const Status = () => {
 	return (
 		<div className="flex items-center gap-2">
 			<Wifi />

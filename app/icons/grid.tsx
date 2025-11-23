@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface GridProps extends SVGProps<SVGSVGElement> {}
+interface GridProps extends IconProps {}
 
 const Grid = (props: GridProps) => {
 	return (

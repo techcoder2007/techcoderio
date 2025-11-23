@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface RefreshProps extends SVGProps<SVGSVGElement> {}
+interface RefreshProps extends IconProps {}
 
 const Refresh = (props: RefreshProps) => {
 	return (

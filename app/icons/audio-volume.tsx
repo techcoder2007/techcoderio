@@ -1,6 +1,6 @@
-import type { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface AudioVolumeProps extends SVGProps<SVGSVGElement> {}
+interface AudioVolumeProps extends IconProps {}
 
 const AudioVolume = (props: AudioVolumeProps) => {
 	return (

@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface MaximizeProps extends SVGProps<SVGSVGElement> {}
+interface MaximizeProps extends IconProps {}
 
 const Maximize = (props: MaximizeProps) => {
 	return (

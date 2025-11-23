@@ -1,8 +1,4 @@
-import React, { SVGProps } from "react";
-
-interface BrightnessProps extends SVGProps<SVGSVGElement> {}
-
-const Brightness = (props: BrightnessProps) => {
+const Brightness = (props: React.SVGProps<SVGSVGElement>) => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
 			<path

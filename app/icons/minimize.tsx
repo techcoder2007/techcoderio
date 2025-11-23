@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import type { SVGProps } from "react";
 
 interface MinimizeProps extends SVGProps<SVGSVGElement> {}
 

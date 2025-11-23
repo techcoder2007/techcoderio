@@ -1,7 +1,7 @@
-import React from "react";
+import type { ReactNode } from "react";
 
 interface ButtonProps {
-	children: React.ReactNode;
+	children: ReactNode;
 	onClick: () => void;
 	className?: string;
 	value: string;

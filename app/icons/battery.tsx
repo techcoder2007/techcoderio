@@ -1,6 +1,6 @@
-import React, { SVGProps } from "react";
+import type { IconProps } from "~/interfaces/main";
 
-interface BatteryProps extends SVGProps<SVGSVGElement> {}
+interface BatteryProps extends IconProps {}
 
 const Battery = (props: BatteryProps) => {
 	return (
