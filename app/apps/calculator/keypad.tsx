@@ -1,107 +1,142 @@
-import { X, Minus, Plus, Divide, Equal } from "lucide-react";
-import Button from "./button";
+import { X, Minus, Plus, Equal, Delete } from "lucide-react";
+import { Button } from "~/components/core/button";
 
 interface KeypadProps {
 	onNumberClick: (num: string) => void;
 	onOperationClick: any;
 	onClear: () => void;
-	onDecimal: () => void;
-	animatingButton: string | null;
 }
 
 const Keypad = ({
 	onNumberClick,
 	onOperationClick,
 	onClear,
-	onDecimal,
-	animatingButton,
 }: KeypadProps) => {
 	return (
-		<div className="grid grid-cols-4 gap-1 p-1">
-			<Button
-				onClick={onClear}
-				value="C"
-				className="col-span-2"
-				isAnimating={animatingButton === "C"}
-			>
-				C
-			</Button>
-			<Button
-				onClick={() => onOperationClick("÷")}
-				value="÷"
-				isAnimating={animatingButton === "÷"}
-			>
-				<Divide size={20} />
-			</Button>
-			<Button
-				onClick={() => onOperationClick("×")}
-				value="×"
-				isAnimating={animatingButton === "×"}
-			>
-				<X size={20} />
-			</Button>
+		<div className="grid grid-cols-6 gap-2 p-4 bg-gray-900 rounded-lg">
 			{[7, 8, 9].map((num) => (
 				<Button
 					key={num}
 					onClick={() => onNumberClick(num.toString())}
-					value={num.toString()}
-					isAnimating={animatingButton === num.toString()}
-				>
-					{num}
-				</Button>
-			))}
-			<Button
-				onClick={() => onOperationClick("-")}
-				value="-"
-				isAnimating={animatingButton === "-"}
-			>
-				<Minus size={20} />
-			</Button>
-			{[4, 5, 6].map((num) => (
-				<Button
-					key={num}
-					onClick={() => onNumberClick(num.toString())}
-					value={num.toString()}
-					isAnimating={animatingButton === num.toString()}
+					size='xl'
+					variant='outline'
 				>
 					{num}
 				</Button>
 			))}
 			<Button
 				onClick={() => onOperationClick("+")}
-				value="+"
-				isAnimating={animatingButton === "+"}
+				size='xl'
+				variant='outline'
+				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 text-lg font-medium h-12"
 			>
-				<Plus size={20} />
+				+
 			</Button>
-			{[1, 2, 3].map((num) => (
+			<Button
+				onClick={() => onOperationClick("backspace")}
+				className="bg-gray-500 text-white hover:bg-gray-600 border-gray-600 h-12"
+			>
+				<Delete size={18} />
+			</Button>
+			<Button
+				onClick={onClear}
+				className="bg-red-500 text-white hover:bg-red-600 border-red-600 text-lg font-medium h-12"
+			>
+				C
+			</Button>
+
+			{/* Row 2 */}
+			{[4, 5, 6].map((num) => (
 				<Button
 					key={num}
 					onClick={() => onNumberClick(num.toString())}
-					value={num.toString()}
-					isAnimating={animatingButton === num.toString()}
+					size='xl'
+					variant='outline'
 				>
 					{num}
 				</Button>
 			))}
 			<Button
-				onClick={() => onOperationClick("=")}
-				value="="
-				className="row-span-2"
-				isAnimating={animatingButton === "="}
+				onClick={() => onOperationClick("×")}
+				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 h-12"
 			>
-				<Equal size={20} />
+				<X size={20} />
 			</Button>
 			<Button
+				onClick={() => onOperationClick("(")}
+				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
+			>
+				(
+			</Button>
+			<Button
+				onClick={() => onOperationClick(")")}
+				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
+			>
+				)
+			</Button>
+
+			{/* Row 3 */}
+			{[1, 2, 3].map((num) => (
+				<Button
+					key={num}
+					onClick={() => onNumberClick(num.toString())}
+					size='xl'
+					variant='outline'
+				>
+					{num}
+				</Button>
+			))}
+			<Button
+				onClick={() => onOperationClick("-")}
+				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 h-12"
+			>
+				<Minus size={20} />
+			</Button>
+			<Button
+				onClick={() => onOperationClick("x²")}
+				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-sm font-medium h-12"
+			>
+				x²
+			</Button>
+			<Button
+				onClick={() => onOperationClick("√")}
+				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
+			>
+				√
+			</Button>
+
+			{/* Row 4 */}
+			<Button
 				onClick={() => onNumberClick("0")}
-				value="0"
-				className="col-span-2"
-				isAnimating={animatingButton === "0"}
+				size='xl'
+				variant='outline'
 			>
 				0
 			</Button>
-			<Button onClick={onDecimal} value="." isAnimating={animatingButton === "."}>
+			<Button
+				onClick={() => onNumberClick(".")}
+				size='xl'
+				variant='outline'
+			>
 				.
+			</Button>
+			<Button
+				onClick={() => onOperationClick("%")}
+				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
+			>
+				%
+			</Button>
+			<Button
+				onClick={() => onOperationClick("+")}
+				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 h-12"
+			>
+				<Plus size={20} />
+			</Button>
+			<Button
+				onClick={() => onOperationClick("=")}
+				className="bg-green-500 text-white hover:bg-green-600 border-green-600 col-span-2 h-12"
+			>
+				<Equal size={20} />
 			</Button>
 		</div>
 	);

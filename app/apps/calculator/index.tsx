@@ -9,11 +9,8 @@ const Calculator = () => {
 	const [firstNumber, setFirstNumber] = useState<number | null>(null);
 	const [operation, setOperation] = useState<Operation>(null);
 	const [newNumber, setNewNumber] = useState(true);
-	const [animatingButton, setAnimatingButton] = useState<string | null>(null);
 
 	const handleNumber = (num: string) => {
-		setAnimatingButton(num);
-		setTimeout(() => setAnimatingButton(null), 100);
 		if (newNumber || display === "0") {
 			setDisplay(num);
 			setNewNumber(false);
@@ -23,8 +20,6 @@ const Calculator = () => {
 	};
 
 	const handleDecimal = () => {
-		setAnimatingButton(".");
-		setTimeout(() => setAnimatingButton(null), 100);
 		if (newNumber) {
 			setDisplay("0.");
 			setNewNumber(false);
@@ -49,8 +44,6 @@ const Calculator = () => {
 	};
 
 	const handleOperation = (op: Operation) => {
-		setAnimatingButton(op || "");
-		setTimeout(() => setAnimatingButton(null), 100);
 		const currentNumber = parseFloat(display);
 		if (firstNumber === null) {
 			setFirstNumber(currentNumber);
@@ -97,7 +90,6 @@ const Calculator = () => {
 		return () => {
 			window.removeEventListener("keydown", handleKeyPress);
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [display, firstNumber, operation, newNumber]);
 
 	return (
@@ -108,8 +100,6 @@ const Calculator = () => {
 					onNumberClick={handleNumber}
 					onOperationClick={handleOperation}
 					onClear={clear}
-					onDecimal={handleDecimal}
-					animatingButton={animatingButton}
 				/>
 			</div>
 		</div>

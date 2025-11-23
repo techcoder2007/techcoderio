@@ -1,14 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap");
-
 @import "tailwindcss";
 @import "./wrappers.css";
+@import "./theme.css";
 
-@theme {
-	--font-sans:
-		"Noto Sans Mono", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	--breakpoint-3xl: 1920px;
-}
 
 html,
 body {
@@ -16,6 +9,7 @@ body {
 	overflow: hidden;
 	height: 100%;
 	font-family: var(--font-sans);
+	@apply bg-background text-foreground;
 }
 
 @layer utilities {
@@ -33,6 +27,10 @@ body {
 }
 
 @layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+
 	main {
 		@apply w-dvh h-dvh overflow-hidden;
 	}
