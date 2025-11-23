@@ -100,22 +100,6 @@ const initialState: AllAppsState[] = [
 		maximized: false,
 		zIndex: 0,
 	},
-	{
-		id: uniqueId(),
-		title: "Settings",
-		slug: "settings",
-		imageSrc: "/apps/gnome-control-center.png",
-		isFavorite: true,
-		isOpen: false,
-		app: Chrome,
-		isMinimized: false,
-		position: {
-			x: 0,
-			y: 0,
-		},
-		maximized: false,
-		zIndex: 0,
-	},
 ];
 
 export const appApps = createSlice({
