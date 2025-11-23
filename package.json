@@ -6,16 +6,24 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc", 
+    "typecheck": "react-router typegen && tsc",
     "biome": "biome format --write app"
   },
   "dependencies": {
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
+    "@reduxjs/toolkit": "^2.10.1",
+    "@types/lodash": "^4.17.21",
+    "clsx": "^2.1.1",
     "isbot": "^5.1.31",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.554.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router": "^7.9.2"
+    "react-redux": "^9.2.0",
+    "react-router": "^7.9.2",
+    "redux-persist": "^6.0.0",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.7",

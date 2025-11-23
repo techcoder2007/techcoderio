@@ -2,9 +2,8 @@
 
 @theme {
 	--font-sans:
-		"Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
+		ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol", "Noto Color Emoji";
 	--breakpoint-3xl: 1920px;
 }
 
@@ -12,10 +11,11 @@ html,
 body {
 	width: 100dvw;
 	overflow: hidden;
-	background-image: url("../assets/images/windows-wrapper.jpg");
+	background-image: url("../assets/images/default_light.jpg");
 	background-size: cover;
-	background-position: center;
+	background-position: top;
 	height: 100dvh;
+	font-family: var(--font-sans);
 }
 
 @layer utilities {
@@ -54,6 +54,10 @@ body {
 	}
 
 	nav ul p {
-		@apply text-sm cursor-pointer hover:underline transition-all;
+		@apply cursor-pointer hover:underline transition-all;
+	}
+
+	nav ul li {
+		@apply cursor-pointer hover:underline transition-all text-sm;
 	}
 }
