@@ -16,6 +16,8 @@
     "@reduxjs/toolkit": "^2.10.1",
     "@types/lodash": "^4.17.21",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.24",
     "isbot": "^5.1.31",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.554.0",
