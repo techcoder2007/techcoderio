@@ -1,7 +1,48 @@
 {
+  "$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/.git",
+      "!**/.DS_Store",
+      "!**/.next",
+      "!**/.nx",
+      "!**/.venv",
+      "!**/libs/services/src/generated/query-hooks-esm.ts"
+    ]
+  },
   "formatter": {
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "semicolons": "always"
+    "enabled": true,
+    "formatWithErrors": false,
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/tmp",
+      "!**/.venv",
+      "!**/.git",
+      "!**/.DS_Store",
+      "!**/.next",
+      "!**/.nx"
+    ],
+    "attributePosition": "auto",
+    "indentStyle": "tab",
+    "indentWidth": 1,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    }
   }
 }
