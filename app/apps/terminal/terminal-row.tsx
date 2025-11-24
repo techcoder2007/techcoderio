@@ -35,7 +35,7 @@ export const TerminalRow = ({
 				onKeyDown={(e) => onKeyDown(e, index)}
 				disabled={row.disabled}
 				spellCheck={false}
-				// biome-ignore lint/a11y/noAutofocus: <explanation > 
+				// biome-ignore lint/a11y/noAutofocus: <explanation >
 				autoFocus={row.focused}
 				autoComplete="off"
 			/>

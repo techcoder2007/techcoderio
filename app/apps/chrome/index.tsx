@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { Home, Refresh } from "~/icons";
 
+const WEB_URL = "https://www.google.com/webhp?igu=1";
 
-const Chrome = () => {
-	const url = "https://www.google.com/webhp?igu=1";
-	const [siteUrl, setSiteUrl] = useState<string>(url);
+interface ChromeProps {
+	id?: string;
+}
+
+const Chrome = (_props: ChromeProps) => {
+	const [siteUrl, setSiteUrl] = useState<string>(WEB_URL);
 
 	const onRefresh = () => {
-		setSiteUrl(url);
+		setSiteUrl(WEB_URL);
 	};
 
 	const onHome = () => {
-		setSiteUrl(url);
+		setSiteUrl(WEB_URL);
 	};
 
 	return (
@@ -33,7 +37,7 @@ const Chrome = () => {
 					onChange={(e) => setSiteUrl(e.target.value)}
 				/>
 			</div>
-			<div className="flex-grow">
+			<div className="grow">
 				<iframe
 					title="Google"
 					src={siteUrl}
