@@ -16,6 +16,10 @@ body {
 		@apply flex items-center justify-center;
 	}
 
+	.flex-grow {
+		@apply flex-grow;
+	}
+
 	.col-center {
 		@apply flex flex-col items-center justify-center;
 	}
@@ -36,6 +40,7 @@ body {
 		scrollbar-width: none;
 		/* Firefox */
 	}
+	
 }
 
 @layer base {

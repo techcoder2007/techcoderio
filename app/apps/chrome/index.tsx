@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Home, Refresh } from "~/icons";
 
-interface ChromeProps {
-	id: string;
-}
 
-const Chrome = ({ id }: ChromeProps) => {
+const Chrome = () => {
 	const url = "https://www.google.com/webhp?igu=1";
 	const [siteUrl, setSiteUrl] = useState<string>(url);
 
