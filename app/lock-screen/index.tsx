@@ -15,7 +15,7 @@ type UnlockFormData = yup.InferType<typeof unlockSchema>;
 
 function LockScreenForm({
 	onSubmit,
-	onReturn
+	onReturn,
 }: {
 	onSubmit: (data: UnlockFormData) => void;
 	onReturn: () => void;
@@ -28,7 +28,7 @@ function LockScreenForm({
 		formState: { errors },
 	} = useForm<UnlockFormData>({
 		resolver: yupResolver(unlockSchema),
-		mode: 'onChange'
+		mode: "onChange",
 	});
 
 	return (
@@ -88,17 +88,17 @@ export default function LockScreen() {
 			}
 		};
 
-		document.addEventListener('click', handleUnlock);
-		document.addEventListener('keydown', handleUnlock);
+		document.addEventListener("click", handleUnlock);
+		document.addEventListener("keydown", handleUnlock);
 
 		return () => {
-			document.removeEventListener('click', handleUnlock);
-			document.removeEventListener('keydown', handleUnlock);
+			document.removeEventListener("click", handleUnlock);
+			document.removeEventListener("keydown", handleUnlock);
 		};
 	}, [isUnlocked]);
 
 	const handleFormSubmit = (values: UnlockFormData) => {
-		console.log('Password submitted:', values.password);
+		console.log("Password submitted:", values.password);
 	};
 
 	const handleReturn = () => {
@@ -107,8 +107,7 @@ export default function LockScreen() {
 
 	return (
 		<div className="relative w-full h-screen overflow-hidden">
-					<div className="absolute inset-0 techcoderio-lockscreen bg-cover bg-center bg-no-repeat blur-lg scale-105" />
-
+			<div className="absolute inset-0 techcoderio-lockscreen bg-cover bg-center bg-no-repeat blur-lg scale-105" />
 
 			<div className="relative h-full flex flex-col items-center justify-center">
 				<AnimatePresence mode="wait">
@@ -127,7 +126,7 @@ export default function LockScreen() {
 								className="text-center"
 							>
 								<h1 className="text-4xl font-light text-white mb-4">
-									{format(new Date(), 'h:mm')}
+									{format(new Date(), "h:mm")}
 								</h1>
 								<p className="text-white text-lg">
 									Click anywhere or press a key to unlock

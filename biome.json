@@ -70,7 +70,8 @@
 				"noDocumentCookie": "off"
 			},
 			"security": {
-				"noDangerouslySetInnerHtml": "off"
+				"noDangerouslySetInnerHtml": "off", 
+        "noGlobalEval": "off"
 			},
 			"complexity": {
 				"noForEach": "off",

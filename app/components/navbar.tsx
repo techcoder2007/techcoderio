@@ -21,7 +21,9 @@ const Navbar = ({}: NavbarProps) => {
 
 	return (
 		<div className="relative z-50 flex select-none items-center justify-between bg-blue-950/50 p-1.5 text-sm text-white">
-			<div className="px-2 hover:rounded-full hover:bg-blue-800/50">Activities</div>
+			<div className="px-2 hover:rounded-full hover:bg-blue-800/50">
+				Activities
+			</div>
 			<div className="cursor-pointer px-2 hover:rounded-full hover:bg-blue-800/50">
 				<Clock />
 			</div>
