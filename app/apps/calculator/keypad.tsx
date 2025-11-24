@@ -1,145 +1,189 @@
-import { X, Minus, Plus, Equal, Delete } from "lucide-react";
+import { Delete, Equal, Minus, Plus, X } from "lucide-react";
 import { Button } from "~/components/core/button";
+import { OPERATIONS } from "~/constants/data";
+import { OperationType } from "~/enums/calculator";
 
 interface KeypadProps {
-	onNumberClick: (num: string) => void;
-	onOperationClick: any;
-	onClear: () => void;
+  onNumberClick: (num: string) => void;
+  onOperationClick: (op: OperationType) => void;
+  onClear: () => void;
 }
 
 const Keypad = ({
-	onNumberClick,
-	onOperationClick,
-	onClear,
+  onNumberClick,
+  onOperationClick,
+  onClear,
 }: KeypadProps) => {
-	return (
-		<div className="grid grid-cols-6 gap-2 p-4 bg-gray-900 rounded-lg">
-			{[7, 8, 9].map((num) => (
-				<Button
-					key={num}
-					onClick={() => onNumberClick(num.toString())}
-					size='xl'
-					variant='outline'
-				>
-					{num}
-				</Button>
-			))}
-			<Button
-				onClick={() => onOperationClick("+")}
-				size='xl'
-				variant='outline'
-				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 text-lg font-medium h-12"
-			>
-				+
-			</Button>
-			<Button
-				onClick={() => onOperationClick("backspace")}
-				className="bg-gray-500 text-white hover:bg-gray-600 border-gray-600 h-12"
-			>
-				<Delete size={18} />
-			</Button>
-			<Button
-				onClick={onClear}
-				className="bg-red-500 text-white hover:bg-red-600 border-red-600 text-lg font-medium h-12"
-			>
-				C
-			</Button>
+  const renderOperationIcon = (op: OperationType) => {
+    switch (op) {
+      case OperationType.MULTIPLY:
+        return <X size={20} />;
+      case OperationType.SUBTRACT:
+        return <Minus size={20} />;
+      case OperationType.ADD:
+        return <Plus size={20} />;
+      case OperationType.EQUALS:
+        return <Equal size={20} />;
+      case OperationType.BACKSPACE:
+        return <Delete size={18} />;
+      default:
+        return OPERATIONS[op].symbol;
+    }
+  };
 
-			{/* Row 2 */}
-			{[4, 5, 6].map((num) => (
-				<Button
-					key={num}
-					onClick={() => onNumberClick(num.toString())}
-					size='xl'
-					variant='outline'
-				>
-					{num}
-				</Button>
-			))}
-			<Button
-				onClick={() => onOperationClick("×")}
-				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 h-12"
-			>
-				<X size={20} />
-			</Button>
-			<Button
-				onClick={() => onOperationClick("(")}
-				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
-			>
-				(
-			</Button>
-			<Button
-				onClick={() => onOperationClick(")")}
-				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
-			>
-				)
-			</Button>
+  const getOperationClassName = (op: OperationType) => {
+    const baseClasses = "h-12 transition-colors font-medium";
+    const category = OPERATIONS[op].category;
 
-			{/* Row 3 */}
-			{[1, 2, 3].map((num) => (
-				<Button
-					key={num}
-					onClick={() => onNumberClick(num.toString())}
-					size='xl'
-					variant='outline'
-				>
-					{num}
-				</Button>
-			))}
-			<Button
-				onClick={() => onOperationClick("-")}
-				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 h-12"
-			>
-				<Minus size={20} />
-			</Button>
-			<Button
-				onClick={() => onOperationClick("x²")}
-				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-sm font-medium h-12"
-			>
-				x²
-			</Button>
-			<Button
-				onClick={() => onOperationClick("√")}
-				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
-			>
-				√
-			</Button>
+    switch (category) {
+      case "control":
+        if (op === OperationType.CLEAR) {
+          return `${baseClasses} bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white`;
+        }
+        return `${baseClasses} bg-gray-400 hover:bg-gray-500 dark:bg-gray-600 dark:hover:bg-gray-700 text-white`;
+      
+      case "scientific":
+        return `${baseClasses} bg-blue-400 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 text-white`;
+      
+      case "basic":
+      default:
+        return `${baseClasses} bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white`;
+    }
+  };
 
-			{/* Row 4 */}
-			<Button
-				onClick={() => onNumberClick("0")}
-				size='xl'
-				variant='outline'
-			>
-				0
-			</Button>
-			<Button
-				onClick={() => onNumberClick(".")}
-				size='xl'
-				variant='outline'
-			>
-				.
-			</Button>
-			<Button
-				onClick={() => onOperationClick("%")}
-				className="bg-gray-300 text-gray-700 hover:bg-gray-400 border-gray-400 text-lg font-medium h-12"
-			>
-				%
-			</Button>
-			<Button
-				onClick={() => onOperationClick("+")}
-				className="bg-blue-500 text-white hover:bg-blue-600 border-blue-600 h-12"
-			>
-				<Plus size={20} />
-			</Button>
-			<Button
-				onClick={() => onOperationClick("=")}
-				className="bg-green-500 text-white hover:bg-green-600 border-green-600 col-span-2 h-12"
-			>
-				<Equal size={20} />
-			</Button>
-		</div>
-	);
+  return (
+    <div className="grid grid-cols-6 gap-2 p-4 bg-gray-800 rounded-lg">
+      {/* Row 1 */}
+      {[7, 8, 9].map((num) => (
+        <Button
+          key={num}
+		  
+          onClick={() => onNumberClick(num.toString())}
+          size='xl'
+		  className="border border-gray-600"
+		  variant='outline'
+        >
+          {num}
+        </Button>
+      ))}
+      <Button
+        onClick={() => onOperationClick(OperationType.ADD)}
+        className={getOperationClassName(OperationType.ADD)}
+      >
+        {renderOperationIcon(OperationType.ADD)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.BACKSPACE)}
+        className={getOperationClassName(OperationType.BACKSPACE)}
+      >
+        {renderOperationIcon(OperationType.BACKSPACE)}
+      </Button>
+      <Button
+        onClick={onClear}
+        className={getOperationClassName(OperationType.CLEAR)}
+      >
+        {renderOperationIcon(OperationType.CLEAR)}
+      </Button>
+
+      {/* Row 2 */}
+      {[4, 5, 6].map((num) => (
+        <Button
+          key={num}
+          onClick={() => onNumberClick(num.toString())}
+          size='xl'
+		  className="border border-gray-600"
+		  variant='outline'
+        >
+          {num}
+        </Button>
+      ))}
+      <Button
+        onClick={() => onOperationClick(OperationType.MULTIPLY)}
+        className={getOperationClassName(OperationType.MULTIPLY)}
+      >
+        {renderOperationIcon(OperationType.MULTIPLY)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.PAREN_OPEN)}
+        className={getOperationClassName(OperationType.PAREN_OPEN)}
+      >
+        {renderOperationIcon(OperationType.PAREN_OPEN)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.PAREN_CLOSE)}
+        className={getOperationClassName(OperationType.PAREN_CLOSE)}
+      >
+        {renderOperationIcon(OperationType.PAREN_CLOSE)}
+      </Button>
+
+      {/* Row 3 */}
+      {[1, 2, 3].map((num) => (
+        <Button
+          key={num}
+          onClick={() => onNumberClick(num.toString())}
+          size='xl'
+		  className="border border-gray-600"
+		  variant='outline'
+        >
+          {num}
+        </Button>
+      ))}
+      <Button
+        onClick={() => onOperationClick(OperationType.SUBTRACT)}
+        className={getOperationClassName(OperationType.SUBTRACT)}
+      >
+        {renderOperationIcon(OperationType.SUBTRACT)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.SQUARE)}
+        className={getOperationClassName(OperationType.SQUARE)}
+      >
+        {renderOperationIcon(OperationType.SQUARE)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.SQUARE_ROOT)}
+        className={getOperationClassName(OperationType.SQUARE_ROOT)}
+      >
+        {renderOperationIcon(OperationType.SQUARE_ROOT)}
+      </Button>
+
+      {/* Row 4 */}
+      <Button
+        onClick={() => onNumberClick("0")}
+        size='xl'
+		className="border border-gray-600"
+		variant='outline'
+      >
+        0
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.DECIMAL)}
+        size='xl'
+		className="border border-gray-600"
+		variant='outline'
+      >
+        {OPERATIONS[OperationType.DECIMAL].symbol}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.PERCENTAGE)}
+        className={getOperationClassName(OperationType.PERCENTAGE)}
+      >
+        {renderOperationIcon(OperationType.PERCENTAGE)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.ADD)}
+        className={getOperationClassName(OperationType.ADD)}
+      >
+        {renderOperationIcon(OperationType.ADD)}
+      </Button>
+      <Button
+        onClick={() => onOperationClick(OperationType.EQUALS)}
+        className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white col-span-2 h-12 transition-colors font-medium"
+      >
+        {renderOperationIcon(OperationType.EQUALS)}
+      </Button>
+    </div>
+  );
 };
 
 export { Keypad };

@@ -10,18 +10,16 @@ import {
 	Settings,
 	Wifi,
 } from "~/icons";
-import { Accordion } from "../core/accordion";
-import { useAppDispatch, useAppSelector } from "~/redux/hooks";
 import {
 	setBrightnessLevel,
 	setSoundLevel,
 } from "~/redux/features/status-slice";
-import { Slider } from "../core/slider";
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
+import { Accordion } from "../core/accordion";
 import { Calendar } from "../core/calendar";
+import { Slider } from "../core/slider";
 
-interface StatusCardProps {}
-
-const StatusCard = ({}: StatusCardProps) => {
+const StatusCard = () => {
 	const dispatch = useAppDispatch();
 	const status = useAppSelector((state) => state.status);
 
