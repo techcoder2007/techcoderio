@@ -3,6 +3,7 @@
 		"Noto Sans Mono", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	--breakpoint-3xl: 1920px;
+	--w-240: 60rem;
 }
 
 :root {
@@ -26,13 +27,15 @@
 	--input: oklch(0.929 0.013 255.508);
 	--ring: oklch(0.704 0.04 256.788);
 	--radius: 0.625rem;
+	--pale-white: oklch(99.731% 0.00143 285.185);
 }
+
 
 .dark {
 	--background: oklch(0.129 0.042 264.695);
 	--foreground: oklch(0.984 0.003 247.858);
 	--card: oklch(0.129 0.042 264.695);
-	--card-foreground: oklch(0.984 0.003 247.858);
+	--card-foreground: oklch(98.415% 0.00352 248.585);
 	--popover: oklch(0.129 0.042 264.695);
 	--popover-foreground: oklch(0.984 0.003 247.858);
 	--primary: oklch(0.984 0.003 247.858);
@@ -48,6 +51,7 @@
 	--border: oklch(0.279 0.041 260.031);
 	--input: oklch(0.279 0.041 260.031);
 	--ring: oklch(0.446 0.043 257.281);
+	--pale-white: oklch(99.731% 0.00143 285.185);
 }
 
 @theme inline {
@@ -74,4 +78,6 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
+	--w-240: 60rem;
+	--pale-white: var(--pale-white);
 }

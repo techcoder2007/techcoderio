@@ -1,6 +1,5 @@
+import BlueScreen from "~/views/blue-screen";
 import type { Route } from "./+types/home";
-import Welcome from "~/welcome";
-import LockScreen from "~/lock-screen";
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -10,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-	return <Welcome />;
+	return <BlueScreen />;
 }
