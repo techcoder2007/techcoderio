@@ -1,4 +1,3 @@
-
 const playlistId = import.meta.env.VITE_PUBLIC_SPOTIFY_PLAYLIST_ID;
 
 const Spotify = () => {

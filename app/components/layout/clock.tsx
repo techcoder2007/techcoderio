@@ -29,7 +29,9 @@ export function Clock() {
 	};
 
 	const markAsRead = (id: string) => {
-		setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+		setNotifications((prev) =>
+			prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
+		);
 	};
 
 	const formatTime = (date: Date) => {
@@ -60,7 +62,11 @@ export function Clock() {
 				</div>
 			</PopoverTrigger>
 
-			<PopoverContent align="center" side="bottom" className="w-3xl p-0 mt-2 border border-border rounded-lg shadow-xl overflow-hidden bg-background">
+			<PopoverContent
+				align="center"
+				side="bottom"
+				className="w-3xl p-0 mt-2 border border-border rounded-lg shadow-xl overflow-hidden bg-background"
+			>
 				<div className="px-4 py-2 border-b border-border text-sm font-semibold bg-muted/40">
 					Notifications
 				</div>
@@ -77,8 +83,9 @@ export function Clock() {
 								{notifications.map((n) => (
 									<div
 										key={n.id}
-										className={`p-3 flex items-start gap-3 cursor-pointer transition-colors ${n.read ? "hover:bg-muted/40" : "bg-accent/10 hover:bg-accent/20"
-											}`}
+										className={`p-3 flex items-start gap-3 cursor-pointer transition-colors ${
+											n.read ? "hover:bg-muted/40" : "bg-accent/10 hover:bg-accent/20"
+										}`}
 										onClick={() => markAsRead(n.id)}
 									>
 										<div className="flex-1 min-w-0">
@@ -86,8 +93,12 @@ export function Clock() {
 												{n.title}
 												{!n.read && <span className="w-2 h-2 rounded-full bg-primary" />}
 											</p>
-											<p className="text-sm text-muted-foreground line-clamp-2">{n.message}</p>
-											<p className="text-xs text-muted-foreground mt-1">{formatTime(n.timestamp)}</p>
+											<p className="text-sm text-muted-foreground line-clamp-2">
+												{n.message}
+											</p>
+											<p className="text-xs text-muted-foreground mt-1">
+												{formatTime(n.timestamp)}
+											</p>
 										</div>
 
 										<button
@@ -105,14 +116,17 @@ export function Clock() {
 							</div>
 						)}
 
-
 						<div className="border-t border-border p-4 flex items-center gap-3 bg-muted/30">
 							<button
 								onClick={() => setDistrubution(!distrubution)}
 								type="button"
 								className="flex items-center gap-2 text-sm font-medium hover:opacity-80 transition"
 							>
-								<Switch className="data-[state=checked]:bg-green-500" checked={distrubution} onCheckedChange={setDistrubution} />
+								<Switch
+									className="data-[state=checked]:bg-green-500"
+									checked={distrubution}
+									onCheckedChange={setDistrubution}
+								/>
 								{distrubution ? "🔕 Do Not Disturb On" : "🔔 Do Not Disturb Off"}
 							</button>
 						</div>
@@ -123,7 +137,12 @@ export function Clock() {
 							<p className="text-sm font-medium">{fullDate}</p>
 						</div>
 						<div className="border border-border rounded-md p-2 bg-background">
-							<Calendar mode="single" selected={date} onSelect={(selected) => setDate(selected as Date)} className="w-full" />
+							<Calendar
+								mode="single"
+								selected={date}
+								onSelect={(selected) => setDate(selected as Date)}
+								className="w-full"
+							/>
 						</div>
 					</div>
 				</div>

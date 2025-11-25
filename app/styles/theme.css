@@ -30,7 +30,6 @@
 	--pale-white: oklch(99.731% 0.00143 285.185);
 }
 
-
 .dark {
 	--background: oklch(0.129 0.042 264.695);
 	--foreground: oklch(0.984 0.003 247.858);

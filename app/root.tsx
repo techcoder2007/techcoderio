@@ -7,17 +7,22 @@ import {
 	ScrollRestoration,
 } from "react-router";
 
-import {
-	Grid3X3,
-	Monitor,
-	Smile,
-	Square,
-	Terminal,
-	Undo
-} from 'lucide-react';
+import { Grid3X3, Monitor, Smile, Square, Terminal, Undo } from "lucide-react";
 
 import type { Route } from "./+types/root";
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "./components/context-menu";
+import {
+	ContextMenu,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuSeparator,
+	ContextMenuShortcut,
+	ContextMenuSub,
+	ContextMenuSubContent,
+	ContextMenuSubTrigger,
+	ContextMenuTrigger,
+} from "./components/context-menu";
 import { Providers } from "./redux/provider";
 import "./styles/app.css";
 
@@ -52,7 +57,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 		</html>
 	);
 }
-
 
 export default function App() {
 	return (

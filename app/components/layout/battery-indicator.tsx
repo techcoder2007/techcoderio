@@ -1,31 +1,28 @@
-import { BatteryCharging } from 'lucide-react';
-import { useBatteryStatus } from '~/hooks/useBatteryStatus';
-import { Battery } from '~/icons';
+import { BatteryCharging } from "lucide-react";
+import { useBatteryStatus } from "~/hooks/useBatteryStatus";
+import { Battery } from "~/icons";
 
 function BatteryIndicator() {
-  const {  charging,  level } =  useBatteryStatus();
+	const { charging, level } = useBatteryStatus();
 
-  if (level === null) {
-    return <p>Battery information is not available.</p>;
-  }
+	if (level === null) {
+		return <p>Battery information is not available.</p>;
+	}
 
-  return (
-    <div className='flex items-center gap-1'>
-      <BatteryStatus
-        isCharging={charging}
-      />
-      <p>{Math.round(level * 100)}%</p>
-    </div>
-  );
+	return (
+		<div className="flex items-center gap-1">
+			<BatteryStatus isCharging={charging} />
+			<p>{Math.round(level * 100)}%</p>
+		</div>
+	);
 }
 
-
 interface BatteryStatusProps {
-  isCharging: boolean;
+	isCharging: boolean;
 }
 
 function BatteryStatus({ isCharging }: BatteryStatusProps) {
-  return isCharging ? <BatteryCharging size={16} /> : <Battery />
+	return isCharging ? <BatteryCharging size={16} /> : <Battery />;
 }
 
 export { BatteryIndicator, BatteryStatus };

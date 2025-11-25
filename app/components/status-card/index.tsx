@@ -7,7 +7,7 @@ import {
 	Lock,
 	PowerOff,
 	Settings,
-	Wifi
+	Wifi,
 } from "~/icons";
 import {
 	setBrightnessLevel,
@@ -72,8 +72,7 @@ const StatusCard = () => {
 				break;
 		}
 	};
-	const handleLock = () => {
-	};
+	const handleLock = () => {};
 
 	const handleSettings = () => {
 		console.log("Opening system settings...");
@@ -136,7 +135,7 @@ const StatusCard = () => {
 					</div>
 				</Accordion>
 
-				<Accordion title='Bluetooth' icon={<Bluetooth />}>
+				<Accordion title="Bluetooth" icon={<Bluetooth />}>
 					<div className="">
 						<p
 							className="p-1 px-5 hover:bg-slate-700 cursor-pointer"
