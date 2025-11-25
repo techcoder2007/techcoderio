@@ -25,9 +25,7 @@ interface BatteryStatusProps {
 }
 
 function BatteryStatus({ isCharging }: BatteryStatusProps) {
-  return <>
-    {isCharging ? <BatteryCharging size={16} /> : <Battery />}
-  </>
+  return isCharging ? <BatteryCharging size={16} /> : <Battery />
 }
 
 export { BatteryIndicator, BatteryStatus };

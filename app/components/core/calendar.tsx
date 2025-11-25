@@ -108,7 +108,7 @@ function Calendar({
 				range_middle: cn("rounded-none", defaultClassNames.range_middle),
 				range_end: cn("rounded-r-md bg-accent", defaultClassNames.range_end),
 				today: cn(
-					"bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
+					"bg-accent text-accent-foreground rounded-full data-[selected=true]:rounded-none h-12 flex items-center justify-center pb-1",
 					defaultClassNames.today,
 				),
 				outside: cn(
@@ -179,7 +179,7 @@ function CalendarDayButton({
 	return (
 		<Button
 			ref={ref}
-			variant="outline"
+			variant="ghost"
 			size="icon-sm"
 			data-day={day.date.toLocaleDateString()}
 			data-selected-single={

@@ -2,13 +2,12 @@ import { type FormEvent, useState } from "react";
 
 import {
 	AudioVolume,
-	Battery,
 	Bluetooth,
 	Brightness,
 	Lock,
 	PowerOff,
 	Settings,
-	Wifi,
+	Wifi
 } from "~/icons";
 import {
 	setBrightnessLevel,
@@ -20,6 +19,7 @@ import { Accordion } from "../core/accordion";
 import { Slider } from "../core/slider";
 
 type PowerAction = "Suspend" | "Power Off" | "Log Out";
+type BluetoothAction = "Turn On" | "Turn Off";
 
 const StatusCard = () => {
 	const dispatch = useAppDispatch();
@@ -59,17 +59,6 @@ const StatusCard = () => {
 		setBluetoothEnabled(!bluetoothEnabled);
 	};
 
-	const handleBluetoothAction = (action: string) => {
-		switch (action) {
-			case "Turn On":
-				toggleBluetooth();
-				break;
-			case "Bluetooth Settings":
-				console.log("Opening Bluetooth settings...");
-				break;
-		}
-	};
-
 	const handlePowerAction = (action: PowerAction) => {
 		switch (action) {
 			case "Suspend":
@@ -88,12 +77,6 @@ const StatusCard = () => {
 
 	const handleSettings = () => {
 		console.log("Opening system settings...");
-	};
-
-	const getBatteryStatus = () => {
-		const batteryLevel = 80;
-		const estimatedTime = "2:55";
-		return `${estimatedTime} Remaining (${batteryLevel}%)`;
 	};
 
 	return (
@@ -153,25 +136,13 @@ const StatusCard = () => {
 					</div>
 				</Accordion>
 
-				<Accordion title={bluetoothEnabled ? "On" : "Off"} icon={<Bluetooth />}>
+				<Accordion title='Bluetooth' icon={<Bluetooth />}>
 					<div className="">
 						<p
 							className="p-1 px-5 hover:bg-slate-700 cursor-pointer"
-							onClick={() =>
-								handleBluetoothAction(
-									bluetoothEnabled ? "Bluetooth Settings" : "Turn On",
-								)
-							}
+							onClick={() => toggleBluetooth()}
 						>
-							{bluetoothEnabled ? "Bluetooth Settings" : "Turn On"}
-						</p>
-					</div>
-				</Accordion>
-
-				<Accordion title={getBatteryStatus()} icon={<Battery />}>
-					<div className="">
-						<p className="p-1 px-5 hover:bg-slate-700 cursor-pointer">
-							Power Settings
+							{bluetoothEnabled ? "Turn Off" : "Turn On"}
 						</p>
 					</div>
 				</Accordion>
