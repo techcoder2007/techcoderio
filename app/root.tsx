@@ -7,9 +7,19 @@ import {
 	ScrollRestoration,
 } from "react-router";
 
+import {
+	Grid3X3,
+	Monitor,
+	Smile,
+	Square,
+	Terminal,
+	Undo
+} from 'lucide-react';
+
 import type { Route } from "./+types/root";
-import "./styles/app.css";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "./components/context-menu";
 import { Providers } from "./redux/provider";
+import "./styles/app.css";
 
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -43,14 +53,81 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	);
 }
 
+
 export default function App() {
 	return (
 		<Providers>
-			<Outlet />
+			<ContextMenu>
+				<ContextMenuTrigger className="w-full h-full">
+					<Outlet />
+				</ContextMenuTrigger>
+				<ContextMenuContent className="w-64">
+					<ContextMenuSub>
+						<ContextMenuSubTrigger className="flex items-center gap-2">
+							<Monitor className="h-4 w-4" />
+							View
+						</ContextMenuSubTrigger>
+						<ContextMenuSubContent>
+							<ContextMenuRadioGroup value="medium">
+								<ContextMenuRadioItem value="large">
+									<Grid3X3 className="h-4 w-4 mr-2" />
+									Large icons
+								</ContextMenuRadioItem>
+								<ContextMenuRadioItem value="medium">
+									<Square className="h-4 w-4 mr-2" />
+									Medium icons
+								</ContextMenuRadioItem>
+								<ContextMenuRadioItem value="small">
+									<Smile className="h-4 w-4 mr-2" />
+									Small icons
+								</ContextMenuRadioItem>
+							</ContextMenuRadioGroup>
+						</ContextMenuSubContent>
+					</ContextMenuSub>
+
+					{/* Personalize */}
+					<ContextMenuItem className="flex items-center gap-2">
+						<Monitor className="h-4 w-4" />
+						Personalize
+					</ContextMenuItem>
+
+					<ContextMenuSeparator />
+
+					{/* Open in Terminal */}
+					<ContextMenuItem className="flex items-center gap-2">
+						<Terminal className="h-4 w-4" />
+						Open in Terminal
+					</ContextMenuItem>
+
+					<ContextMenuSeparator />
+
+					{/* Undo Delete */}
+					<ContextMenuItem className="flex items-center gap-2">
+						<Undo className="h-4 w-4" />
+						Undo Delete
+					</ContextMenuItem>
+
+					<ContextMenuSeparator />
+
+					<ContextMenuItem inset>
+						Back
+						<ContextMenuShortcut>⌘[</ContextMenuShortcut>
+					</ContextMenuItem>
+					<ContextMenuItem inset disabled>
+						Forward
+						<ContextMenuShortcut>⌘]</ContextMenuShortcut>
+					</ContextMenuItem>
+					<ContextMenuItem inset>
+						Reload
+						<ContextMenuShortcut>⌘R</ContextMenuShortcut>
+					</ContextMenuItem>
+
+					<ContextMenuSeparator />
+				</ContextMenuContent>
+			</ContextMenu>
 		</Providers>
 	);
 }
-
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 	let message = "Oops!";
 	let details = "An unexpected error occurred.";
