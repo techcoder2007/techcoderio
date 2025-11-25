@@ -125,7 +125,7 @@ export class TerminalCommandHandler {
 	): CommandResponse | null {
 		// Auto-detect mathematical expressions
 		if (
-			/^[\d+\-*/().\s\^%]+$/.test(trimmedText) &&
+			/^[\d+\-*/().\s^%]+$/.test(trimmedText) &&
 			/[\d]/.test(trimmedText) &&
 			!/[a-zA-Z]/.test(trimmedText)
 		) {

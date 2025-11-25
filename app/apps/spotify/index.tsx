@@ -1,7 +1,4 @@
-interface SpotifyProps {
-	id: string;
-}
-const Spotify = ({ id }: SpotifyProps) => {
+const Spotify = () => {
 	return (
 		<iframe
 			src={`https://open.spotify.com/embed/playlist/${process.env.NEXT_PUBLIC_SPOTIFY_PLAYLIST_ID}?utm_source=generator`}

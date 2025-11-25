@@ -4,9 +4,7 @@ import { Clock } from "./layout/clock";
 import { Status } from "./layout/status";
 import { StatusCard } from "./status-card";
 
-interface NavbarProps {}
-
-const Navbar = ({}: NavbarProps) => {
+const Navbar = () => {
 	const [status, setStatus] = useState<boolean>(false);
 
 	const toggleStatus = useCallback(() => {
