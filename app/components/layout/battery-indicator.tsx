@@ -1,3 +1,4 @@
+import { BatteryCharging } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Battery } from '~/icons';
 import type { NavigatorWithBattery } from '~/interfaces/battery-manager';
@@ -5,12 +6,12 @@ import type { NavigatorWithBattery } from '~/interfaces/battery-manager';
 
 function BatteryIndicator() {
   const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
-  const [_isCharging, setIsCharging] = useState<boolean>(false);
+  const [isCharging, setIsCharging] = useState<boolean>(false);
 
   useEffect(() => {
     const getBatteryInfo = async () => {
       const navigatorWithBattery = navigator as NavigatorWithBattery;
-      
+
       if (navigatorWithBattery.getBattery) {
         try {
           const battery = await navigatorWithBattery.getBattery!();
@@ -51,11 +52,24 @@ function BatteryIndicator() {
   }
 
   return (
-    <div>
-     <Battery />
+    <div className='flex items-center gap-1'>
+      <BatteryStatus
+        isCharging={isCharging}
+      />
       <p>{Math.round(batteryLevel * 100)}%</p>
     </div>
   );
 }
 
-export default BatteryIndicator;
+
+interface BatteryStatusProps {
+  isCharging: boolean;
+}
+
+function BatteryStatus({ isCharging }: BatteryStatusProps) {
+  return <>
+    {isCharging ? <BatteryCharging size={16} /> : <Battery />}
+  </>
+}
+
+export { BatteryIndicator, BatteryStatus };

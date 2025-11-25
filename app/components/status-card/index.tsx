@@ -15,9 +15,11 @@ import {
 	setSoundLevel,
 } from "~/redux/features/status-slice";
 import { useAppDispatch, useAppSelector } from "~/redux/hooks";
+import { closeWindow } from "~/utils/core";
 import { Accordion } from "../core/accordion";
-import { Calendar } from "../core/calendar";
 import { Slider } from "../core/slider";
+
+type PowerAction = "Suspend" | "Power Off" | "Log Out";
 
 const StatusCard = () => {
 	const dispatch = useAppDispatch();
@@ -25,7 +27,6 @@ const StatusCard = () => {
 
 	const [wifiEnabled, setWifiEnabled] = useState(true);
 	const [bluetoothEnabled, setBluetoothEnabled] = useState(false);
-	const [isLocked, setIsLocked] = useState(false);
 
 	const handleSoundChange = (e: FormEvent<HTMLInputElement>) => {
 		const value = Number((e.target as HTMLInputElement).value);
@@ -69,26 +70,20 @@ const StatusCard = () => {
 		}
 	};
 
-	const handlePowerAction = (action: string) => {
+	const handlePowerAction = (action: PowerAction) => {
 		switch (action) {
 			case "Suspend":
 				console.log("Suspending system...");
-				break;
-			case "Restart...":
-				console.log("Restarting system...");
 				break;
 			case "Power Off":
 				console.log("Shutting down system...");
 				break;
 			case "Log Out":
-				console.log("Logging out...");
+				closeWindow();
 				break;
 		}
 	};
 	const handleLock = () => {
-		setIsLocked(true);
-		console.log("System locked");
-		// In a real app, you might want to navigate to a lock screen
 	};
 
 	const handleSettings = () => {
@@ -103,7 +98,6 @@ const StatusCard = () => {
 
 	return (
 		<div className="absolute right-0 top-8 w-72 rounded-md border border-black border-opacity-20 bg-gray-900 p-1.5 shadow">
-			<Calendar selected={new Date()} className="w-full" />
 			<div className="flex items-center gap-2 rounded-sm p-2 hover:bg-slate-800">
 				<AudioVolume />
 				<Slider
@@ -212,23 +206,11 @@ const StatusCard = () => {
 						</p>
 						<p
 							className="p-1 px-5 hover:bg-slate-700 cursor-pointer"
-							onClick={() => handlePowerAction("Restart...")}
-						>
-							Restart...
-						</p>
-						<p
-							className="p-1 px-5 hover:bg-slate-700 cursor-pointer"
 							onClick={() => handlePowerAction("Power Off")}
 						>
 							Power Off
 						</p>
 						<hr className="my-2 h-px border-0 bg-gray-700" />
-						<p
-							className="p-1 px-5 hover:bg-slate-700 cursor-pointer"
-							onClick={() => handlePowerAction("Log Out")}
-						>
-							Log Out
-						</p>
 					</div>
 				</Accordion>
 			</div>

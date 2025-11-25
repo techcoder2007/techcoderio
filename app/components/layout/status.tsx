@@ -1,5 +1,5 @@
 import { AudioVolume, Wifi } from "~/icons";
-import BatteryIndicator from "./battery-indicator";
+import { BatteryIndicator } from "./battery-indicator";
 
 const Status = () => {
 	return (
