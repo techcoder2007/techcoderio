@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { max, uniqueId } from "lodash-es";
 import { Calculator, Chrome, Spotify, Terminal, VSCode } from "~/apps";
 
-interface AllAppsState {
+export interface AllAppsState {
 	id: string;
 	title: string;
 	imageSrc: string;
