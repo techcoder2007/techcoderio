@@ -19,20 +19,20 @@ const Chrome = (_props: ChromeProps) => {
 	};
 
 	return (
-		<div className="flex h-full flex-col">
-			<div className="flex h-8 w-full items-center gap-2 bg-zinc-700">
+		<div className="flex flex-col h-full">
+			<div className="flex gap-2 items-center w-full h-8 bg-zinc-700">
 				<div className="flex gap-2">
 					<Refresh
-						className="h-5 rounded-full p-0 hover:bg-zinc-800"
+						className="p-0 h-5 rounded-full hover:bg-zinc-800"
 						onClick={onRefresh}
 					/>
 					<Home
-						className="h-5 rounded-full p-0 hover:bg-zinc-800"
+						className="p-0 h-5 rounded-full hover:bg-zinc-800"
 						onClick={onHome}
 					/>
 				</div>
 				<input
-					className="h-6 w-10/12 rounded-3xl bg-zinc-900 px-2 text-sm text-gray-300 outline-none focus:text-white"
+					className="px-2 w-10/12 h-6 text-sm text-gray-300 rounded-3xl outline-none bg-zinc-900 focus:text-white"
 					value={siteUrl}
 					onChange={(e) => setSiteUrl(e.target.value)}
 				/>

@@ -2,7 +2,13 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "~/redux/reducers";
 import type { AllAppsState } from "~/redux/features/all-apps-slice";
-import { closeApp, minimizeApp, maximizeApp, zIndexApp, changePosition } from "~/redux/features/all-apps-slice";
+import {
+	closeApp,
+	minimizeApp,
+	maximizeApp,
+	zIndexApp,
+	changePosition,
+} from "~/redux/features/all-apps-slice";
 
 const WindowManager = () => {
 	const dispatch = useDispatch();
@@ -57,7 +63,14 @@ interface WindowProps {
 	onDrag: (position: { x: number; y: number }) => void;
 }
 
-const Window = ({ app, onClose, onMinimize, onMaximize, onFocus, onDrag }: WindowProps) => {
+const Window = ({
+	app,
+	onClose,
+	onMinimize,
+	onMaximize,
+	onFocus,
+	onDrag,
+}: WindowProps) => {
 	const [isDragging, setIsDragging] = useState(false);
 	const dragStartPos = useRef({ x: 0, y: 0 });
 	const windowStartPos = useRef({ x: 0, y: 0 });
@@ -65,7 +78,10 @@ const Window = ({ app, onClose, onMinimize, onMaximize, onFocus, onDrag }: Windo
 	const lastUpdateTime = useRef(0);
 
 	const handleMouseDown = (e: React.MouseEvent) => {
-		if (e.target === e.currentTarget || (e.target as HTMLElement).classList.contains('window-header')) {
+		if (
+			e.target === e.currentTarget ||
+			(e.target as HTMLElement).classList.contains("window-header")
+		) {
 			setIsDragging(true);
 			dragStartPos.current = { x: e.clientX, y: e.clientY };
 			windowStartPos.current = { x: app.position.x, y: app.position.y };
@@ -73,27 +89,30 @@ const Window = ({ app, onClose, onMinimize, onMaximize, onFocus, onDrag }: Windo
 		}
 	};
 
-	const handleMouseMove = useCallback((e: MouseEvent) => {
-		if (!isDragging) return;
-		
-		// Throttle updates to 60fps for better performance
-		const now = performance.now();
-		if (now - lastUpdateTime.current < 16) return; // ~60fps
-		lastUpdateTime.current = now;
-		
-		if (animationFrameRef.current) {
-			cancelAnimationFrame(animationFrameRef.current);
-		}
-		
-		animationFrameRef.current = requestAnimationFrame(() => {
-			const deltaX = e.clientX - dragStartPos.current.x;
-			const deltaY = e.clientY - dragStartPos.current.y;
-			onDrag({
-				x: windowStartPos.current.x + deltaX,
-				y: windowStartPos.current.y + deltaY,
+	const handleMouseMove = useCallback(
+		(e: MouseEvent) => {
+			if (!isDragging) return;
+
+			// Throttle updates to 60fps for better performance
+			const now = performance.now();
+			if (now - lastUpdateTime.current < 16) return; // ~60fps
+			lastUpdateTime.current = now;
+
+			if (animationFrameRef.current) {
+				cancelAnimationFrame(animationFrameRef.current);
+			}
+
+			animationFrameRef.current = requestAnimationFrame(() => {
+				const deltaX = e.clientX - dragStartPos.current.x;
+				const deltaY = e.clientY - dragStartPos.current.y;
+				onDrag({
+					x: windowStartPos.current.x + deltaX,
+					y: windowStartPos.current.y + deltaY,
+				});
 			});
-		});
-	}, [isDragging, onDrag]);
+		},
+		[isDragging, onDrag],
+	);
 
 	const handleMouseUp = useCallback(() => {
 		setIsDragging(false);
@@ -101,11 +120,11 @@ const Window = ({ app, onClose, onMinimize, onMaximize, onFocus, onDrag }: Windo
 
 	useEffect(() => {
 		if (isDragging) {
-			document.addEventListener('mousemove', handleMouseMove, { passive: true });
-			document.addEventListener('mouseup', handleMouseUp, { passive: true });
+			document.addEventListener("mousemove", handleMouseMove, { passive: true });
+			document.addEventListener("mouseup", handleMouseUp, { passive: true });
 			return () => {
-				document.removeEventListener('mousemove', handleMouseMove);
-				document.removeEventListener('mouseup', handleMouseUp);
+				document.removeEventListener("mousemove", handleMouseMove);
+				document.removeEventListener("mouseup", handleMouseUp);
 				if (animationFrameRef.current) {
 					cancelAnimationFrame(animationFrameRef.current);
 				}
@@ -114,23 +133,23 @@ const Window = ({ app, onClose, onMinimize, onMaximize, onFocus, onDrag }: Windo
 	}, [isDragging, handleMouseMove, handleMouseUp]);
 
 	const windowStyle: React.CSSProperties = {
-		position: 'fixed',
+		position: "fixed",
 		left: app.position.x || 100,
 		top: app.position.y || 100,
-		width: app.maximized ? '100vw' : '800px',
-		height: app.maximized ? 'calc(100vh - 80px)' : '600px',
+		width: app.maximized ? "100vw" : "800px",
+		height: app.maximized ? "calc(100vh - 80px)" : "600px",
 		zIndex: app.zIndex,
-		transform: 'translateZ(0)', // Hardware acceleration
-		willChange: isDragging ? 'transform' : 'auto', // Optimize for animations
+		transform: "translateZ(0)", // Hardware acceleration
+		willChange: isDragging ? "transform" : "auto", // Optimize for animations
 	};
 
 	const AppComponent = app.app;
 
 	return (
 		<div
-			className={`fixed bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden transition-all duration-200 ${isDragging ? 'cursor-grabbing scale-105 shadow-3xl' : 'cursor-grab'}`}
+			className={`fixed bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden transition-all duration-200 ${isDragging ? "cursor-grabbing scale-105 shadow-3xl" : "cursor-grab"}`}
 			style={windowStyle}
-			 onMouseDown={handleMouseDown}
+			onMouseDown={handleMouseDown}
 		>
 			{/* Window Header */}
 			<div className="window-header flex items-center justify-between bg-gradient-to-r from-gray-800 to-gray-750 px-4 py-2 cursor-move select-none">
@@ -140,7 +159,9 @@ const Window = ({ app, onClose, onMinimize, onMaximize, onFocus, onDrag }: Windo
 						alt={app.title}
 						className="w-4 h-4 object-contain filter brightness-100"
 					/>
-					<span className="text-white text-sm font-medium tracking-wide">{app.title}</span>
+					<span className="text-white text-sm font-medium tracking-wide">
+						{app.title}
+					</span>
 				</div>
 				<div className="flex items-center space-x-2">
 					<button

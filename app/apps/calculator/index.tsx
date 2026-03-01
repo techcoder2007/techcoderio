@@ -87,7 +87,11 @@ const Calculator = () => {
 				result = parseFloat(result.toPrecision(12));
 				return { result, success: true };
 			} catch (error) {
-				return { result: value, success: false, error: "Unary operation error" };
+				return {
+					result: value,
+					success: false,
+					error: "Unary operation error",
+				};
 			}
 		},
 		[],

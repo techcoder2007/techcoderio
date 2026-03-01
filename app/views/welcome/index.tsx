@@ -9,5 +9,5 @@ export default function Welcome() {
 			<WindowManager />
 			<Taskbar />
 		</div>
-	); 
+	);
 }
