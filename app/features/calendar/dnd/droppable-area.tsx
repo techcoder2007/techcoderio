@@ -20,7 +20,6 @@ export function DroppableArea({
 
   return (
     <div
-      // biome-ignore lint/a11y/useSemanticElements: Using gridcell role for CSS grid layout where td is not applicable
       role="gridcell"
       aria-label="Droppable area"
       tabIndex={-1}
