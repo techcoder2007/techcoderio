@@ -40,8 +40,6 @@ const Keypad = ({ onNumberClick, onOperationClick, onClear }: KeypadProps) => {
 
 			case "scientific":
 				return `${baseClasses} bg-blue-400 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 text-white`;
-
-			case "basic":
 			default:
 				return `${baseClasses} bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white`;
 		}

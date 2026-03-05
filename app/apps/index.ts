@@ -1,5 +1,5 @@
-export { Chrome } from "./chrome";
-export { VSCode } from "./vs-code";
-export { Terminal } from "./terminal";
-export { Spotify } from "./spotify";
 export { Calculator } from "./calculator";
+export { Chrome } from "./chrome";
+export { Spotify } from "./spotify";
+export { Terminal } from "./terminal";
+export { VSCode } from "./vs-code";

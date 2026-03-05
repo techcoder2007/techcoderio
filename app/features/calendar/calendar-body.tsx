@@ -11,67 +11,67 @@ import { CalendarWeekView } from "~/features/calendar/views/week-and-day-view/ca
 import { CalendarYearView } from "~/features/calendar/views/year-view/calendar-year-view";
 
 export function CalendarBody() {
-  const { view, events } = useCalendar();
+	const { view, events } = useCalendar();
 
-  const singleDayEvents = events.filter((event) => {
-    const startDate = parseISO(event.startDate);
-    const endDate = parseISO(event.endDate);
-    return isSameDay(startDate, endDate);
-  });
+	const singleDayEvents = events.filter((event) => {
+		const startDate = parseISO(event.startDate);
+		const endDate = parseISO(event.endDate);
+		return isSameDay(startDate, endDate);
+	});
 
-  const multiDayEvents = events.filter((event) => {
-    const startDate = parseISO(event.startDate);
-    const endDate = parseISO(event.endDate);
-    return !isSameDay(startDate, endDate);
-  });
+	const multiDayEvents = events.filter((event) => {
+		const startDate = parseISO(event.startDate);
+		const endDate = parseISO(event.endDate);
+		return !isSameDay(startDate, endDate);
+	});
 
-  return (
-    <div className="overflow-scroll relative w-full h-full">
-      <motion.div
-        key={view}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={fadeIn}
-        transition={transition}
-      >
-        {view === "month" && (
-          <CalendarMonthView
-            singleDayEvents={singleDayEvents}
-            multiDayEvents={multiDayEvents}
-          />
-        )}
-        {view === "week" && (
-          <CalendarWeekView
-            singleDayEvents={singleDayEvents}
-            multiDayEvents={multiDayEvents}
-          />
-        )}
-        {view === "day" && (
-          <CalendarDayView
-            singleDayEvents={singleDayEvents}
-            multiDayEvents={multiDayEvents}
-          />
-        )}
-        {view === "year" && (
-          <CalendarYearView
-            singleDayEvents={singleDayEvents}
-            multiDayEvents={multiDayEvents}
-          />
-        )}
-        {view === "agenda" && (
-          <motion.div
-            key="agenda"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={fadeIn}
-            transition={transition}
-          >
-            <AgendaEvents />
-          </motion.div>
-        )}
-      </motion.div>
-    </div>
-  );
+	return (
+		<div className="overflow-scroll relative w-full h-full">
+			<motion.div
+				key={view}
+				initial="initial"
+				animate="animate"
+				exit="exit"
+				variants={fadeIn}
+				transition={transition}
+			>
+				{view === "month" && (
+					<CalendarMonthView
+						singleDayEvents={singleDayEvents}
+						multiDayEvents={multiDayEvents}
+					/>
+				)}
+				{view === "week" && (
+					<CalendarWeekView
+						singleDayEvents={singleDayEvents}
+						multiDayEvents={multiDayEvents}
+					/>
+				)}
+				{view === "day" && (
+					<CalendarDayView
+						singleDayEvents={singleDayEvents}
+						multiDayEvents={multiDayEvents}
+					/>
+				)}
+				{view === "year" && (
+					<CalendarYearView
+						singleDayEvents={singleDayEvents}
+						multiDayEvents={multiDayEvents}
+					/>
+				)}
+				{view === "agenda" && (
+					<motion.div
+						key="agenda"
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						variants={fadeIn}
+						transition={transition}
+					>
+						<AgendaEvents />
+					</motion.div>
+				)}
+			</motion.div>
+		</div>
+	);
 }

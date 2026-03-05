@@ -1,8 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
-
-import statusSlice from "./features/status-slice";
-import backgroundImage from "./features/background-image-slice";
 import allApps from "./features/all-apps-slice";
+import backgroundImage from "./features/background-image-slice";
+import statusSlice from "./features/status-slice";
 
 const rootReducer = combineReducers({
 	status: statusSlice,

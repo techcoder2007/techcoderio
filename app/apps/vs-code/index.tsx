@@ -2,15 +2,15 @@ interface VSCodeProps {
 	id: string;
 }
 
-const VSCode = ({ id }: VSCodeProps) => {
+const VSCode = (_props: VSCodeProps) => {
 	return (
-		<div className="flex h-full flex-col">
-			<div className="flex-grow">
+		<div className="flex flex-col h-full">
+			<div className="grow">
 				<iframe
 					src="https://github1s.com/sakilk130/ubuntu-portfolio/blob/HEAD/components/ubuntu/index.tsx"
 					frameBorder="0"
 					title="VsCode"
-					className="bg-ub-cool-grey h-full w-full"
+					className="w-full h-full bg-ub-cool-grey"
 				></iframe>
 			</div>
 		</div>

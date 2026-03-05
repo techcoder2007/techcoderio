@@ -1,7 +1,7 @@
-import { forwardRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Eye, EyeOff, Lock } from "lucide-react";
-import { type UseFormRegisterReturn } from "react-hook-form";
-import { motion, AnimatePresence } from "framer-motion";
+import { forwardRef } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 interface PasswordInputProps {
 	register: UseFormRegisterReturn;
@@ -20,7 +20,6 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 			onTogglePassword,
 			placeholder = "Enter password",
 			error,
-			autoFocus,
 		},
 		ref,
 	) => {
@@ -39,13 +38,12 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 						ref={ref}
 						type={showPassword ? "text" : "password"}
 						placeholder={placeholder}
-						className="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm"
-						autoFocus={autoFocus}
+						className="flex-1 text-sm text-white bg-transparent outline-none placeholder-white/50"
 					/>
 					<button
 						type="button"
 						onClick={onTogglePassword}
-						className="text-white hover:text-accent transition-colors cursor-pointer"
+						className="text-white transition-colors cursor-pointer hover:text-accent"
 					>
 						{showPassword ? (
 							<EyeOff className="w-5 h-5" />
@@ -61,7 +59,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -10 }}
 							transition={{ duration: 0.2 }}
-							className="text-red-400 text-xs mt-1"
+							className="mt-1 text-xs text-red-400"
 						>
 							{error}
 						</motion.p>

@@ -1,3 +1,4 @@
+import { Grid3X3, Monitor, Smile, Square, Terminal, Undo } from "lucide-react";
 import {
 	isRouteErrorResponse,
 	Links,
@@ -6,8 +7,6 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from "react-router";
-
-import { Grid3X3, Monitor, Smile, Square, Terminal, Undo } from "lucide-react";
 
 import type { Route } from "./+types/root";
 import {

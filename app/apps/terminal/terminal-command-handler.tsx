@@ -206,7 +206,7 @@ export class TerminalCommandHandler {
 			}
 
 			if (
-				!/^[0-9+\-*/().\s\^%!πe]+$/.test(expression) &&
+				!/^[0-9+\-*/().\s^%!πe]+$/.test(expression) &&
 				!/^(sin|cos|tan|log|ln|sqrt|abs|max|min|pow)\(/.test(expression)
 			) {
 				return {

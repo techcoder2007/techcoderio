@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type RefObject } from "react";
+import { type RefObject, useCallback, useRef, useState } from "react";
 import useOutsideClickHandler from "~/hooks/use-outside-click-handler";
 import { Clock } from "./layout/clock";
 import { Status } from "./layout/status";

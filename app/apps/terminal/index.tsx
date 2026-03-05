@@ -1,18 +1,18 @@
 import {
-	Fragment,
-	useCallback,
-	useState,
 	type ChangeEvent,
+	Fragment,
 	type KeyboardEvent,
 	type ReactNode,
+	useCallback,
+	useState,
 } from "react";
 import { Command } from "~/enums/terminal";
 import { closeApp } from "~/redux/features/all-apps-slice";
 import { useAppDispatch } from "~/redux/hooks";
 import { HelpCommand } from "./help-command";
 import {
-	TerminalCommandHandler,
 	type CommandResponse,
+	TerminalCommandHandler,
 } from "./terminal-command-handler";
 import { TerminalRow } from "./terminal-row";
 

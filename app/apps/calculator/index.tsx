@@ -104,7 +104,7 @@ const Calculator = () => {
 					...prev,
 					display: num,
 					newNumber: false,
-					expression: prev.expression + (prev.newNumber ? " " + num : num),
+					expression: prev.expression + (prev.newNumber ? ` ${num}` : num),
 				};
 			} else {
 				return {
@@ -123,13 +123,13 @@ const Calculator = () => {
 					...prev,
 					display: "0.",
 					newNumber: false,
-					expression: prev.expression ? prev.expression + " 0." : "0.",
+					expression: prev.expression ? `${prev.expression} 0.` : "0.",
 				};
 			} else if (!prev.display.includes(".")) {
 				return {
 					...prev,
-					display: prev.display + ".",
-					expression: prev.expression + ".",
+					display: `${prev.display}.`,
+					expression: `${prev.expression}.`,
 				};
 			}
 			return prev;

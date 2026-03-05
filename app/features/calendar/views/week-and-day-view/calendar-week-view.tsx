@@ -1,8 +1,10 @@
+import { addDays, format, isSameDay, parseISO, startOfWeek } from "date-fns";
+import { motion } from "framer-motion";
 import { ScrollArea } from "~/components/core/scroll-area";
 import {
-  fadeIn,
-  staggerContainer,
-  transition,
+	fadeIn,
+	staggerContainer,
+	transition,
 } from "~/features/calendar/animations";
 import { useCalendar } from "~/features/calendar/contexts/calendar-context";
 import { AddEditEventDialog } from "~/features/calendar/dialogs/add-edit-event-dialog";
@@ -12,192 +14,187 @@ import type { IEvent } from "~/features/calendar/interfaces";
 import { CalendarTimeline } from "~/features/calendar/views/week-and-day-view/calendar-time-line";
 import { RenderGroupedEvents } from "~/features/calendar/views/week-and-day-view/render-grouped-events";
 import { WeekViewMultiDayEventsRow } from "~/features/calendar/views/week-and-day-view/week-view-multi-day-events-row";
-import { addDays, format, isSameDay, parseISO, startOfWeek } from "date-fns";
-import { motion } from "framer-motion";
 
 interface IProps {
-  singleDayEvents: IEvent[];
-  multiDayEvents: IEvent[];
+	singleDayEvents: IEvent[];
+	multiDayEvents: IEvent[];
 }
 
 export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
-  const { selectedDate, use24HourFormat } = useCalendar();
+	const { selectedDate, use24HourFormat } = useCalendar();
 
-  const weekStart = startOfWeek(selectedDate);
-  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
-  const hours = Array.from({ length: 24 }, (_, i) => i);
+	const weekStart = startOfWeek(selectedDate);
+	const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+	const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={fadeIn}
-      transition={transition}
-    >
-      <motion.div
-        className="flex flex-col justify-center items-center p-4 text-sm border-b sm:hidden"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={transition}
-      >
-        <p>Weekly view is not recommended on smaller devices.</p>
-        <p>Please switch to a desktop device or use the daily view instead.</p>
-      </motion.div>
+	return (
+		<motion.div
+			initial="initial"
+			animate="animate"
+			exit="exit"
+			variants={fadeIn}
+			transition={transition}
+		>
+			<motion.div
+				className="flex flex-col justify-center items-center p-4 text-sm border-b sm:hidden"
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={transition}
+			>
+				<p>Weekly view is not recommended on smaller devices.</p>
+				<p>Please switch to a desktop device or use the daily view instead.</p>
+			</motion.div>
 
-      <motion.div className="flex-col sm:flex" variants={staggerContainer}>
-        <div>
-          <WeekViewMultiDayEventsRow
-            selectedDate={selectedDate}
-            multiDayEvents={multiDayEvents}
-          />
+			<motion.div className="flex-col sm:flex" variants={staggerContainer}>
+				<div>
+					<WeekViewMultiDayEventsRow
+						selectedDate={selectedDate}
+						multiDayEvents={multiDayEvents}
+					/>
 
-          {/* Week header */}
-          <motion.div
-            className="flex relative z-20 border-b"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={transition}
-          >
-            {/* Time column header - responsive width */}
-            <div className="w-18"></div>
-            <div className="grid flex-1 grid-cols-7 border-l">
-              {weekDays.map((day, index) => (
-                <motion.span
-                  key={day.toISOString()}
-                  className="py-1 text-xs font-medium text-center sm:py-2 text-t-quaternary"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05, ...transition }}
-                >
-                  {/* Mobile: Show only day abbreviation and number */}
-                  <span className="block sm:hidden">
-                    {format(day, "EEE").charAt(0)}
-                    <span className="block text-xs font-semibold text-t-secondary">
-                      {format(day, "d")}
-                    </span>
-                  </span>
-                  {/* Desktop: Show full format */}
-                  <span className="hidden sm:inline">
-                    {format(day, "EE")}{" "}
-                    <span className="ml-1 font-semibold text-t-secondary">
-                      {format(day, "d")}
-                    </span>
-                  </span>
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+					{/* Week header */}
+					<motion.div
+						className="flex relative z-20 border-b"
+						initial={{ opacity: 0, y: -20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={transition}
+					>
+						{/* Time column header - responsive width */}
+						<div className="w-18"></div>
+						<div className="grid flex-1 grid-cols-7 border-l">
+							{weekDays.map((day, index) => (
+								<motion.span
+									key={day.toISOString()}
+									className="py-1 text-xs font-medium text-center sm:py-2 text-t-quaternary"
+									initial={{ opacity: 0, y: -10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ delay: index * 0.05, ...transition }}
+								>
+									{/* Mobile: Show only day abbreviation and number */}
+									<span className="block sm:hidden">
+										{format(day, "EEE").charAt(0)}
+										<span className="block text-xs font-semibold text-t-secondary">
+											{format(day, "d")}
+										</span>
+									</span>
+									{/* Desktop: Show full format */}
+									<span className="hidden sm:inline">
+										{format(day, "EE")}{" "}
+										<span className="ml-1 font-semibold text-t-secondary">
+											{format(day, "d")}
+										</span>
+									</span>
+								</motion.span>
+							))}
+						</div>
+					</motion.div>
+				</div>
 
-        <ScrollArea className="h-[736px]" type="always">
-          <div className="flex">
-            {/* Hours column */}
-            <motion.div className="relative w-18" variants={staggerContainer}>
-              {hours.map((hour, index) => (
-                <motion.div
-                  key={hour}
-                  className="relative"
-                  style={{ height: "96px" }}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.02, ...transition }}
-                >
-                  <div className="flex absolute right-2 -top-3 items-center h-6">
-                    {index !== 0 && (
-                      <span className="text-xs text-t-quaternary">
-                        {format(
-                          new Date().setHours(hour, 0, 0, 0),
-                          use24HourFormat ? "HH:00" : "h a",
-                        )}
-                      </span>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+				<ScrollArea className="h-[736px]" type="always">
+					<div className="flex">
+						{/* Hours column */}
+						<motion.div className="relative w-18" variants={staggerContainer}>
+							{hours.map((hour, index) => (
+								<motion.div
+									key={hour}
+									className="relative"
+									style={{ height: "96px" }}
+									initial={{ opacity: 0, x: -20 }}
+									animate={{ opacity: 1, x: 0 }}
+									transition={{ delay: index * 0.02, ...transition }}
+								>
+									<div className="flex absolute right-2 -top-3 items-center h-6">
+										{index !== 0 && (
+											<span className="text-xs text-t-quaternary">
+												{format(
+													new Date().setHours(hour, 0, 0, 0),
+													use24HourFormat ? "HH:00" : "h a",
+												)}
+											</span>
+										)}
+									</div>
+								</motion.div>
+							))}
+						</motion.div>
 
-            {/* Week grid */}
-            <motion.div
-              className="relative flex-1 border-l"
-              variants={staggerContainer}
-            >
-              <div className="grid grid-cols-7 divide-x">
-                {weekDays.map((day, dayIndex) => {
-                  const dayEvents = singleDayEvents.filter(
-                    (event) =>
-                      isSameDay(parseISO(event.startDate), day) ||
-                      isSameDay(parseISO(event.endDate), day),
-                  );
-                  const groupedEvents = groupEvents(dayEvents);
+						{/* Week grid */}
+						<motion.div
+							className="relative flex-1 border-l"
+							variants={staggerContainer}
+						>
+							<div className="grid grid-cols-7 divide-x">
+								{weekDays.map((day, dayIndex) => {
+									const dayEvents = singleDayEvents.filter(
+										(event) =>
+											isSameDay(parseISO(event.startDate), day) ||
+											isSameDay(parseISO(event.endDate), day),
+									);
+									const groupedEvents = groupEvents(dayEvents);
 
-                  return (
-                    <motion.div
-                      key={day.toISOString()}
-                      className="relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: dayIndex * 0.1, ...transition }}
-                    >
-                      {hours.map((hour, index) => (
-                        <motion.div
-                          key={hour}
-                          className="relative"
-                          style={{ height: "96px" }}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: index * 0.01, ...transition }}
-                        >
-                          {index !== 0 && (
-                            <div className="absolute inset-x-0 top-0 border-b pointer-events-none"></div>
-                          )}
+									return (
+										<motion.div
+											key={day.toISOString()}
+											className="relative"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											transition={{ delay: dayIndex * 0.1, ...transition }}
+										>
+											{hours.map((hour, index) => (
+												<motion.div
+													key={hour}
+													className="relative"
+													style={{ height: "96px" }}
+													initial={{ opacity: 0 }}
+													animate={{ opacity: 1 }}
+													transition={{ delay: index * 0.01, ...transition }}
+												>
+													{index !== 0 && (
+														<div className="absolute inset-x-0 top-0 border-b pointer-events-none"></div>
+													)}
 
-                          <DroppableArea
-                            date={day}
-                            hour={hour}
-                            minute={0}
-                            className="absolute inset-x-0 top-0  h-[48px]"
-                          >
-                            <AddEditEventDialog
-                              startDate={day}
-                              startTime={{ hour, minute: 0 }}
-                            >
-                              <div className="absolute inset-0 transition-colors cursor-pointer hover:bg-secondary" />
-                            </AddEditEventDialog>
-                          </DroppableArea>
+													<DroppableArea
+														date={day}
+														hour={hour}
+														minute={0}
+														className="absolute inset-x-0 top-0  h-[48px]"
+													>
+														<AddEditEventDialog
+															startDate={day}
+															startTime={{ hour, minute: 0 }}
+														>
+															<div className="absolute inset-0 transition-colors cursor-pointer hover:bg-secondary" />
+														</AddEditEventDialog>
+													</DroppableArea>
 
-                          <div className="absolute inset-x-0 top-1/2 border-b border-dashed pointer-events-none border-b-tertiary"></div>
+													<div className="absolute inset-x-0 top-1/2 border-b border-dashed pointer-events-none border-b-tertiary"></div>
 
-                          <DroppableArea
-                            date={day}
-                            hour={hour}
-                            minute={30}
-                            className="absolute inset-x-0 bottom-0 h-[48px]"
-                          >
-                            <AddEditEventDialog
-                              startDate={day}
-                              startTime={{ hour, minute: 30 }}
-                            >
-                              <div className="absolute inset-0 transition-colors cursor-pointer hover:bg-secondary" />
-                            </AddEditEventDialog>
-                          </DroppableArea>
-                        </motion.div>
-                      ))}
+													<DroppableArea
+														date={day}
+														hour={hour}
+														minute={30}
+														className="absolute inset-x-0 bottom-0 h-[48px]"
+													>
+														<AddEditEventDialog
+															startDate={day}
+															startTime={{ hour, minute: 30 }}
+														>
+															<div className="absolute inset-0 transition-colors cursor-pointer hover:bg-secondary" />
+														</AddEditEventDialog>
+													</DroppableArea>
+												</motion.div>
+											))}
 
-                      <RenderGroupedEvents
-                        groupedEvents={groupedEvents}
-                        day={day}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </div>
+											<RenderGroupedEvents groupedEvents={groupedEvents} day={day} />
+										</motion.div>
+									);
+								})}
+							</div>
 
-              <CalendarTimeline />
-            </motion.div>
-          </div>
-        </ScrollArea>
-      </motion.div>
-    </motion.div>
-  );
+							<CalendarTimeline />
+						</motion.div>
+					</div>
+				</ScrollArea>
+			</motion.div>
+		</motion.div>
+	);
 }

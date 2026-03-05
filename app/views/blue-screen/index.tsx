@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import windowsErrorQR from "~/assets/images/windows-error-QR.svg";
 
 type Props = {

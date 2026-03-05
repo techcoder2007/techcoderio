@@ -22,10 +22,7 @@ export function YearViewSkeleton() {
 
 					<div className="grid grid-cols-7 gap-0 p-1 flex-grow">
 						{Array.from({ length: 42 }).map((_, i) => (
-							<div
-								key={i}
-								className="flex flex-col items-center justify-center p-1"
-							>
+							<div key={i} className="flex flex-col items-center justify-center p-1">
 								<Skeleton className="h-4 w-4 rounded-full" />
 								<Skeleton className="h-1.5 w-3 mt-1" />
 							</div>

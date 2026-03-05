@@ -1,46 +1,46 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.7/schema.json",
-  "vcs": {
-    "enabled": false,
-    "clientKind": "git",
-    "useIgnoreFile": false
-  },
+	"$schema": "https://biomejs.dev/schemas/2.3.7/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
 
-  "files": {
-    "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/dist",
-      "!**/.git",
-      "!**/.DS_Store",
-      "!**/.next",
-      "!**/.nx",
-      "!**/.venv",
-      "!**/libs/services/src/generated/query-hooks-esm.ts"
-    ]
-  },
-  "formatter": {
-    "enabled": true,
-    "formatWithErrors": false,
-    "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/dist",
-      "!**/tmp",
-      "!**/.venv",
-      "!**/.git",
-      "!**/.DS_Store",
-      "!**/.next",
-      "!**/.nx"
-    ],
-    "attributePosition": "auto",
-    "indentStyle": "tab",
-    "indentWidth": 1,
-    "lineWidth": 80,
-    "lineEnding": "lf"
-  },
-  "linter": {
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/.git",
+			"!**/.DS_Store",
+			"!**/.next",
+			"!**/.nx",
+			"!**/.venv",
+			"!**/libs/services/src/generated/query-hooks-esm.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/tmp",
+			"!**/.venv",
+			"!**/.git",
+			"!**/.DS_Store",
+			"!**/.next",
+			"!**/.nx"
+		],
+		"attributePosition": "auto",
+		"indentStyle": "tab",
+		"indentWidth": 1,
+		"lineWidth": 80,
+		"lineEnding": "lf"
+	},
+	"linter": {
 		"enabled": true,
 		"includes": ["**"],
 		"rules": {
@@ -58,8 +58,8 @@
 				"noUnusedVariables": "off",
 				"useUniqueElementIds": "off",
 				"useExhaustiveDependencies": "off",
-				"useParseIntRadix": "off", 
-        "noEmptyPattern": "off"
+				"useParseIntRadix": "off",
+				"noEmptyPattern": "off"
 			},
 			"suspicious": {
 				"noExplicitAny": "off",
@@ -70,8 +70,8 @@
 				"noDocumentCookie": "off"
 			},
 			"security": {
-				"noDangerouslySetInnerHtml": "off", 
-        "noGlobalEval": "off"
+				"noDangerouslySetInnerHtml": "off",
+				"noGlobalEval": "off"
 			},
 			"complexity": {
 				"noForEach": "off",
@@ -86,10 +86,10 @@
 			}
 		}
 	},
-  "css": {
-    "parser": {
-      "cssModules": true,
-      "tailwindDirectives": true
-    }
-  }
+	"css": {
+		"parser": {
+			"cssModules": true,
+			"tailwindDirectives": true
+		}
+	}
 }
