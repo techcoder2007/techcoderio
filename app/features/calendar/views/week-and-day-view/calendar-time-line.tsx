@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { formatTime } from "@/features/calendar/helpers";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { formatTime } from "~/features/calendar/helpers";
 
 export function CalendarTimeline() {
   const { use24HourFormat } = useCalendar();
@@ -22,12 +22,12 @@ export function CalendarTimeline() {
 
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 z-50 border-t border-primary"
+      className="absolute inset-x-0 z-50 border-t pointer-events-none border-primary"
       style={{ top: `${getCurrentTimePosition()}%` }}
     >
       <div className="absolute -left-1.5 -top-1.5 size-3 rounded-full bg-primary"></div>
 
-      <div className="absolute -left-18 flex w-16 -translate-y-1/2 justify-end bg-background pr-1 text-xs font-medium text-primary">
+      <div className="flex absolute justify-end pr-1 w-16 text-xs font-medium -translate-y-1/2 -left-18 bg-background text-primary">
         {formatCurrentTime()}
       </div>
     </div>

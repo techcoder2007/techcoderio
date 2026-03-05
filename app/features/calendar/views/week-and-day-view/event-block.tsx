@@ -2,13 +2,13 @@ import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { differenceInMinutes, parseISO } from "date-fns";
 import type { HTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { EventDetailsDialog } from "@/features/calendar/dialogs/event-details-dialog";
-import { DraggableEvent } from "@/features/calendar/dnd/draggable-event";
-import { ResizableEvent } from "@/features/calendar/dnd/resizable-event";
-import { formatTime } from "@/features/calendar/helpers";
-import type { IEvent } from "@/features/calendar/interfaces";
+import { cn } from "~/utils/core";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { EventDetailsDialog } from "~/features/calendar/dialogs/event-details-dialog";
+import { DraggableEvent } from "~/features/calendar/dnd/draggable-event";
+import { ResizableEvent } from "~/features/calendar/dnd/resizable-event";
+import { formatTime } from "~/features/calendar/helpers";
+import type { IEvent } from "~/features/calendar/interfaces";
 
 const calendarWeekEventCardVariants = cva(
   "flex select-none flex-col gap-0.5 truncate whitespace-nowrap rounded-md border px-2 py-1.5 text-xs focus-visible:outline-offset-2",
@@ -95,7 +95,7 @@ export function EventBlock({ event, className }: IProps) {
                 </svg>
               )}
 
-              <p className="truncate font-semibold">{event.title}</p>
+              <p className="font-semibold truncate">{event.title}</p>
             </div>
 
             {durationInMinutes > 25 && (

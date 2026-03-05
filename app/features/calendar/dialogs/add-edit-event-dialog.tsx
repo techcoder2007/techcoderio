@@ -3,8 +3,8 @@ import { addMinutes, format, set } from "date-fns";
 import { type ReactNode, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { DateTimePicker } from "@/components/ui/date-time-picker";
+import { Button } from "~/components/core/button";
+import { DateTimePicker } from "~/components/core/date-time-picker";
 import {
   Form,
   FormControl,
@@ -12,8 +12,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "~/components/core/form/form-components";
+import { Input } from "~/components/core/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/core/select";
+import { Textarea } from "~/components/core/textarea";
 import {
   Modal,
   ModalClose,
@@ -23,20 +31,12 @@ import {
   ModalHeader,
   ModalTitle,
   ModalTrigger,
-} from "@/components/ui/responsive-modal";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { COLORS } from "@/features/calendar/constants";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { useDisclosure } from "@/features/calendar/hooks";
-import type { IEvent } from "@/features/calendar/interfaces";
-import { eventSchema, type TEventFormData } from "@/features/calendar/schemas";
+} from "~/components/responsive-modal";
+import { COLORS } from "~/features/calendar/constants";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { useDisclosure } from "~/features/calendar/hooks";
+import type { IEvent } from "~/features/calendar/interfaces";
+import { eventSchema, type TEventFormData } from "../schemas";
 
 interface IProps {
   children: ReactNode;

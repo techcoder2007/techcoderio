@@ -5,8 +5,8 @@ import {
   parseISO,
   startOfDay,
 } from "date-fns";
-import type { IEvent } from "@/features/calendar/interfaces";
-import { MonthEventBadge } from "@/features/calendar/views/month-view/month-event-badge";
+import type { IEvent } from "~/features/calendar/interfaces";
+import { MonthEventBadge } from "~/features/calendar/views/month-view/month-event-badge";
 
 interface IProps {
   selectedDate: Date;
@@ -48,7 +48,7 @@ export function DayViewMultiDayEventsRow({
   return (
     <div className="flex border-b">
       <div className="w-18"></div>
-      <div className="flex flex-1 flex-col gap-1 border-l py-1">
+      <div className="flex flex-col flex-1 gap-1 py-1 border-l">
         {multiDayEventsInDay.map((event) => {
           const eventStart = startOfDay(parseISO(event.startDate));
           const eventEnd = startOfDay(parseISO(event.endDate));

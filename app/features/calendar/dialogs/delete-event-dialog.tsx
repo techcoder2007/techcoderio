@@ -10,9 +10,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
+} from "~/components/core/alert-dialog";
+import { Button } from "~/components/core/button";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
 
 interface DeleteEventDialogProps {
   eventId: number;

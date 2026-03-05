@@ -10,8 +10,8 @@ import React, {
   useMemo,
 } from "react";
 import { toast } from "sonner";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import type { IEvent } from "@/features/calendar/interfaces";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import type { IEvent } from "~/features/calendar/interfaces";
 
 interface PendingDropData {
   event: IEvent;

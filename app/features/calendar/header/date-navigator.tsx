@@ -2,19 +2,19 @@ import { formatDate } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { buttonHover, transition } from "@/features/calendar/animations";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
+import { Badge } from "~/components/core/badge";
+import { Button } from "~/components/core/button";
+import { buttonHover, transition } from "~/features/calendar/animations";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
 
 import {
   getEventsCount,
   navigateDate,
   rangeText,
-} from "@/features/calendar/helpers";
+} from "~/features/calendar/helpers";
 
-import type { IEvent } from "@/features/calendar/interfaces";
-import type { TCalendarView } from "@/features/calendar/types";
+import type { IEvent } from "~/features/calendar/interfaces";
+import type { TCalendarView } from "~/features/calendar/types";
 
 interface IProps {
   view: TCalendarView;

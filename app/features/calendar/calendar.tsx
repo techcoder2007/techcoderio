@@ -1,9 +1,9 @@
 import React from "react";
-import { CalendarBody } from "@/features/calendar/calendar-body";
-import { CalendarProvider } from "@/features/calendar/contexts/calendar-context";
-import { DndProvider } from "@/features/calendar/contexts/dnd-context";
-import { CalendarHeader } from "@/features/calendar/header/calendar-header";
-import { getEvents, getUsers } from "@/features/calendar/requests";
+import { CalendarBody } from "~/features/calendar/calendar-body";
+import { CalendarProvider } from "~/features/calendar/contexts/calendar-context";
+import { DndProvider } from "~/features/calendar/contexts/dnd-context";
+import { CalendarHeader } from "~/features/calendar/header/calendar-header";
+import { getEvents, getUsers } from "~/features/calendar/requests";
 
 async function getCalendarData() {
   return {
@@ -18,7 +18,7 @@ export async function Calendar() {
   return (
     <CalendarProvider events={events} users={users} view="month">
       <DndProvider>
-        <div className="w-full border rounded-xl">
+        <div className="w-full rounded-xl border">
           <CalendarHeader />
           <CalendarBody />
         </div>

@@ -1,13 +1,13 @@
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { endOfDay, isSameDay, parseISO, startOfDay } from "date-fns";
-import { cn } from "@/lib/utils";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { EventDetailsDialog } from "@/features/calendar/dialogs/event-details-dialog";
-import { DraggableEvent } from "@/features/calendar/dnd/draggable-event";
-import { formatTime } from "@/features/calendar/helpers";
-import type { IEvent } from "@/features/calendar/interfaces";
-import { EventBullet } from "@/features/calendar/views/month-view/event-bullet";
+import { cn } from "~/utils/core";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { EventDetailsDialog } from "~/features/calendar/dialogs/event-details-dialog";
+import { DraggableEvent } from "~/features/calendar/dnd/draggable-event";
+import { formatTime } from "~/features/calendar/helpers";
+import type { IEvent } from "~/features/calendar/interfaces";
+import { EventBullet } from "~/features/calendar/views/month-view/event-bullet";
 
 const eventBadgeVariants = cva(
   "flex w-full h-6.5 select-none items-center justify-between gap-1.5 truncate whitespace-nowrap rounded-md border px-2 text-xs cursor-grab",
@@ -118,7 +118,7 @@ export function MonthEventBadge({
               badgeVariant === "dot" && <EventBullet color={event.color} />}
 
             {renderBadgeText && (
-              <p className="flex-1 truncate font-semibold">
+              <p className="flex-1 font-semibold truncate">
                 {eventCurrentDay && (
                   <span className="text-xs">
                     Day {eventCurrentDay} of {eventTotalDays} •{" "}

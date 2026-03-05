@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
 import type { FC } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/core/avatar";
 import {
   Command,
   CommandEmpty,
@@ -8,10 +8,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { EventDetailsDialog } from "@/features/calendar/dialogs/event-details-dialog";
+} from "~/components/core/command";
+import { cn } from "~/utils/core";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { EventDetailsDialog } from "~/features/calendar/dialogs/event-details-dialog";
 import {
   formatTime,
   getBgColor,
@@ -19,8 +19,8 @@ import {
   getEventsForMonth,
   getFirstLetters,
   toCapitalize,
-} from "@/features/calendar/helpers";
-import { EventBullet } from "@/features/calendar/views/month-view/event-bullet";
+} from "~/features/calendar/helpers";
+import { EventBullet } from "~/features/calendar/views/month-view/event-bullet";
 
 export const AgendaEvents: FC = () => {
   const {
@@ -33,6 +33,7 @@ export const AgendaEvents: FC = () => {
 
   const monthEvents = getEventsForMonth(events, selectedDate);
 
+  // @ts-ignore - groupBy is not available in all TS versions
   const agendaEvents = Object.groupBy(monthEvents, (event) => {
     return agendaModeGroupBy === "date"
       ? format(parseISO(event.startDate), "yyyy-MM-dd")
@@ -45,19 +46,22 @@ export const AgendaEvents: FC = () => {
 
   return (
     <Command className="py-4 h-[80vh] bg-transparent">
-      <div className="mb-4 mx-4">
+      <div className="mx-4 mb-4">
         <CommandInput placeholder="Type a command or search..." />
       </div>
-      <CommandList className="max-h-max px-3 border-t">
+      <CommandList className="px-3 border-t max-h-max">
         {groupedAndSortedEvents.map(([date, groupedEvents]) => (
           <CommandGroup
             key={date}
             heading={
               agendaModeGroupBy === "date"
                 ? format(parseISO(date), "EEEE, MMMM d, yyyy")
-                : toCapitalize(groupedEvents![0].color)
+                : // @ts-ignore - groupedEvents is not null
+                  toCapitalize(groupedEvents![0].color)
             }
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */}
+            {/* @ts-ignore - groupedEvents is not null */}
             {groupedEvents!.map((event) => (
               <CommandItem
                 key={event.id}
@@ -72,8 +76,8 @@ export const AgendaEvents: FC = () => {
                 )}
               >
                 <EventDetailsDialog event={event}>
-                  <div className="w-full flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-2">
+                  <div className="flex gap-4 justify-between items-center w-full">
+                    <div className="flex gap-2 items-center">
                       {badgeVariant === "dot" ? (
                         <EventBullet color={event.color} />
                       ) : (
@@ -93,12 +97,12 @@ export const AgendaEvents: FC = () => {
                         >
                           {event.title}
                         </p>
-                        <p className="text-muted-foreground text-sm line-clamp-1 text-ellipsis md:text-clip w-1/3">
+                        <p className="w-1/3 text-sm text-muted-foreground line-clamp-1 text-ellipsis md:text-clip">
                           {event.description}
                         </p>
                       </div>
                     </div>
-                    <div className="w-40 flex justify-center items-center gap-1">
+                    <div className="flex gap-1 justify-center items-center w-40">
                       {agendaModeGroupBy === "date" ? (
                         <>
                           <p className="text-sm">

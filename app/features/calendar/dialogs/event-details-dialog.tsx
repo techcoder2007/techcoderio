@@ -4,7 +4,7 @@ import { format, parseISO } from "date-fns";
 import { Calendar, Clock, Text, User } from "lucide-react";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button } from "~/components/core/button";
 import {
   Dialog,
   DialogClose,
@@ -12,12 +12,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { AddEditEventDialog } from "@/features/calendar/dialogs/add-edit-event-dialog";
-import { formatTime } from "@/features/calendar/helpers";
-import type { IEvent } from "@/features/calendar/interfaces";
+} from "~/components/core/dialog";
+import { ScrollArea } from "~/components/core/scroll-area";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { AddEditEventDialog } from "~/features/calendar/dialogs/add-edit-event-dialog";
+import { formatTime } from "~/features/calendar/helpers";
+import type { IEvent } from "~/features/calendar/interfaces";
 
 interface IProps {
   event: IEvent;

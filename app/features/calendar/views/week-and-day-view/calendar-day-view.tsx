@@ -1,17 +1,17 @@
 import { format, isWithinInterval, parseISO } from "date-fns";
 import { Calendar, Clock, User } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { DayPicker } from "@/components/ui/day-picker";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
+import { DayPicker } from "~/components/core/day-picker";
+import { ScrollArea } from "~/components/core/scroll-area";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
 
-import { AddEditEventDialog } from "@/features/calendar/dialogs/add-edit-event-dialog";
-import { DroppableArea } from "@/features/calendar/dnd/droppable-area";
-import { groupEvents } from "@/features/calendar/helpers";
-import type { IEvent } from "@/features/calendar/interfaces";
-import { CalendarTimeline } from "@/features/calendar/views/week-and-day-view/calendar-time-line";
-import { DayViewMultiDayEventsRow } from "@/features/calendar/views/week-and-day-view/day-view-multi-day-events-row";
-import { RenderGroupedEvents } from "@/features/calendar/views/week-and-day-view/render-grouped-events";
+import { AddEditEventDialog } from "~/features/calendar/dialogs/add-edit-event-dialog";
+import { DroppableArea } from "~/features/calendar/dnd/droppable-area";
+import { groupEvents } from "~/features/calendar/helpers";
+import type { IEvent } from "~/features/calendar/interfaces";
+import { CalendarTimeline } from "~/features/calendar/views/week-and-day-view/calendar-time-line";
+import { DayViewMultiDayEventsRow } from "~/features/calendar/views/week-and-day-view/day-view-multi-day-events-row";
+import { RenderGroupedEvents } from "~/features/calendar/views/week-and-day-view/render-grouped-events";
 
 interface IProps {
   singleDayEvents: IEvent[];
@@ -80,7 +80,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
 
   return (
     <div className="flex">
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-col flex-1">
         <div>
           <DayViewMultiDayEventsRow
             selectedDate={selectedDate}
@@ -88,9 +88,9 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
           />
 
           {/* Day header */}
-          <div className="relative z-20 flex border-b">
+          <div className="flex relative z-20 border-b">
             <div className="w-18"></div>
-            <span className="flex-1 border-l py-2 text-center text-xs font-medium text-t-quaternary">
+            <span className="flex-1 py-2 text-xs font-medium text-center border-l text-t-quaternary">
               {format(selectedDate, "EE")}{" "}
               <span className="font-semibold text-t-secondary">
                 {format(selectedDate, "d")}
@@ -105,7 +105,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
             <div className="relative w-18">
               {hours.map((hour, index) => (
                 <div key={hour} className="relative" style={{ height: "96px" }}>
-                  <div className="absolute -top-3 right-2 flex h-6 items-center">
+                  <div className="flex absolute right-2 -top-3 items-center h-6">
                     {index !== 0 && (
                       <span className="text-xs text-t-quaternary">
                         {format(
@@ -129,7 +129,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                     style={{ height: "96px" }}
                   >
                     {index !== 0 && (
-                      <div className="pointer-events-none absolute inset-x-0 top-0 border-b"></div>
+                      <div className="absolute inset-x-0 top-0 border-b pointer-events-none"></div>
                     )}
 
                     <DroppableArea
@@ -142,11 +142,11 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                         startDate={selectedDate}
                         startTime={{ hour, minute: 0 }}
                       >
-                        <div className="absolute inset-0 cursor-pointer transition-colors hover:bg-secondary" />
+                        <div className="absolute inset-0 transition-colors cursor-pointer hover:bg-secondary" />
                       </AddEditEventDialog>
                     </DroppableArea>
 
-                    <div className="pointer-events-none absolute inset-x-0 top-1/2 border-b border-dashed border-b-tertiary"></div>
+                    <div className="absolute inset-x-0 top-1/2 border-b border-dashed pointer-events-none border-b-tertiary"></div>
 
                     <DroppableArea
                       date={selectedDate}
@@ -158,7 +158,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                         startDate={selectedDate}
                         startTime={{ hour, minute: 30 }}
                       >
-                        <div className="absolute inset-0 cursor-pointer transition-colors hover:bg-secondary" />
+                        <div className="absolute inset-0 transition-colors cursor-pointer hover:bg-secondary" />
                       </AddEditEventDialog>
                     </DroppableArea>
                   </div>
@@ -176,7 +176,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
         </ScrollArea>
       </div>
 
-      <div className="hidden w-72 divide-y border-l md:block">
+      <div className="hidden w-72 border-l divide-y md:block">
         <DayPicker
           className="mx-auto w-fit"
           mode="single"
@@ -187,9 +187,9 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
 
         <div className="flex-1 space-y-3">
           {currentEvents.length > 0 ? (
-            <div className="flex items-start gap-2 px-4 pt-4">
+            <div className="flex gap-2 items-start px-4 pt-4">
               <span className="relative mt-[5px] flex size-2.5">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                <span className="inline-flex absolute bg-green-400 rounded-full opacity-75 animate-ping size-full"></span>
                 <span className="relative inline-flex size-2.5 rounded-full bg-green-600"></span>
               </span>
 
@@ -198,20 +198,20 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
               </p>
             </div>
           ) : (
-            <p className="p-4 text-center text-sm italic text-t-tertiary">
+            <p className="p-4 text-sm italic text-center text-t-tertiary">
               No appointments or consultations at the moment
             </p>
           )}
 
           {currentEvents.length > 0 && (
             <ScrollArea className="h-[422px] px-4" type="always">
-              <div className="space-y-6 pb-4">
+              <div className="pb-4 space-y-6">
                 {currentEvents.map((event) => {
                   const user = users.find((user) => user.id === event.user.id);
 
                   return (
                     <div key={event.id} className="space-y-1.5">
-                      <p className="line-clamp-2 text-sm font-semibold">
+                      <p className="text-sm font-semibold line-clamp-2">
                         {event.title}
                       </p>
 

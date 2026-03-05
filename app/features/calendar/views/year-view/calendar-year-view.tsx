@@ -1,12 +1,12 @@
 import { getYear, isSameDay, isSameMonth } from "date-fns";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { staggerContainer, transition } from "@/features/calendar/animations";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { EventListDialog } from "@/features/calendar/dialogs/events-list-dialog";
-import { getCalendarCells } from "@/features/calendar/helpers";
-import type { IEvent } from "@/features/calendar/interfaces";
-import { EventBullet } from "@/features/calendar/views/month-view/event-bullet";
+import { cn } from "~/utils/core";
+import { staggerContainer, transition } from "~/features/calendar/animations";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
+import { EventListDialog } from "~/features/calendar/dialogs/events-list-dialog";
+import { getCalendarCells } from "~/features/calendar/helpers";
+import type { IEvent } from "~/features/calendar/interfaces";
+import { EventBullet } from "~/features/calendar/views/month-view/event-bullet";
 
 interface IProps {
   singleDayEvents: IEvent[];
@@ -36,13 +36,13 @@ export function CalendarYearView({ singleDayEvents, multiDayEvents }: IProps) {
   const allEvents = [...multiDayEvents, ...singleDayEvents];
 
   return (
-    <div className="flex flex-col h-full  overflow-y-auto p-4  sm:p-6">
+    <div className="flex overflow-y-auto flex-col p-4 h-full sm:p-6">
       {/* Year grid */}
       <motion.div
         initial="initial"
         animate="animate"
         variants={staggerContainer}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr"
+        className="grid grid-cols-1 auto-rows-fr gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       >
         {MONTHS.map((month, monthIndex) => {
           const monthDate = new Date(currentYear, monthIndex, 1);
@@ -51,7 +51,7 @@ export function CalendarYearView({ singleDayEvents, multiDayEvents }: IProps) {
           return (
             <motion.div
               key={month}
-              className="flex flex-col border border-border rounded-lg shadow-sm overflow-hidden"
+              className="flex overflow-hidden flex-col rounded-lg border shadow-sm border-border"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: monthIndex * 0.05, ...transition }}
@@ -60,7 +60,7 @@ export function CalendarYearView({ singleDayEvents, multiDayEvents }: IProps) {
               {/* Month header */}
               <button
                 type="button"
-                className="w-full px-3 py-2 text-center font-semibold text-sm sm:text-base cursor-pointer hover:bg-primary/20 transition-colors bg-transparent border-none appearance-none"
+                className="px-3 py-2 w-full text-sm font-semibold text-center bg-transparent border-none transition-colors appearance-none cursor-pointer sm:text-base hover:bg-primary/20"
                 onClick={() =>
                   setSelectedDate(new Date(currentYear, monthIndex, 1))
                 }
@@ -69,7 +69,7 @@ export function CalendarYearView({ singleDayEvents, multiDayEvents }: IProps) {
                 {month}
               </button>
 
-              <div className="grid grid-cols-7 text-center text-xs font-medium text-muted-foreground py-2">
+              <div className="grid grid-cols-7 py-2 text-xs font-medium text-center text-muted-foreground">
                 {WEEKDAYS.map((day) => (
                   <div key={day} className="p-1">
                     {day}
@@ -135,10 +135,10 @@ export function CalendarYearView({ singleDayEvents, multiDayEvents }: IProps) {
                           </div>
                         </EventListDialog>
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-start">
+                        <div className="flex flex-col justify-start items-center w-full h-full">
                           <span
                             className={cn(
-                              "size-5 flex items-center justify-center font-medium",
+                              "flex justify-center items-center font-medium size-5",
                             )}
                           >
                             {cell.day}

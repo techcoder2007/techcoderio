@@ -1,8 +1,8 @@
 import { formatDate } from "date-fns";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { buttonHover, transition } from "@/features/calendar/animations";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
+import { Button } from "~/components/core/button";
+import { buttonHover, transition } from "~/features/calendar/animations";
+import { useCalendar } from "~/features/calendar/contexts/calendar-context";
 
 const MotionButton = motion.create(Button);
 

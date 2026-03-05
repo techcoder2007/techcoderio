@@ -5,18 +5,18 @@ import { isToday, startOfDay, isSunday, isSameMonth } from "date-fns";
 import { motion } from "framer-motion";
 import { useMemo, useCallback } from "react";
 
-import { cn } from "@/lib/utils";
-import { transition } from "@/features/calendar/animations";
-import { EventListDialog } from "@/features/calendar/dialogs/events-list-dialog";
-import { DroppableArea } from "@/features/calendar/dnd/droppable-area";
-import { getMonthCellEvents } from "@/features/calendar/helpers";
-import { useMediaQuery } from "@/features/calendar/hooks";
-import type { ICalendarCell, IEvent } from "@/features/calendar/interfaces";
-import { EventBullet } from "@/features/calendar/views/month-view/event-bullet";
-import { MonthEventBadge } from "@/features/calendar/views/month-view/month-event-badge";
-import { Button } from "@/components/ui/button";
+import { cn } from "~/utils/core";
+import { transition } from "~/features/calendar/animations";
+import { EventListDialog } from "~/features/calendar/dialogs/events-list-dialog";
+import { DroppableArea } from "~/features/calendar/dnd/droppable-area";
+import { getMonthCellEvents } from "~/features/calendar/helpers";
+import { useMediaQuery } from "~/features/calendar/hooks";
+import type { ICalendarCell, IEvent } from "~/features/calendar/interfaces";
+import { EventBullet } from "~/features/calendar/views/month-view/event-bullet";
+import { MonthEventBadge } from "~/features/calendar/views/month-view/month-event-badge";
+import { Button } from "~/components/core/button";
 import { Plus } from "lucide-react";
-import { AddEditEventDialog } from "@/features/calendar/dialogs/add-edit-event-dialog";
+import { AddEditEventDialog } from "~/features/calendar/dialogs/add-edit-event-dialog";
 
 interface IProps {
   cell: ICalendarCell;
@@ -117,7 +117,7 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={transition}
       >
-        <DroppableArea date={date} className="w-full h-full py-2">
+        <DroppableArea date={date} className="py-2 w-full h-full">
           <motion.span
             className={cn(
               "h-6 px-1 text-xs font-semibold lg:px-2",
@@ -136,13 +136,13 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
             )}
           >
             {cellEvents.length === 0 && !isMobile ? (
-              <div className="w-full h-full flex justify-center items-center group">
+              <div className="flex justify-center items-center w-full h-full group">
                 <AddEditEventDialog startDate={date}>
                   <Button
                     variant="ghost"
-                    className="border opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    className="border opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                   >
-                    <Plus className="h-4 w-4" />
+                    <Plus className="w-4 h-4" />
                     <span className="max-sm:hidden">Add Event</span>
                   </Button>
                 </AddEditEventDialog>
