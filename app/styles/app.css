@@ -1,77 +1,78 @@
 @import "tailwindcss";
 @import "./wrappers.css";
 @import "./theme.css";
+@import "./dnd-drop.css";
 
 html,
 body {
-	width: 100%;
-	overflow: hidden;
-	height: 100%;
-	font-family: var(--font-sans);
-	@apply bg-background text-foreground;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  font-family: var(--font-sans);
+  @apply bg-background text-foreground;
 }
 
 @layer utilities {
-	.flex-center {
-		@apply flex items-center justify-center;
-	}
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
 
-	.flex-grow {
-		@apply flex-grow;
-	}
+  .flex-grow {
+    @apply flex-grow;
+  }
 
-	.col-center {
-		@apply flex flex-col items-center justify-center;
-	}
+  .col-center {
+    @apply flex flex-col justify-center items-center;
+  }
 
-	.abs-center {
-		@apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-	}
+  .abs-center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  }
 
-	/* Chrome, Safari and Opera */
-	.no-scrollbar::-webkit-scrollbar {
-		display: none;
-	}
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
-	/* IE, Edge and Firefox */
-	.no-scrollbar {
-		-ms-overflow-style: none;
-		/* IE and Edge */
-		scrollbar-width: none;
-		/* Firefox */
-	}
+  /* IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
 }
 
 @layer base {
-	* {
-		@apply border-border outline-ring/50;
-	}
+  * {
+    @apply border-border outline-ring/50;
+  }
 
-	main {
-		@apply w-dvh h-dvh overflow-hidden;
-	}
+  main {
+    @apply overflow-hidden w-dvh h-dvh;
+  }
 
-	nav {
-		@apply flex items-center justify-between bg-white/50 backdrop-blur-3xl p-2 px-5 select-none;
-	}
+  nav {
+    @apply flex justify-between items-center p-2 px-5 backdrop-blur-3xl select-none bg-white/50;
+  }
 
-	nav div {
-		@apply flex items-center max-sm:w-full max-sm:justify-center gap-5;
-	}
+  nav div {
+    @apply flex gap-5 items-center max-sm:w-full max-sm:justify-center;
+  }
 
-	nav div:last-child {
-		@apply max-sm:hidden;
-	}
+  nav div:last-child {
+    @apply max-sm:hidden;
+  }
 
-	nav ul {
-		@apply flex items-center gap-5 max-sm:hidden;
-	}
+  nav ul {
+    @apply flex gap-5 items-center max-sm:hidden;
+  }
 
-	nav ul p {
-		@apply cursor-pointer hover:underline transition-all;
-	}
+  nav ul p {
+    @apply transition-all cursor-pointer hover:underline;
+  }
 
-	nav ul li {
-		@apply cursor-pointer hover:underline transition-all text-sm;
-	}
+  nav ul li {
+    @apply text-sm transition-all cursor-pointer hover:underline;
+  }
 }
