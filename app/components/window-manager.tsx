@@ -1,5 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	type CSSProperties,
+	type PointerEvent,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { AppIcon } from "~/components/app-icon";
 import type { AllAppsState } from "~/redux/features/all-apps-slice";
 import {
 	changePosition,
@@ -72,95 +79,97 @@ const Window = ({
 	onDrag,
 }: WindowProps) => {
 	const [isDragging, setIsDragging] = useState(false);
-	const dragStartPos = useRef({ x: 0, y: 0 });
-	const windowStartPos = useRef({ x: 0, y: 0 });
-	const animationFrameRef = useRef<number | null>(null);
-	const lastUpdateTime = useRef(0);
+	const dragOffset = useRef({ x: 0, y: 0 });
+	const frameRef = useRef<number | null>(null);
+	const pendingPosition = useRef<{ x: number; y: number } | null>(null);
 
-	const handleMouseDown = (e: React.MouseEvent) => {
-		if (
-			e.target === e.currentTarget ||
-			(e.target as HTMLElement).classList.contains("window-header")
-		) {
-			setIsDragging(true);
-			dragStartPos.current = { x: e.clientX, y: e.clientY };
-			windowStartPos.current = { x: app.position.x, y: app.position.y };
-			onFocus();
+	const flushDrag = () => {
+		if (!pendingPosition.current) return;
+		onDrag(pendingPosition.current);
+		pendingPosition.current = null;
+		frameRef.current = null;
+	};
+
+	const clampPosition = (x: number, y: number) => {
+		const viewportWidth = window.innerWidth;
+		const viewportHeight = window.innerHeight;
+		const windowWidth = app.maximized ? viewportWidth : 800;
+		const windowHeight = app.maximized ? viewportHeight - 80 : 600;
+		return {
+			x: Math.min(Math.max(x, 0), viewportWidth - windowWidth),
+			y: Math.min(Math.max(y, 0), viewportHeight - windowHeight - 72),
+		};
+	};
+
+	const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
+		if (app.maximized || e.button !== 0) return;
+		if (!(e.target as HTMLElement).closest(".window-header")) return;
+
+		e.preventDefault();
+		e.currentTarget.setPointerCapture(e.pointerId);
+		setIsDragging(true);
+		dragOffset.current = {
+			x: e.clientX - (app.position.x || 100),
+			y: e.clientY - (app.position.y || 100),
+		};
+		onFocus();
+	};
+
+	const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
+		if (!isDragging) return;
+		e.preventDefault();
+
+		const position = clampPosition(
+			e.clientX - dragOffset.current.x,
+			e.clientY - dragOffset.current.y,
+		);
+		pendingPosition.current = position;
+
+		if (!frameRef.current) {
+			frameRef.current = requestAnimationFrame(flushDrag);
 		}
 	};
 
-	const handleMouseMove = useCallback(
-		(e: MouseEvent) => {
-			if (!isDragging) return;
-
-			// Throttle updates to 60fps for better performance
-			const now = performance.now();
-			if (now - lastUpdateTime.current < 16) return; // ~60fps
-			lastUpdateTime.current = now;
-
-			if (animationFrameRef.current) {
-				cancelAnimationFrame(animationFrameRef.current);
-			}
-
-			animationFrameRef.current = requestAnimationFrame(() => {
-				const deltaX = e.clientX - dragStartPos.current.x;
-				const deltaY = e.clientY - dragStartPos.current.y;
-				onDrag({
-					x: windowStartPos.current.x + deltaX,
-					y: windowStartPos.current.y + deltaY,
-				});
-			});
-		},
-		[isDragging, onDrag],
-	);
-
-	const handleMouseUp = useCallback(() => {
+	const stopDragging = () => {
 		setIsDragging(false);
-	}, []);
+		if (frameRef.current) {
+			cancelAnimationFrame(frameRef.current);
+			frameRef.current = null;
+		}
+		flushDrag();
+	};
 
 	useEffect(() => {
-		if (isDragging) {
-			document.addEventListener("mousemove", handleMouseMove, {
-				passive: true,
-			});
-			document.addEventListener("mouseup", handleMouseUp, { passive: true });
-			return () => {
-				document.removeEventListener("mousemove", handleMouseMove);
-				document.removeEventListener("mouseup", handleMouseUp);
-				if (animationFrameRef.current) {
-					cancelAnimationFrame(animationFrameRef.current);
-				}
-			};
-		}
-	}, [isDragging, handleMouseMove, handleMouseUp]);
+		return () => {
+			if (frameRef.current) {
+				cancelAnimationFrame(frameRef.current);
+			}
+		};
+	}, []);
 
-	const windowStyle: React.CSSProperties = {
+	const windowStyle: CSSProperties = {
 		position: "fixed",
 		left: app.position.x || 100,
 		top: app.position.y || 100,
 		width: app.maximized ? "100vw" : "800px",
 		height: app.maximized ? "calc(100vh - 80px)" : "600px",
 		zIndex: app.zIndex,
-		transform: "translateZ(0)", // Hardware acceleration
-		willChange: isDragging ? "transform" : "auto", // Optimize for animations
 	};
 
 	const AppComponent = app.app;
 
 	return (
 		<div
-			className={`fixed bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden transition-all duration-200 ${isDragging ? "scale-105 cursor-grabbing shadow-3xl" : "cursor-grab"}`}
+			className={`fixed bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden transition-shadow duration-150 ${isDragging ? "cursor-grabbing shadow-blue-500/20" : "cursor-default"}`}
 			style={windowStyle}
-			onMouseDown={handleMouseDown}
+			onPointerDown={handlePointerDown}
+			onPointerMove={handlePointerMove}
+			onPointerUp={stopDragging}
+			onPointerCancel={stopDragging}
 		>
-			{/* Window Header */}
-			<div className="flex justify-between items-center px-4 py-2 from-gray-800 cursor-move select-none bg-linear-to-r window-header to-gray-750">
+			<div className="flex justify-between items-center px-4 py-2 from-gray-800 cursor-move select-none bg-linear-to-r window-header to-gray-750 touch-none">
 				<div className="flex items-center space-x-3">
-					<img
-						src={app.imageSrc}
-						alt={app.title}
-						className="object-contain w-4 h-4 filter brightness-100"
-					/>
+					<AppIcon name={app.iconName} className="w-4 h-4 text-white" />
 					<span className="text-sm font-medium tracking-wide text-white">
 						{app.title}
 					</span>
@@ -187,7 +196,6 @@ const Window = ({
 				</div>
 			</div>
 
-			{/* Window Content */}
 			<div className="overflow-hidden h-full bg-gray-950">
 				<AppComponent id={app.id} />
 			</div>
