@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { max, uniqueId } from "lodash-es";
-import { Calculator, Chrome, Spotify, Terminal, VSCode } from "~/apps";
+import { Calculator, Chrome, Settings, Spotify, Terminal, VSCode } from "~/apps";
 import type { AppComponent } from "~/types/app";
 
 export type AppIconName =
@@ -9,6 +9,7 @@ export type AppIconName =
 	| "code"
 	| "terminal"
 	| "spotify"
+	| "settings"
 	| "ubuntu-logo";
 
 export interface AllAppsState {
@@ -30,6 +31,7 @@ export interface AllAppsState {
 	maximized: boolean;
 	slug: string;
 	zIndex: number;
+	canSpawn?: boolean;
 }
 
 const DEFAULT_SIZE = { width: 800, height: 600 };
@@ -49,6 +51,7 @@ const initialState: AllAppsState[] = [
 		size: { ...DEFAULT_SIZE },
 		maximized: false,
 		zIndex: 0,
+		canSpawn: true,
 	},
 	{
 		id: uniqueId(),
@@ -106,6 +109,20 @@ const initialState: AllAppsState[] = [
 		maximized: false,
 		zIndex: 0,
 	},
+	{
+		id: uniqueId(),
+		title: "Settings",
+		slug: "settings",
+		iconName: "settings",
+		isFavorite: true,
+		isOpen: false,
+		app: Settings,
+		isMinimized: false,
+		position: { ...DEFAULT_POSITION },
+		size: { width: 860, height: 580 },
+		maximized: false,
+		zIndex: 0,
+	},
 ];
 
 export const appApps = createSlice({
@@ -144,6 +161,12 @@ export const appApps = createSlice({
 		closeApp: (state, action: PayloadAction<string>) => {
 			const appToClose = state.find((app) => app.id === action.payload);
 			if (appToClose) {
+				if (appToClose.canSpawn && !appToClose.isFavorite) {
+					// Remove spawned instances from state entirely
+					const idx = state.findIndex((a) => a.id === action.payload);
+					if (idx !== -1) state.splice(idx, 1);
+					return;
+				}
 				appToClose.isOpen = false;
 				appToClose.maximized = false;
 				appToClose.position = { ...DEFAULT_POSITION };
@@ -196,6 +219,36 @@ export const appApps = createSlice({
 				appToChange.zIndex = maxZIndex + 1;
 			}
 		},
+		spawnApp: (state, action: PayloadAction<string>) => {
+			const source = state.find((app) => app.id === action.payload);
+			if (!source) return;
+			const existingCount = state.filter((a) => a.slug === source.slug).length;
+			const zIndexes = state
+				.filter((app) => app.isOpen && !app.isMinimized)
+				.map((app) => app.zIndex);
+			const newApp: AllAppsState = {
+				...source,
+				id: uniqueId(),
+				title: `${source.title} (${existingCount + 1})`,
+				isFavorite: false,
+				isOpen: true,
+				isMinimized: false,
+				maximized: false,
+				position: {
+					x: source.position.x + 40,
+					y: source.position.y + 40,
+				},
+				size: { ...source.size },
+				zIndex: (max(zIndexes) || 0) + 1,
+			};
+			state.push(newApp);
+		},
+		toggleFavorite: (state, action: PayloadAction<string>) => {
+			const app = state.find((a) => a.id === action.payload);
+			if (app) {
+				app.isFavorite = !app.isFavorite;
+			}
+		},
 	},
 });
 
@@ -208,5 +261,7 @@ export const {
 	maximizeApp,
 	openAppByTitle,
 	zIndexApp,
+	spawnApp,
+	toggleFavorite,
 } = appApps.actions;
 export default appApps.reducer;

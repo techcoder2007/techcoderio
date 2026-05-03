@@ -1,0 +1,89 @@
+mutation CreateDemoData @transaction @auth(level: USER, insecureReason: "This is a seed mutation and should only be runnable by authenticated users for development purposes.") {
+  application_insertMany(data: [
+    {
+      id: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      name: "Terminal",
+      iconUrl: "https://example.com/terminal_icon.png",
+      componentType: "TerminalWindow",
+      description: "A command-line interface for interacting with the system.",
+      initialWindowWidth: 800,
+      initialWindowHeight: 600
+    },
+    {
+      id: "b1c2d3e4-f5a6-8901-2345-67890abcdef0",
+      name: "File Explorer",
+      iconUrl: "https://example.com/file_explorer_icon.png",
+      componentType: "FileExplorerWindow",
+      description: "Browse and manage files and folders on your system.",
+      initialWindowWidth: 1024,
+      initialWindowHeight: 768
+    }
+  ])
+  menuItem_insertMany(data: [
+    {
+      id: "c1d2e3f4-a5b6-9012-3456-7890abcdef01",
+      label: "Open Terminal",
+      actionType: "LAUNCH_APP",
+      relatedAppId: "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+    },
+    {
+      id: "d1e2f3a4-b5c6-0123-4567-890abcdef012",
+      label: "Open File Explorer",
+      actionType: "LAUNCH_APP",
+      relatedAppId: "b1c2d3e4-f5a6-8901-2345-67890abcdef0"
+    },
+    {
+      id: "e1f2a3b4-c5d6-1234-5678-90abcdef0123",
+      label: "About This OS",
+      actionType: "SHOW_ABOUT",
+      relatedAppId: null
+    }
+  ])
+  project_insertMany(data: [
+    {
+      id: "f1a2b3c4-d5e6-2345-6789-0abcdef01234",
+      title: "Operating System Core",
+      description: "The foundational layer of the operating system, managing processes and memory.",
+      displayOrder: 1,
+      technologiesUsed: ["Rust", "Assembly"],
+      githubLink: "https://github.com/techcoderio/os-core",
+      liveDemoLink: null,
+      codeSnippet: "fn main() { println!(\"Hello, OS!\"); }"
+    },
+    {
+      id: "a0b1c2d3-e4f5-6789-0123-456789abcdef",
+      title: "Desktop Environment",
+      description: "A graphical user interface for interacting with the operating system.",
+      displayOrder: 2,
+      technologiesUsed: ["C++", "Qt"],
+      githubLink: "https://github.com/techcoderio/desktop-env",
+      liveDemoLink: "https://demo.techcoderio.com/desktop",
+      codeSnippet: "QApplication app(argc, argv);\nQMainWindow window;\nwindow.show();\nreturn app.exec();"
+    }
+  ])
+  settings_insertMany(data: [
+    {
+      id: "b0c1d2e3-f4a5-7890-1234-567890abcde1",
+      theme: "dark",
+      desktopBackgroundUrl: "https://example.com/dark_bg.jpg",
+      soundEffectsEnabled: true,
+      animationSpeed: 1.0
+    }
+  ])
+  terminalCommand_insertMany(data: [
+    {
+      id: "c0d1e2f3-a4b5-8901-2345-67890abcde12",
+      command: "ls",
+      responseContent: "file1.txt\nfolder A\nprogram.exe",
+      description: "List directory contents.",
+      requiresAuthentication: false
+    },
+    {
+      id: "d0e1f2a3-b4c5-9012-3456-7890abcde123",
+      command: "whoami",
+      responseContent: "techcoderio",
+      description: "Display the current username.",
+      requiresAuthentication: true
+    }
+  ])
+}

@@ -1,0 +1,39 @@
+type Application @table {
+  name: String!
+  iconUrl: String!
+  componentType: String!
+  description: String
+  initialWindowWidth: Int
+  initialWindowHeight: Int
+}
+
+type MenuItem @table {
+  label: String!
+  actionType: String!
+  # subMenuItems: [MenuItem] # Not supported. Use singular reference.
+  relatedApp: Application
+}
+
+type TerminalCommand @table {
+  command: String!
+  responseContent: String!
+  description: String
+  requiresAuthentication: Boolean
+}
+
+type Project @table {
+  title: String!
+  description: String!
+  displayOrder: Int!
+  technologiesUsed: [String]
+  githubLink: String
+  liveDemoLink: String
+  codeSnippet: String
+}
+
+type Settings @table {
+  theme: String!
+  desktopBackgroundUrl: String!
+  soundEffectsEnabled: Boolean
+  animationSpeed: Float
+}

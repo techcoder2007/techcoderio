@@ -5,7 +5,7 @@ interface BackgroundImageState {
 }
 
 const initialState = {
-	backgroundImage: "/images/wall-2.webp",
+	backgroundImage: "",
 } as BackgroundImageState;
 
 export const backgroundImage = createSlice({

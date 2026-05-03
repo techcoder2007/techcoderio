@@ -212,6 +212,47 @@ const AppIcon = ({ name, className, style }: AppIconProps) => {
 				</svg>
 			);
 
+		case "settings":
+			return (
+				<svg viewBox="0 0 64 64" className={className} style={style}>
+					<defs>
+						<linearGradient id="set-bg" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0" stopColor="#5a5a6e" />
+							<stop offset="1" stopColor="#2c2c3a" />
+						</linearGradient>
+					</defs>
+					<rect width="64" height="64" rx="14" fill="url(#set-bg)" />
+					{/* Outer gear ring */}
+					<path
+						d="M32 10 l3.5 4.5 5.5-1 2 5.3 5.5 1.2-0.5 5.6 4.8 2.8-2.5 5 3 4.5-4 3.8 1.2 5.5-5.3 1.5-1.5 5.4-5.6-0.3-3.1 4.7-5-2.3-4.5 3.5-4.2-3.8-5.4 1.8-2.2-5-5.6-0.5 0.2-5.6-4.5-3.3 2.8-5-2.2-5.2 4.8-2.5-0.8-5.6 5.5-1 1.8-5.3 5.5 0.8Z"
+						fill="rgba(255,255,255,0.12)"
+					/>
+					{/* Gear body */}
+					<circle cx="32" cy="32" r="10" fill="rgba(255,255,255,0.85)" />
+					<circle cx="32" cy="32" r="5" fill="url(#set-bg)" />
+					{/* Gear teeth */}
+					{[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
+						const rad = (deg * Math.PI) / 180;
+						const x1 = 32 + 13 * Math.cos(rad);
+						const y1 = 32 + 13 * Math.sin(rad);
+						const x2 = 32 + 17 * Math.cos(rad);
+						const y2 = 32 + 17 * Math.sin(rad);
+						return (
+							<line
+								key={deg}
+								x1={x1}
+								y1={y1}
+								x2={x2}
+								y2={y2}
+								stroke="rgba(255,255,255,0.85)"
+								strokeWidth="4"
+								strokeLinecap="round"
+							/>
+						);
+					})}
+				</svg>
+			);
+
 		case "ubuntu-logo":
 			return (
 				<svg viewBox="0 0 64 64" className={className} style={style}>
