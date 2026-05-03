@@ -212,6 +212,38 @@ const AppIcon = ({ name, className, style }: AppIconProps) => {
 				</svg>
 			);
 
+		case "files":
+			return (
+				<svg viewBox="0 0 64 64" className={className} style={style}>
+					<defs>
+						<linearGradient id="fil-bg" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0" stopColor="#3a8fd4" />
+							<stop offset="1" stopColor="#1a5fa8" />
+						</linearGradient>
+						<linearGradient id="fil-folder" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0" stopColor="#ffd04b" />
+							<stop offset="1" stopColor="#f0a500" />
+						</linearGradient>
+					</defs>
+					<rect width="64" height="64" rx="14" fill="url(#fil-bg)" />
+					{/* Back folder */}
+					<path
+						d="M10 22 Q10 18 14 18 L26 18 L28 22 L50 22 Q54 22 54 26 L54 46 Q54 50 50 50 L14 50 Q10 50 10 46 Z"
+						fill="#c07800"
+						opacity="0.7"
+					/>
+					{/* Front folder */}
+					<path
+						d="M10 28 Q10 24 14 24 L28 24 L30 28 L52 28 Q56 28 56 32 L56 50 Q56 54 52 54 L12 54 Q8 54 8 50 L8 32 Q8 28 10 28 Z"
+						fill="url(#fil-folder)"
+					/>
+					{/* Document lines */}
+					<rect x="16" y="36" width="16" height="2.5" rx="1.25" fill="rgba(0,0,0,0.25)" />
+					<rect x="16" y="41" width="24" height="2.5" rx="1.25" fill="rgba(0,0,0,0.25)" />
+					<rect x="16" y="46" width="10" height="2.5" rx="1.25" fill="rgba(0,0,0,0.25)" />
+				</svg>
+			);
+
 		case "settings":
 			return (
 				<svg viewBox="0 0 64 64" className={className} style={style}>

@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { max, uniqueId } from "lodash-es";
-import { Calculator, Chrome, Settings, Spotify, Terminal, VSCode } from "~/apps";
+import { Calculator, Chrome, Files, Settings, Spotify, Terminal, VSCode } from "~/apps";
 import type { AppComponent } from "~/types/app";
 
 export type AppIconName =
@@ -10,6 +10,7 @@ export type AppIconName =
 	| "terminal"
 	| "spotify"
 	| "settings"
+	| "files"
 	| "ubuntu-logo";
 
 export interface AllAppsState {
@@ -106,6 +107,20 @@ const initialState: AllAppsState[] = [
 		isMinimized: false,
 		position: { ...DEFAULT_POSITION },
 		size: { ...DEFAULT_SIZE },
+		maximized: false,
+		zIndex: 0,
+	},
+	{
+		id: uniqueId(),
+		title: "Files",
+		slug: "files",
+		iconName: "files",
+		isFavorite: true,
+		isOpen: false,
+		app: Files,
+		isMinimized: false,
+		position: { ...DEFAULT_POSITION },
+		size: { width: 860, height: 560 },
 		maximized: false,
 		zIndex: 0,
 	},

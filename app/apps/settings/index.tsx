@@ -4,27 +4,76 @@ import { setImage } from "~/redux/features/background-image-slice";
 import { setBrightnessLevel, setSoundLevel } from "~/redux/features/status-slice";
 import type { RootState } from "~/redux/reducers";
 
-import wallDeserr from "~/assets/images/deserr-wallpaper.webp";
-import wallStation from "~/assets/images/station-wallpaper.webp";
+import wallBlueLock from "~/assets/images/wp15944176-blue-lock-8k-pc-wallpapers.jpg";
 import wallWindowsDark from "~/assets/images/windows-dark.jpg";
 import wallWindowsLight from "~/assets/images/windows-light.jpg";
 
 const WALLPAPERS = [
 	{ label: "Windows Dark", src: wallWindowsDark },
 	{ label: "Windows Light", src: wallWindowsLight },
-	{ label: "Desert", src: wallDeserr },
-	{ label: "Station", src: wallStation },
+	{ label: "Blue Lock", src: wallBlueLock },
 ];
 
 type Section = "appearance" | "sound" | "displays" | "network" | "about";
 
-const NAV_ITEMS: { id: Section; label: string; emoji: string }[] = [
-	{ id: "appearance", label: "Appearance", emoji: "🎨" },
-	{ id: "sound", label: "Sound", emoji: "🔊" },
-	{ id: "displays", label: "Displays", emoji: "🖥️" },
-	{ id: "network", label: "Network", emoji: "📶" },
-	{ id: "about", label: "About", emoji: "ℹ️" },
+// ─── Sidebar SVG icons ────────────────────────────────────────────────────────
+
+const IconAppearance = ({ className }: { className?: string }) => (
+	<svg viewBox="0 0 20 20" fill="none" className={className}>
+		<circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
+		<path d="M6.5 13.5 Q10 6 13.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+		<path d="M7.8 11h4.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<circle cx="10" cy="5.5" r="1" fill="currentColor" />
+	</svg>
+);
+
+const IconSound = ({ className }: { className?: string }) => (
+	<svg viewBox="0 0 20 20" fill="none" className={className}>
+		<path d="M4 7.5h2.5L10 4v12l-3.5-3.5H4a.5.5 0 01-.5-.5v-4A.5.5 0 014 7.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+		<path d="M13 7a4 4 0 010 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path d="M15 5a7 7 0 010 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+	</svg>
+);
+
+const IconDisplays = ({ className }: { className?: string }) => (
+	<svg viewBox="0 0 20 20" fill="none" className={className}>
+		<rect x="2" y="3.5" width="16" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+		<path d="M7 16.5h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path d="M10 13.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path d="M7 8l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+	</svg>
+);
+
+const IconNetwork = ({ className }: { className?: string }) => (
+	<svg viewBox="0 0 20 20" fill="none" className={className}>
+		<path d="M2 7.5C5.5 4 14.5 4 18 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path d="M4.5 10C6.8 7.8 13.2 7.8 15.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path d="M7 12.5c1.5-1.5 5-1.5 6 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<circle cx="10" cy="15.5" r="1.2" fill="currentColor" />
+	</svg>
+);
+
+const IconAbout = ({ className }: { className?: string }) => (
+	<svg viewBox="0 0 20 20" fill="none" className={className}>
+		<circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
+		<path d="M10 9v5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+		<circle cx="10" cy="6.5" r="1" fill="currentColor" />
+	</svg>
+);
+
+const NAV_ITEMS: {
+	id: Section;
+	label: string;
+	Icon: React.ComponentType<{ className?: string }>;
+}[] = [
+	{ id: "appearance", label: "Appearance", Icon: IconAppearance },
+	{ id: "sound", label: "Sound", Icon: IconSound },
+	{ id: "displays", label: "Displays", Icon: IconDisplays },
+	{ id: "network", label: "Network", Icon: IconNetwork },
+	{ id: "about", label: "About", Icon: IconAbout },
 ];
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 const Settings = () => {
 	const dispatch = useDispatch();
@@ -45,21 +94,24 @@ const Settings = () => {
 					</p>
 				</div>
 				<nav className="flex-1 overflow-y-auto px-2 pb-4 space-y-0.5">
-					{NAV_ITEMS.map((item) => (
-						<button
-							key={item.id}
-							type="button"
-							onClick={() => setSection(item.id)}
-							className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all text-left ${
-								section === item.id
-									? "bg-[#e95420] text-white font-medium shadow-lg shadow-[#e95420]/20"
-									: "text-white/60 hover:bg-white/6 hover:text-white/90"
-							}`}
-						>
-							<span className="text-base leading-none">{item.emoji}</span>
-							{item.label}
-						</button>
-					))}
+					{NAV_ITEMS.map(({ id, label, Icon }) => {
+						const active = section === id;
+						return (
+							<button
+								key={id}
+								type="button"
+								onClick={() => setSection(id)}
+								className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all text-left ${
+									active
+										? "bg-[#e95420] text-white font-medium shadow-lg shadow-[#e95420]/20"
+										: "text-white/60 hover:bg-white/6 hover:text-white/90"
+								}`}
+							>
+								<Icon className="size-4 shrink-0" />
+								{label}
+							</button>
+						);
+					})}
 				</nav>
 			</aside>
 
@@ -99,7 +151,7 @@ const Settings = () => {
 	);
 };
 
-// ─── Shared components ───────────────────────────────────────────────────────
+// ─── Shared primitives ────────────────────────────────────────────────────────
 
 const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
 	<div className="mb-6">
@@ -109,7 +161,9 @@ const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }
 );
 
 const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-	<div className={`rounded-xl border border-white/8 bg-white/4 divide-y divide-white/8 ${className}`}>
+	<div
+		className={`rounded-xl border border-white/8 bg-white/4 divide-y divide-white/8 ${className}`}
+	>
 		{children}
 	</div>
 );
@@ -170,7 +224,7 @@ const Slider = ({
 	</div>
 );
 
-// ─── Sections ─────────────────────────────────────────────────────────────────
+// ─── Section: Appearance ──────────────────────────────────────────────────────
 
 const AppearanceSection = ({
 	backgroundImage,
@@ -185,7 +239,7 @@ const AppearanceSection = ({
 		<div className="space-y-6">
 			<div>
 				<p className="text-sm font-medium text-white/60 mb-3">Wallpaper</p>
-				<div className="grid grid-cols-2 gap-3">
+				<div className="grid grid-cols-3 gap-3">
 					{WALLPAPERS.map((w) => {
 						const isSelected = backgroundImage === w.src;
 						return (
@@ -199,21 +253,24 @@ const AppearanceSection = ({
 										: "border-transparent hover:border-white/30"
 								}`}
 							>
-								<img
-									src={w.src}
-									alt={w.label}
-									className="w-full h-full object-cover"
-								/>
+								<img src={w.src} alt={w.label} className="w-full h-full object-cover" />
 								<div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
 								{isSelected && (
-									<div className="absolute top-2 right-2 w-5 h-5 bg-[#e95420] rounded-full flex items-center justify-center">
-										<svg viewBox="0 0 12 12" className="w-3 h-3 fill-white">
-											<path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+									<div className="absolute top-2 right-2 w-5 h-5 bg-[#e95420] rounded-full flex items-center justify-center shadow">
+										<svg viewBox="0 0 12 12" className="w-3 h-3">
+											<path
+												d="M2 6l3 3 5-5"
+												stroke="white"
+												strokeWidth="1.5"
+												fill="none"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											/>
 										</svg>
 									</div>
 								)}
-								<div className="absolute bottom-0 inset-x-0 px-2 py-1.5 bg-gradient-to-t from-black/60 to-transparent">
-									<p className="text-xs text-white font-medium">{w.label}</p>
+								<div className="absolute bottom-0 inset-x-0 px-2 py-1.5 bg-linear-to-t from-black/70 to-transparent">
+									<p className="text-xs text-white font-medium truncate">{w.label}</p>
 								</div>
 							</button>
 						);
@@ -241,6 +298,8 @@ const AppearanceSection = ({
 	</div>
 );
 
+// ─── Section: Sound ───────────────────────────────────────────────────────────
+
 const SoundSection = ({
 	volume,
 	onVolumeChange,
@@ -249,19 +308,13 @@ const SoundSection = ({
 	onVolumeChange: (v: number) => void;
 }) => {
 	const isMuted = volume === 0;
-
 	return (
 		<div className="p-6">
 			<SectionHeader title="Sound" subtitle="Manage audio output and alerts" />
-
 			<div className="space-y-5">
 				<Card>
 					<div className="px-4 py-4 space-y-4">
-						<Slider
-							label="Output Volume"
-							value={volume}
-							onChange={onVolumeChange}
-						/>
+						<Slider label="Output Volume" value={volume} onChange={onVolumeChange} />
 					</div>
 					<CardRow>
 						<div>
@@ -274,7 +327,6 @@ const SoundSection = ({
 						/>
 					</CardRow>
 				</Card>
-
 				<Card>
 					<CardRow>
 						<div>
@@ -291,7 +343,6 @@ const SoundSection = ({
 						<span className="text-xs text-white/30">Default</span>
 					</CardRow>
 				</Card>
-
 				<Card>
 					<CardRow>
 						<div>
@@ -306,6 +357,8 @@ const SoundSection = ({
 	);
 };
 
+// ─── Section: Displays ────────────────────────────────────────────────────────
+
 const DisplaysSection = ({
 	brightness,
 	onBrightnessChange,
@@ -315,15 +368,10 @@ const DisplaysSection = ({
 }) => (
 	<div className="p-6">
 		<SectionHeader title="Displays" subtitle="Configure your display settings" />
-
 		<div className="space-y-5">
 			<Card>
 				<div className="px-4 py-4 space-y-4">
-					<Slider
-						label="Brightness"
-						value={brightness}
-						onChange={onBrightnessChange}
-					/>
+					<Slider label="Brightness" value={brightness} onChange={onBrightnessChange} />
 				</div>
 				<CardRow>
 					<div>
@@ -340,7 +388,6 @@ const DisplaysSection = ({
 					<Toggle checked={false} onChange={() => {}} />
 				</CardRow>
 			</Card>
-
 			<Card>
 				<CardRow>
 					<p className="text-sm font-medium text-white/90">Resolution</p>
@@ -359,6 +406,8 @@ const DisplaysSection = ({
 	</div>
 );
 
+// ─── Section: Network ─────────────────────────────────────────────────────────
+
 const NetworkSection = ({
 	wifiOn,
 	bluetoothOn,
@@ -376,7 +425,6 @@ const NetworkSection = ({
 }) => (
 	<div className="p-6">
 		<SectionHeader title="Network" subtitle="Manage Wi-Fi, Bluetooth, and connections" />
-
 		<div className="space-y-5">
 			<Card>
 				<CardRow>
@@ -387,7 +435,6 @@ const NetworkSection = ({
 					<Toggle checked={airplaneMode} onChange={onAirplaneModeToggle} />
 				</CardRow>
 			</Card>
-
 			<Card>
 				<CardRow>
 					<div>
@@ -399,26 +446,26 @@ const NetworkSection = ({
 					<Toggle checked={wifiOn && !airplaneMode} onChange={onWifiToggle} />
 				</CardRow>
 				{wifiOn && !airplaneMode && (
-					<div className="px-4 py-3 space-y-2">
-						{["TechCoder_5G ✓", "HomeNetwork_2.4G", "Office-WiFi"].map((net, i) => (
+					<div className="px-4 py-3 space-y-1.5">
+						{["TechCoder_5G", "HomeNetwork_2.4G", "Office-WiFi"].map((net, i) => (
 							<div
 								key={net}
-								className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm ${
+								className={`flex items-center justify-between py-1.5 px-2.5 rounded-lg text-sm ${
 									i === 0 ? "bg-white/8 text-white/90" : "text-white/40"
 								}`}
 							>
-								<span>{net}</span>
+								<div className="flex items-center gap-2">
+									<IconNetwork className="size-3.5" />
+									<span>{net}</span>
+								</div>
 								{i === 0 && (
-									<span className="text-[10px] text-[#e95420] font-medium">
-										Connected
-									</span>
+									<span className="text-[10px] text-[#e95420] font-semibold">Connected</span>
 								)}
 							</div>
 						))}
 					</div>
 				)}
 			</Card>
-
 			<Card>
 				<CardRow>
 					<div>
@@ -430,7 +477,6 @@ const NetworkSection = ({
 					<Toggle checked={bluetoothOn} onChange={onBluetoothToggle} />
 				</CardRow>
 			</Card>
-
 			<Card>
 				<CardRow>
 					<p className="text-sm font-medium text-white/90">IP Address</p>
@@ -445,19 +491,27 @@ const NetworkSection = ({
 	</div>
 );
 
+// ─── Section: About ───────────────────────────────────────────────────────────
+
 const AboutSection = () => (
 	<div className="p-6">
 		<SectionHeader title="About" subtitle="System information" />
-
 		<div className="space-y-5">
 			<div className="flex items-center gap-5 p-5 rounded-xl bg-gradient-to-br from-[#e95420]/15 to-white/4 border border-white/8">
-				<div className="w-14 h-14 rounded-2xl bg-[#e95420] flex items-center justify-center shadow-lg shadow-[#e95420]/30">
+				<div className="w-14 h-14 rounded-2xl bg-[#e95420] flex items-center justify-center shadow-lg shadow-[#e95420]/30 shrink-0">
 					<svg viewBox="0 0 64 64" className="w-9 h-9">
 						<circle cx="32" cy="32" r="30" fill="#fff" />
 						<circle cx="32" cy="14" r="5" fill="#e95420" />
 						<circle cx="16" cy="42" r="5" fill="#e95420" />
 						<circle cx="48" cy="42" r="5" fill="#e95420" />
-						<circle cx="32" cy="32" r="22" fill="none" stroke="rgba(233,84,32,0.4)" strokeWidth="2" />
+						<circle
+							cx="32"
+							cy="32"
+							r="22"
+							fill="none"
+							stroke="rgba(233,84,32,0.4)"
+							strokeWidth="2"
+						/>
 					</svg>
 				</div>
 				<div>
@@ -466,7 +520,6 @@ const AboutSection = () => (
 					<p className="text-xs text-white/30 mt-0.5">Based on Ubuntu 24.04 LTS</p>
 				</div>
 			</div>
-
 			<Card>
 				{[
 					{ label: "Kernel", value: "Linux 6.17.0-generic" },
@@ -482,7 +535,6 @@ const AboutSection = () => (
 					</CardRow>
 				))}
 			</Card>
-
 			<Card>
 				<CardRow>
 					<span className="text-sm text-white/60">Desktop Environment</span>
@@ -497,7 +549,6 @@ const AboutSection = () => (
 					<span className="text-sm text-white/90">May 3, 2026</span>
 				</CardRow>
 			</Card>
-
 			<button
 				type="button"
 				className="w-full py-2.5 rounded-xl text-sm font-medium bg-white/6 hover:bg-white/10 text-white/70 hover:text-white transition-colors border border-white/8"
