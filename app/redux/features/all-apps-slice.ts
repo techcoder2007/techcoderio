@@ -8,7 +8,8 @@ export type AppIconName =
 	| "calculator"
 	| "code"
 	| "terminal"
-	| "spotify";
+	| "spotify"
+	| "ubuntu-logo";
 
 export interface AllAppsState {
 	id: string;
@@ -22,10 +23,17 @@ export interface AllAppsState {
 		x: number;
 		y: number;
 	};
+	size: {
+		width: number;
+		height: number;
+	};
 	maximized: boolean;
 	slug: string;
 	zIndex: number;
 }
+
+const DEFAULT_SIZE = { width: 800, height: 600 };
+const DEFAULT_POSITION = { x: 100, y: 80 };
 
 const initialState: AllAppsState[] = [
 	{
@@ -37,10 +45,8 @@ const initialState: AllAppsState[] = [
 		isOpen: false,
 		app: Chrome,
 		isMinimized: false,
-		position: {
-			x: 0,
-			y: 0,
-		},
+		position: { ...DEFAULT_POSITION },
+		size: { ...DEFAULT_SIZE },
 		maximized: false,
 		zIndex: 0,
 	},
@@ -53,10 +59,8 @@ const initialState: AllAppsState[] = [
 		isOpen: false,
 		app: Calculator,
 		isMinimized: false,
-		position: {
-			x: 0,
-			y: 0,
-		},
+		position: { ...DEFAULT_POSITION },
+		size: { ...DEFAULT_SIZE },
 		maximized: false,
 		zIndex: 0,
 	},
@@ -69,10 +73,8 @@ const initialState: AllAppsState[] = [
 		isOpen: false,
 		app: VSCode,
 		isMinimized: false,
-		position: {
-			x: 0,
-			y: 0,
-		},
+		position: { ...DEFAULT_POSITION },
+		size: { ...DEFAULT_SIZE },
 		maximized: false,
 		zIndex: 0,
 	},
@@ -85,10 +87,8 @@ const initialState: AllAppsState[] = [
 		isOpen: false,
 		app: Terminal,
 		isMinimized: false,
-		position: {
-			x: 0,
-			y: 0,
-		},
+		position: { ...DEFAULT_POSITION },
+		size: { ...DEFAULT_SIZE },
 		maximized: false,
 		zIndex: 0,
 	},
@@ -101,10 +101,8 @@ const initialState: AllAppsState[] = [
 		isOpen: false,
 		app: Spotify,
 		isMinimized: false,
-		position: {
-			x: 0,
-			y: 0,
-		},
+		position: { ...DEFAULT_POSITION },
+		size: { ...DEFAULT_SIZE },
 		maximized: false,
 		zIndex: 0,
 	},
@@ -117,13 +115,23 @@ export const appApps = createSlice({
 		openApp: (state, action: PayloadAction<string>) => {
 			const findApp = state.find((app) => app.id === action.payload);
 			if (findApp) {
+				const wasOpen = findApp.isOpen;
 				findApp.isOpen = true;
 				findApp.isMinimized = false;
 				const zIndexes = state
 					.filter((app) => app.isOpen && !app.isMinimized)
 					.map((app) => app.zIndex);
-				const maxZIndex = max(zIndexes) || 0;
-				findApp.zIndex = maxZIndex + 1;
+				findApp.zIndex = (max(zIndexes) || 0) + 1;
+
+				// Only cascade on FRESH open, not when restoring a minimized window
+				if (!wasOpen) {
+					const openCount = state.filter((app) => app.isOpen).length;
+					const offset = (openCount - 1) * 30;
+					findApp.position = {
+						x: DEFAULT_POSITION.x + offset,
+						y: DEFAULT_POSITION.y + offset,
+					};
+				}
 			}
 		},
 		openAppByTitle: (state, action: PayloadAction<string>) => {
@@ -138,10 +146,8 @@ export const appApps = createSlice({
 			if (appToClose) {
 				appToClose.isOpen = false;
 				appToClose.maximized = false;
-				appToClose.position = {
-					x: 0,
-					y: 0,
-				};
+				appToClose.position = { ...DEFAULT_POSITION };
+				appToClose.size = { ...DEFAULT_SIZE };
 				appToClose.zIndex = 0;
 			}
 		},
@@ -157,6 +163,20 @@ export const appApps = createSlice({
 		) => {
 			const appToChange = state.find((app) => app.id === action.payload.id);
 			if (appToChange) {
+				appToChange.position = action.payload.position;
+			}
+		},
+		changeSize: (
+			state,
+			action: PayloadAction<{
+				id: string;
+				size: { width: number; height: number };
+				position: { x: number; y: number };
+			}>,
+		) => {
+			const appToChange = state.find((app) => app.id === action.payload.id);
+			if (appToChange) {
+				appToChange.size = action.payload.size;
 				appToChange.position = action.payload.position;
 			}
 		},
@@ -184,6 +204,7 @@ export const {
 	openApp,
 	minimizeApp,
 	changePosition,
+	changeSize,
 	maximizeApp,
 	openAppByTitle,
 	zIndexApp,
