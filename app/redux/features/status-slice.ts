@@ -10,16 +10,19 @@ const initialState = {
 	brightnessLevel: 100,
 } as StatusState;
 
+const clampPercent = (value: number, min = 0) =>
+	Math.min(100, Math.max(min, value));
+
 export const status = createSlice({
 	name: "status",
 	initialState,
 	reducers: {
 		setSoundLevel: (state, action: PayloadAction<number>) => {
-			state.soundLevel = action.payload;
+			state.soundLevel = clampPercent(action.payload);
 		},
 
 		setBrightnessLevel: (state, action: PayloadAction<number>) => {
-			state.brightnessLevel = action.payload;
+			state.brightnessLevel = clampPercent(action.payload, 10);
 		},
 	},
 });

@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,12 +71,9 @@ const Taskbar = () => {
 	const runningApps = apps.filter((app) => app.isOpen && !app.isFavorite);
 	const taskbarApps = [...favoriteApps, ...runningApps];
 
-	const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-	const date = now.toLocaleDateString([], {
-		weekday: "long",
-		month: "long",
-		day: "numeric",
-	});
+	const time = format(now, "HH:mm");
+	const date = format(now, "EEEE, MMMM d");
+	const shortDate = format(now, "dd.MM.yyyy");
 
 	return (
 		<>
@@ -85,7 +83,8 @@ const Taskbar = () => {
 					<div className="flex gap-2 items-center min-w-0">
 						<button
 							type="button"
-							className="grid relative place-items-center rounded-xl shadow-lg transition-all size-11 bg-[#e95420] shadow-[#e95420]/30 hover:-translate-y-0.5 hover:bg-[#ff6a35] active:translate-y-0"
+							style={{ backgroundColor: "var(--app-accent)" }}
+							className="grid relative place-items-center rounded-xl shadow-lg transition-all size-11 hover:-translate-y-0.5 active:translate-y-0 hover:brightness-110"
 							title="Activities"
 						>
 							<AppIcon name="ubuntu-logo" className="size-7" />
@@ -144,7 +143,7 @@ const Taskbar = () => {
 									max={100}
 									value={volume}
 									onChange={(e) => setVolume(Number(e.target.value))}
-									className="w-full accent-[#e95420]"
+									className="w-full accent-app-accent"
 								/>
 							</div>
 						)}
@@ -158,7 +157,7 @@ const Taskbar = () => {
 						>
 							<div className="leading-tight">{time}</div>
 							<div className="text-[10px] text-white/50 leading-tight">
-								{now.toLocaleDateString([], { month: "short", day: "numeric" })}
+								{shortDate}
 							</div>
 						</button>
 					</div>
@@ -269,7 +268,7 @@ const DockContextMenu = ({
 	return createPortal(
 		<div
 			style={{ top, left, width: MENU_WIDTH }}
-			className="fixed z-[9999] overflow-hidden rounded-xl border border-white/12 bg-black/85 shadow-2xl shadow-black/60 backdrop-blur-2xl"
+			className="fixed z-9999 overflow-hidden rounded-xl border border-white/12 bg-black/85 shadow-2xl shadow-black/60 backdrop-blur-2xl"
 			onMouseDown={(e) => e.stopPropagation()}
 		>
 			{/* App header */}

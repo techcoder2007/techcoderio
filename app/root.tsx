@@ -1,4 +1,5 @@
 import { Grid3X3, Monitor, Smile, Square, Terminal, Undo } from "lucide-react";
+import { useDispatch } from "react-redux";
 import {
 	isRouteErrorResponse,
 	Links,
@@ -22,6 +23,9 @@ import {
 	ContextMenuSubTrigger,
 	ContextMenuTrigger,
 } from "./components/context-menu";
+import { openAppByTitle } from "./redux/features/all-apps-slice";
+import { setSettingsSection } from "./redux/features/settings-slice";
+import { ThemeProvider } from "./providers/theme-provider";
 import { Providers } from "./redux/provider";
 import "./styles/app.css";
 
@@ -48,7 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Meta />
 				<Links />
 			</head>
-			<body className="dark">
+			<body>
 				{children}
 				<ScrollRestoration />
 				<Scripts />
@@ -57,10 +61,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export default function App() {
+function AppInner() {
+	const dispatch = useDispatch();
+
+	const handlePersonalize = () => {
+		dispatch(setSettingsSection("appearance"));
+		dispatch(openAppByTitle("settings"));
+	};
+
 	return (
-		<Providers>
-			<ContextMenu>
+		<ContextMenu>
 				<ContextMenuTrigger className="w-full h-full">
 					<Outlet />
 				</ContextMenuTrigger>
@@ -89,7 +99,7 @@ export default function App() {
 					</ContextMenuSub>
 
 					{/* Personalize */}
-					<ContextMenuItem className="flex items-center gap-2">
+					<ContextMenuItem className="flex items-center gap-2" onClick={handlePersonalize}>
 						<Monitor className="h-4 w-4" />
 						Personalize
 					</ContextMenuItem>
@@ -128,9 +138,18 @@ export default function App() {
 					<ContextMenuSeparator />
 				</ContextMenuContent>
 			</ContextMenu>
+	);
+}
+
+export default function App() {
+	return (
+		<Providers>
+			<ThemeProvider />
+			<AppInner />
 		</Providers>
 	);
 }
+
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 	let message = "Oops!";
 	let details = "An unexpected error occurred.";

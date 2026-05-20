@@ -1,41 +1,41 @@
 import { configureStore, type Reducer } from "@reduxjs/toolkit";
 import {
-  persistReducer,
-  persistStore,
-  type PersistConfig,
+	type PersistConfig,
+	persistReducer,
+	persistStore,
 } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import rootReducer from "./reducers";
 
 const createNoopStorage = () => {
-  return {
-    getItem: () => Promise.resolve(null),
-    setItem: (_key: string, value: any) => Promise.resolve(value),
-    removeItem: () => Promise.resolve(),
-  };
+	return {
+		getItem: () => Promise.resolve(null),
+		setItem: (_key: string, value: any) => Promise.resolve(value),
+		removeItem: () => Promise.resolve(),
+	};
 };
 
 const storage =
-  typeof window !== "undefined"
-    ? createWebStorage("local")
-    : createNoopStorage();
+	typeof window !== "undefined"
+		? createWebStorage("local")
+		: createNoopStorage();
 
 interface IPersistConfig extends PersistConfig<typeof rootReducer> {}
 
 const persistConfig: IPersistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["status", "backgroundImage"],
+	key: "root",
+	storage,
+	whitelist: ["status", "backgroundImage", "settings", "fileSystem"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer as Reducer);
 
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+	reducer: persistedReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+		}),
 });
 
 export type AppDispatch = typeof store.dispatch;

@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setImage } from "~/redux/features/background-image-slice";
+import {
+	type AccentColor,
+	type FontFamily,
+	type SettingsSection,
+	type ThemeMode,
+	setAccentColor,
+	setFontFamily,
+	setTheme,
+} from "~/redux/features/settings-slice";
 import { setBrightnessLevel, setSoundLevel } from "~/redux/features/status-slice";
+import { ACCENT_COLORS, FONT_FAMILIES } from "~/lib/theme-tokens";
 import type { RootState } from "~/redux/reducers";
 
 import wallBlueLock from "~/assets/images/wp15944176-blue-lock-8k-pc-wallpapers.jpg";
@@ -14,7 +24,7 @@ const WALLPAPERS = [
 	{ label: "Blue Lock", src: wallBlueLock },
 ];
 
-type Section = "appearance" | "sound" | "displays" | "network" | "about";
+type Section = SettingsSection;
 
 // ─── Sidebar SVG icons ────────────────────────────────────────────────────────
 
@@ -79,10 +89,17 @@ const Settings = () => {
 	const dispatch = useDispatch();
 	const { soundLevel, brightnessLevel } = useSelector((s: RootState) => s.status);
 	const { backgroundImage } = useSelector((s: RootState) => s.backgroundImage);
-	const [section, setSection] = useState<Section>("appearance");
+	const { section: reduxSection, theme, accentColor, fontFamily } = useSelector(
+		(s: RootState) => s.settings,
+	);
+	const [section, setSection] = useState<Section>(reduxSection);
 	const [wifiOn, setWifiOn] = useState(true);
 	const [bluetoothOn, setBluetoothOn] = useState(false);
 	const [airplaneMode, setAirplaneMode] = useState(false);
+
+	useEffect(() => {
+		setSection(reduxSection);
+	}, [reduxSection]);
 
 	return (
 		<div className="flex h-full overflow-hidden bg-[#1c1c1e] text-white select-none">
@@ -101,9 +118,10 @@ const Settings = () => {
 								key={id}
 								type="button"
 								onClick={() => setSection(id)}
+								style={active ? { backgroundColor: "var(--app-accent)" } : undefined}
 								className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all text-left ${
 									active
-										? "bg-[#e95420] text-white font-medium shadow-lg shadow-[#e95420]/20"
+										? "text-white font-medium shadow-lg"
 										: "text-white/60 hover:bg-white/6 hover:text-white/90"
 								}`}
 							>
@@ -120,7 +138,13 @@ const Settings = () => {
 				{section === "appearance" && (
 					<AppearanceSection
 						backgroundImage={backgroundImage}
+						theme={theme}
+						accentColor={accentColor}
+						fontFamily={fontFamily}
 						onSelectWallpaper={(src) => dispatch(setImage(src))}
+						onThemeChange={(t) => dispatch(setTheme(t))}
+						onAccentChange={(a) => dispatch(setAccentColor(a))}
+						onFontChange={(f) => dispatch(setFontFamily(f))}
 					/>
 				)}
 				{section === "sound" && (
@@ -161,9 +185,7 @@ const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }
 );
 
 const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-	<div
-		className={`rounded-xl border border-white/8 bg-white/4 divide-y divide-white/8 ${className}`}
-	>
+	<div className={`rounded-xl border border-white/8 bg-white/4 divide-y divide-white/8 ${className}`}>
 		{children}
 	</div>
 );
@@ -178,8 +200,9 @@ const Toggle = ({ checked, onChange }: { checked: boolean; onChange: () => void 
 		role="switch"
 		aria-checked={checked}
 		onClick={onChange}
+		style={checked ? { backgroundColor: "var(--app-accent)" } : undefined}
 		className={`relative w-10 h-6 rounded-full transition-colors duration-200 shrink-0 ${
-			checked ? "bg-[#e95420]" : "bg-white/20"
+			checked ? "" : "bg-white/20"
 		}`}
 	>
 		<span
@@ -219,82 +242,231 @@ const Slider = ({
 			max={max}
 			value={value}
 			onChange={(e) => onChange(Number(e.target.value))}
-			className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-[#e95420]"
+			className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-app-accent"
 		/>
 	</div>
 );
 
 // ─── Section: Appearance ──────────────────────────────────────────────────────
 
+const ACCENT_KEYS = Object.keys(ACCENT_COLORS) as AccentColor[];
+const FONT_KEYS = Object.keys(FONT_FAMILIES) as FontFamily[];
+
 const AppearanceSection = ({
 	backgroundImage,
+	theme,
+	accentColor,
+	fontFamily,
 	onSelectWallpaper,
+	onThemeChange,
+	onAccentChange,
+	onFontChange,
 }: {
 	backgroundImage: string;
+	theme: ThemeMode;
+	accentColor: AccentColor;
+	fontFamily: FontFamily;
 	onSelectWallpaper: (src: string) => void;
+	onThemeChange: (t: ThemeMode) => void;
+	onAccentChange: (a: AccentColor) => void;
+	onFontChange: (f: FontFamily) => void;
 }) => (
-	<div className="p-6">
+	<div className="p-6 space-y-8">
 		<SectionHeader title="Appearance" subtitle="Customize the look of your desktop" />
 
-		<div className="space-y-6">
-			<div>
-				<p className="text-sm font-medium text-white/60 mb-3">Wallpaper</p>
-				<div className="grid grid-cols-3 gap-3">
-					{WALLPAPERS.map((w) => {
-						const isSelected = backgroundImage === w.src;
-						return (
-							<button
-								key={w.src}
-								type="button"
-								onClick={() => onSelectWallpaper(w.src)}
-								className={`relative rounded-xl overflow-hidden aspect-video border-2 transition-all group ${
-									isSelected
-										? "border-[#e95420] shadow-lg shadow-[#e95420]/30"
-										: "border-transparent hover:border-white/30"
+		{/* Theme */}
+		<div>
+			<p className="text-sm font-medium text-white/60 mb-3">Theme</p>
+			<div className="grid grid-cols-2 gap-3">
+				{(["dark", "light"] as ThemeMode[]).map((t) => {
+					const active = theme === t;
+					return (
+						<button
+							key={t}
+							type="button"
+							onClick={() => onThemeChange(t)}
+							style={active ? { borderColor: "var(--app-accent)" } : undefined}
+							className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${
+								active ? "shadow-lg" : "border-white/10 hover:border-white/25"
+							}`}
+						>
+							{/* Mini preview */}
+							<div
+								className={`w-full h-14 rounded-lg overflow-hidden border border-white/10 ${
+									t === "dark" ? "bg-[#1c1c1e]" : "bg-[#f5f5f5]"
 								}`}
 							>
-								<img src={w.src} alt={w.label} className="w-full h-full object-cover" />
-								<div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-								{isSelected && (
-									<div className="absolute top-2 right-2 w-5 h-5 bg-[#e95420] rounded-full flex items-center justify-center shadow">
-										<svg viewBox="0 0 12 12" className="w-3 h-3">
-											<path
-												d="M2 6l3 3 5-5"
-												stroke="white"
-												strokeWidth="1.5"
-												fill="none"
-												strokeLinecap="round"
-												strokeLinejoin="round"
-											/>
-										</svg>
-									</div>
-								)}
-								<div className="absolute bottom-0 inset-x-0 px-2 py-1.5 bg-linear-to-t from-black/70 to-transparent">
-									<p className="text-xs text-white font-medium truncate">{w.label}</p>
+								<div
+									className={`h-3 w-full ${t === "dark" ? "bg-[#141416]" : "bg-[#e5e5e5]"}`}
+								/>
+								<div className="flex gap-1 p-1.5">
+									<div
+										className="h-6 w-8 rounded"
+										style={{ backgroundColor: "var(--app-accent)", opacity: 0.8 }}
+									/>
+									<div
+										className={`h-6 flex-1 rounded ${t === "dark" ? "bg-white/10" : "bg-black/10"}`}
+									/>
 								</div>
+							</div>
+							<span
+								className="text-xs font-medium capitalize"
+								style={active ? { color: "var(--app-accent)" } : { color: "rgba(255,255,255,0.6)" }}
+							>
+								{t === "dark" ? "Dark" : "Light"}
+							</span>
+						</button>
+					);
+				})}
+			</div>
+		</div>
+
+		{/* Accent Color */}
+		<div>
+			<p className="text-sm font-medium text-white/60 mb-3">Accent Color</p>
+			<Card>
+				<div className="flex flex-wrap gap-3 p-4">
+					{ACCENT_KEYS.map((key) => {
+						const { hex, label } = ACCENT_COLORS[key];
+						const active = accentColor === key;
+						return (
+							<button
+								key={key}
+								type="button"
+								title={label}
+								onClick={() => onAccentChange(key)}
+								style={{ backgroundColor: hex, outline: active ? `2px solid ${hex}` : undefined, outlineOffset: active ? "2px" : undefined }}
+								className={`w-7 h-7 rounded-full transition-all shrink-0 ${
+									active ? "scale-110" : "hover:scale-105 opacity-70 hover:opacity-100"
+								}`}
+							>
+								{active && (
+									<svg viewBox="0 0 12 12" className="w-3 h-3 mx-auto">
+										<path
+											d="M2 6l3 3 5-5"
+											stroke="white"
+											strokeWidth="1.8"
+											fill="none"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
+								)}
 							</button>
 						);
 					})}
 				</div>
-			</div>
-
-			<Card>
 				<CardRow>
-					<div>
-						<p className="text-sm font-medium text-white/90">Dark Mode</p>
-						<p className="text-xs text-white/40">Always active</p>
-					</div>
-					<Toggle checked={true} onChange={() => {}} />
-				</CardRow>
-				<CardRow>
-					<div>
-						<p className="text-sm font-medium text-white/90">Accent Color</p>
-						<p className="text-xs text-white/40">Ubuntu Orange</p>
-					</div>
-					<div className="w-5 h-5 rounded-full bg-[#e95420] shadow-md shadow-[#e95420]/40" />
+					<span className="text-sm text-white/60">Selected</span>
+					<span className="text-sm font-medium" style={{ color: "var(--app-accent)" }}>
+						{ACCENT_COLORS[accentColor].label}
+					</span>
 				</CardRow>
 			</Card>
 		</div>
+
+		{/* Font Family */}
+		<div>
+			<p className="text-sm font-medium text-white/60 mb-3">Interface Font</p>
+			<Card>
+				{FONT_KEYS.map((key) => {
+					const { stack, label } = FONT_FAMILIES[key];
+					const active = fontFamily === key;
+					return (
+						<button
+							key={key}
+							type="button"
+							onClick={() => onFontChange(key)}
+							className={`w-full flex items-center justify-between px-4 py-3 transition-colors text-left ${
+								active ? "bg-white/5" : "hover:bg-white/3"
+							}`}
+						>
+							<div>
+								<p className="text-sm text-white/90" style={{ fontFamily: stack }}>
+									{label}
+								</p>
+								<p className="text-xs text-white/30 mt-0.5 font-mono truncate max-w-[220px]">
+									{stack}
+								</p>
+							</div>
+							{active && (
+								<svg
+									viewBox="0 0 12 12"
+									className="w-4 h-4 shrink-0"
+									style={{ color: "var(--app-accent)" }}
+								>
+									<path
+										d="M2 6l3 3 5-5"
+										stroke="currentColor"
+										strokeWidth="1.8"
+										fill="none"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									/>
+								</svg>
+							)}
+						</button>
+					);
+				})}
+			</Card>
+		</div>
+
+		{/* Wallpaper */}
+		<div>
+			<p className="text-sm font-medium text-white/60 mb-3">Wallpaper</p>
+			<div className="grid grid-cols-3 gap-3">
+				{WALLPAPERS.map((w) => {
+					const isSelected = backgroundImage === w.src;
+					return (
+						<button
+							key={w.src}
+							type="button"
+							onClick={() => onSelectWallpaper(w.src)}
+							style={isSelected ? { borderColor: "var(--app-accent)" } : undefined}
+							className={`relative rounded-xl overflow-hidden aspect-video border-2 transition-all group ${
+								isSelected ? "shadow-lg" : "border-transparent hover:border-white/30"
+							}`}
+						>
+							<img src={w.src} alt={w.label} className="w-full h-full object-cover" />
+							<div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+							{isSelected && (
+								<div
+									className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center shadow"
+									style={{ backgroundColor: "var(--app-accent)" }}
+								>
+									<svg viewBox="0 0 12 12" className="w-3 h-3">
+										<path
+											d="M2 6l3 3 5-5"
+											stroke="white"
+											strokeWidth="1.5"
+											fill="none"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
+								</div>
+							)}
+							<div className="absolute bottom-0 inset-x-0 px-2 py-1.5 bg-linear-to-t from-black/70 to-transparent">
+								<p className="text-xs text-white font-medium truncate">{w.label}</p>
+							</div>
+						</button>
+					);
+				})}
+			</div>
+		</div>
+
+		{/* Dark Mode lock card */}
+		<Card>
+			<CardRow>
+				<div>
+					<p className="text-sm font-medium text-white/90">Dark Mode</p>
+					<p className="text-xs text-white/40">
+						{theme === "dark" ? "Currently active" : "Currently inactive"}
+					</p>
+				</div>
+				<Toggle checked={theme === "dark"} onChange={() => onThemeChange(theme === "dark" ? "light" : "dark")} />
+			</CardRow>
+		</Card>
 	</div>
 );
 
@@ -459,7 +631,9 @@ const NetworkSection = ({
 									<span>{net}</span>
 								</div>
 								{i === 0 && (
-									<span className="text-[10px] text-[#e95420] font-semibold">Connected</span>
+									<span className="text-[10px] font-semibold" style={{ color: "var(--app-accent)" }}>
+										Connected
+									</span>
 								)}
 							</div>
 						))}
@@ -497,21 +671,17 @@ const AboutSection = () => (
 	<div className="p-6">
 		<SectionHeader title="About" subtitle="System information" />
 		<div className="space-y-5">
-			<div className="flex items-center gap-5 p-5 rounded-xl bg-gradient-to-br from-[#e95420]/15 to-white/4 border border-white/8">
-				<div className="w-14 h-14 rounded-2xl bg-[#e95420] flex items-center justify-center shadow-lg shadow-[#e95420]/30 shrink-0">
+			<div className="flex items-center gap-5 p-5 rounded-xl bg-linear-to-br from-(--app-accent)/15 to-white/4 border border-white/8">
+				<div
+					className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shrink-0"
+					style={{ backgroundColor: "var(--app-accent)" }}
+				>
 					<svg viewBox="0 0 64 64" className="w-9 h-9">
 						<circle cx="32" cy="32" r="30" fill="#fff" />
-						<circle cx="32" cy="14" r="5" fill="#e95420" />
-						<circle cx="16" cy="42" r="5" fill="#e95420" />
-						<circle cx="48" cy="42" r="5" fill="#e95420" />
-						<circle
-							cx="32"
-							cy="32"
-							r="22"
-							fill="none"
-							stroke="rgba(233,84,32,0.4)"
-							strokeWidth="2"
-						/>
+						<circle cx="32" cy="14" r="5" fill="var(--app-accent)" />
+						<circle cx="16" cy="42" r="5" fill="var(--app-accent)" />
+						<circle cx="48" cy="42" r="5" fill="var(--app-accent)" />
+						<circle cx="32" cy="32" r="22" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
 					</svg>
 				</div>
 				<div>

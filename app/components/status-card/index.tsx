@@ -9,6 +9,8 @@ import {
 	Settings,
 	Wifi,
 } from "~/icons";
+import { openAppByTitle } from "~/redux/features/all-apps-slice";
+import { setSettingsSection } from "~/redux/features/settings-slice";
 import {
 	setBrightnessLevel,
 	setSoundLevel,
@@ -75,7 +77,8 @@ const StatusCard = () => {
 	const handleLock = () => {};
 
 	const handleSettings = () => {
-		console.log("Opening system settings...");
+		dispatch(setSettingsSection("displays"));
+		dispatch(openAppByTitle("settings"));
 	};
 
 	return (

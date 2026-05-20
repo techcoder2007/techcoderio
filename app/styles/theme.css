@@ -7,6 +7,7 @@
 }
 
 :root {
+	--app-accent: #e95420;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.129 0.042 264.695);
 	--card: oklch(1 0 0);
@@ -31,6 +32,7 @@
 }
 
 .dark {
+	--app-accent: #e95420;
 	--background: oklch(0.129 0.042 264.695);
 	--foreground: oklch(0.984 0.003 247.858);
 	--card: oklch(0.129 0.042 264.695);
@@ -79,4 +81,5 @@
 	--radius-xl: calc(var(--radius) + 4px);
 	--w-240: 60rem;
 	--pale-white: var(--pale-white);
+	--color-app-accent: var(--app-accent);
 }

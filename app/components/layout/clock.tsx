@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { Bell, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Calendar } from "../core/calendar";
@@ -42,17 +43,8 @@ export function Clock() {
 		return `${Math.floor(mins / 60)}h ago`;
 	};
 
-	const timeAMPM = time.toLocaleString("en-US", {
-		hour: "numeric",
-		minute: "2-digit",
-		hour12: true,
-	});
-
-	const fullDate = time.toLocaleDateString("en-US", {
-		weekday: "long",
-		month: "long",
-		day: "numeric",
-	});
+	const timeAMPM = format(time, "h:mm a");
+	const fullDate = format(time, "EEEE, MMMM d");
 
 	return (
 		<Popover>
