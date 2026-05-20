@@ -1,19 +1,13 @@
 import { format } from "date-fns";
 import type { ReactNode } from "react";
-import {
-	Modal,
-	ModalContent,
-	ModalHeader,
-	ModalTitle,
-	ModalTrigger,
-} from "@/components/ui/responsive-modal";
-import { useCalendar } from "@/features/calendar/contexts/calendar-context";
-import { EventDetailsDialog } from "@/features/calendar/dialogs/event-details-dialog";
-import { formatTime } from "@/features/calendar/helpers";
-import type { IEvent } from "@/features/calendar/interfaces";
-import { dayCellVariants } from "@/features/calendar/views/month-view/day-cell";
-import { EventBullet } from "@/features/calendar/views/month-view/event-bullet";
-import { cn } from "@/lib/utils";
+import { Modal, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "~/components/responsive-modal";
+import { EventDetailsDialog } from "./event-details-dialog";
+import { EventBullet } from "../views/month-view/event-bullet";
+import { dayCellVariants } from "../views/month-view/day-cell";
+import { cn } from "~/utils/core";
+import { formatTime } from "../helpers";
+import type { IEvent } from "../interfaces";
+import { useCalendar } from "../contexts/calendar-context";
 
 interface EventListDialogProps {
 	date: Date;
