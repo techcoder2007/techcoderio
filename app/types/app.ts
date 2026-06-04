@@ -6,13 +6,21 @@ export interface AppProps {
 }
 
 // Individual app prop types based on actual component requirements
-export interface CalculatorProps {}
+export interface CalculatorProps {
+  id?: string;
+}
 
 export interface ChromeProps {
   id?: string;
 }
 
-export interface SpotifyProps {}
+export interface CalendarProps {
+  id?: string;
+}
+
+export interface SpotifyProps {
+  id?: string;
+}
 
 export interface TerminalProps {
   id?: string;
@@ -25,6 +33,7 @@ export interface VSCodeProps {
 // Create a union type of all possible app component types
 export type AppComponent =
   | ComponentType<CalculatorProps>
+  | ComponentType<CalendarProps>
   | ComponentType<ChromeProps>
   | ComponentType<SpotifyProps>
   | ComponentType<TerminalProps>
@@ -36,6 +45,7 @@ export type ComponentProps<T> = T extends ComponentType<infer P> ? P : never;
 // Map of app names to their prop types
 export interface AppPropTypes {
   calculator: CalculatorProps;
+  calendar: CalendarProps;
   chrome: ChromeProps;
   spotify: SpotifyProps;
   terminal: TerminalProps;
@@ -45,6 +55,7 @@ export interface AppPropTypes {
 // Map of app names to their components
 export interface AppComponents {
   calculator: ComponentType<CalculatorProps>;
+  calendar: ComponentType<CalendarProps>;
   chrome: ComponentType<ChromeProps>;
   spotify: ComponentType<SpotifyProps>;
   terminal: ComponentType<TerminalProps>;
@@ -54,6 +65,7 @@ export interface AppComponents {
 // Type-safe app registry
 export const APP_COMPONENTS: AppComponents = {
   calculator: () => null, // Will be replaced with actual imports
+  calendar: () => null,
   chrome: () => null,
   spotify: () => null,
   terminal: () => null,

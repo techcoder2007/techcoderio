@@ -1,3 +1,4 @@
+export { Calendar } from "./calendar";
 export { Calculator } from "./calculator";
 export { Chrome } from "./chrome";
 export { Files } from "./files";

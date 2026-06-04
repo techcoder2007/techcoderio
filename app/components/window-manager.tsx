@@ -111,7 +111,7 @@ const Window = ({
 		frameRef.current = null;
 	};
 
-	const clampPosition = (x: number, y: number, w = width, h = height) => {
+	const clampPosition = (x: number, y: number, w = width) => {
 		const vw = window.innerWidth;
 		const vh = window.innerHeight;
 		return {

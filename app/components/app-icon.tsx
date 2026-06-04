@@ -212,6 +212,42 @@ const AppIcon = ({ name, className, style }: AppIconProps) => {
 				</svg>
 			);
 
+		case "calendar":
+			return (
+				<svg viewBox="0 0 64 64" className={className} style={style}>
+					<defs>
+						<linearGradient id="cal-bg" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0" stopColor="#4f8cff" />
+							<stop offset="1" stopColor="#2c4bd6" />
+						</linearGradient>
+						<linearGradient id="cal-page" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0" stopColor="#ffffff" />
+							<stop offset="1" stopColor="#dbe7ff" />
+						</linearGradient>
+					</defs>
+					<rect width="64" height="64" rx="14" fill="url(#cal-bg)" />
+					<rect x="12" y="15" width="40" height="38" rx="6" fill="url(#cal-page)" />
+					<rect x="12" y="15" width="40" height="12" rx="6" fill="#ff5f57" />
+					<path d="M12 23h40v6H12z" fill="#ff5f57" />
+					<rect x="21" y="9" width="4" height="12" rx="2" fill="#f8fbff" />
+					<rect x="39" y="9" width="4" height="12" rx="2" fill="#f8fbff" />
+					{[0, 1, 2].map((row) =>
+						[0, 1, 2, 3].map((col) => (
+							<rect
+								key={`cal-${row}-${col}`}
+								x={18 + col * 8}
+								y={33 + row * 6}
+								width="4"
+								height="3.5"
+								rx="1"
+								fill={row === 1 && col === 2 ? "#2c4bd6" : "#8aa0c8"}
+								opacity={row === 1 && col === 2 ? 1 : 0.75}
+							/>
+						)),
+					)}
+				</svg>
+			);
+
 		case "files":
 			return (
 				<svg viewBox="0 0 64 64" className={className} style={style}>

@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "~/components/core/skeleton";
 
 const MONTHS = Array.from({ length: 12 });
 

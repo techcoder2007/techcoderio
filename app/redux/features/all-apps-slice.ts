@@ -1,10 +1,20 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { max, uniqueId } from "lodash-es";
-import { Calculator, Chrome, Files, Settings, Spotify, Terminal, VSCode } from "~/apps";
+import {
+	Calendar,
+	Calculator,
+	Chrome,
+	Files,
+	Settings,
+	Spotify,
+	Terminal,
+	VSCode,
+} from "~/apps";
 import type { AppComponent } from "~/types/app";
 
 export type AppIconName =
 	| "chrome"
+	| "calendar"
 	| "calculator"
 	| "code"
 	| "terminal"
@@ -65,6 +75,20 @@ const initialState: AllAppsState[] = [
 		isMinimized: false,
 		position: { ...DEFAULT_POSITION },
 		size: { ...DEFAULT_SIZE },
+		maximized: false,
+		zIndex: 0,
+	},
+	{
+		id: uniqueId(),
+		title: "Calendar",
+		slug: "calendar",
+		iconName: "calendar",
+		isFavorite: true,
+		isOpen: false,
+		app: Calendar,
+		isMinimized: false,
+		position: { ...DEFAULT_POSITION },
+		size: { width: 1040, height: 680 },
 		maximized: false,
 		zIndex: 0,
 	},
