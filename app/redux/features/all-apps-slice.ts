@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { max, uniqueId } from "lodash-es";
 import {
-	Calendar,
 	Calculator,
+	Calendar,
 	Chrome,
 	Files,
 	Settings,

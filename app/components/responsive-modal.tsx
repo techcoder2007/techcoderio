@@ -116,13 +116,13 @@ const ModalDescription = (props: DialogPrimitive.DialogDescriptionProps) => (
 
 export {
 	Modal,
-	ModalPortal,
-	ModalOverlay,
-	ModalTrigger,
 	ModalClose,
 	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalTitle,
 	ModalDescription,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	ModalPortal,
+	ModalTitle,
+	ModalTrigger,
 };

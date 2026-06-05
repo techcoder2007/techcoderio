@@ -1,5 +1,5 @@
-export { Calendar } from "./calendar";
 export { Calculator } from "./calculator";
+export { Calendar } from "./calendar";
 export { Chrome } from "./chrome";
 export { Files } from "./files";
 export { Settings } from "./settings";

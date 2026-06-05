@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import wallWindowsDark from "~/assets/images/windows-dark.jpg";
+import wallWindowsLight from "~/assets/images/windows-light.jpg";
+import wallBlueLock from "~/assets/images/wp15944176-blue-lock-8k-pc-wallpapers.jpg";
+import { ACCENT_COLORS, FONT_FAMILIES } from "~/lib/theme-tokens";
 import { setImage } from "~/redux/features/background-image-slice";
 import {
 	type AccentColor,
 	type FontFamily,
 	type SettingsSection,
-	type ThemeMode,
 	setAccentColor,
 	setFontFamily,
 	setTheme,
+	type ThemeMode,
 } from "~/redux/features/settings-slice";
-import { setBrightnessLevel, setSoundLevel } from "~/redux/features/status-slice";
-import { ACCENT_COLORS, FONT_FAMILIES } from "~/lib/theme-tokens";
+import {
+	setBrightnessLevel,
+	setSoundLevel,
+} from "~/redux/features/status-slice";
 import type { RootState } from "~/redux/reducers";
-
-import wallBlueLock from "~/assets/images/wp15944176-blue-lock-8k-pc-wallpapers.jpg";
-import wallWindowsDark from "~/assets/images/windows-dark.jpg";
-import wallWindowsLight from "~/assets/images/windows-light.jpg";
 
 const WALLPAPERS = [
 	{ label: "Windows Dark", src: wallWindowsDark },
@@ -31,34 +33,99 @@ type Section = SettingsSection;
 const IconAppearance = ({ className }: { className?: string }) => (
 	<svg viewBox="0 0 20 20" fill="none" className={className}>
 		<circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
-		<path d="M6.5 13.5 Q10 6 13.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-		<path d="M7.8 11h4.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path
+			d="M6.5 13.5 Q10 6 13.5 13.5"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="M7.8 11h4.4"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
 		<circle cx="10" cy="5.5" r="1" fill="currentColor" />
 	</svg>
 );
 
 const IconSound = ({ className }: { className?: string }) => (
 	<svg viewBox="0 0 20 20" fill="none" className={className}>
-		<path d="M4 7.5h2.5L10 4v12l-3.5-3.5H4a.5.5 0 01-.5-.5v-4A.5.5 0 014 7.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-		<path d="M13 7a4 4 0 010 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-		<path d="M15 5a7 7 0 010 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path
+			d="M4 7.5h2.5L10 4v12l-3.5-3.5H4a.5.5 0 01-.5-.5v-4A.5.5 0 014 7.5z"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="M13 7a4 4 0 010 6"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
+		<path
+			d="M15 5a7 7 0 010 10"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
 	</svg>
 );
 
 const IconDisplays = ({ className }: { className?: string }) => (
 	<svg viewBox="0 0 20 20" fill="none" className={className}>
-		<rect x="2" y="3.5" width="16" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-		<path d="M7 16.5h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-		<path d="M10 13.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-		<path d="M7 8l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+		<rect
+			x="2"
+			y="3.5"
+			width="16"
+			height="10"
+			rx="1.5"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		/>
+		<path
+			d="M7 16.5h6"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
+		<path
+			d="M10 13.5v3"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
+		<path
+			d="M7 8l2 2 4-4"
+			stroke="currentColor"
+			strokeWidth="1.4"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
 	</svg>
 );
 
 const IconNetwork = ({ className }: { className?: string }) => (
 	<svg viewBox="0 0 20 20" fill="none" className={className}>
-		<path d="M2 7.5C5.5 4 14.5 4 18 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-		<path d="M4.5 10C6.8 7.8 13.2 7.8 15.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-		<path d="M7 12.5c1.5-1.5 5-1.5 6 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+		<path
+			d="M2 7.5C5.5 4 14.5 4 18 7.5"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
+		<path
+			d="M4.5 10C6.8 7.8 13.2 7.8 15.5 10"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
+		<path
+			d="M7 12.5c1.5-1.5 5-1.5 6 0"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+		/>
 		<circle cx="10" cy="15.5" r="1.2" fill="currentColor" />
 	</svg>
 );
@@ -66,7 +133,12 @@ const IconNetwork = ({ className }: { className?: string }) => (
 const IconAbout = ({ className }: { className?: string }) => (
 	<svg viewBox="0 0 20 20" fill="none" className={className}>
 		<circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
-		<path d="M10 9v5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+		<path
+			d="M10 9v5"
+			stroke="currentColor"
+			strokeWidth="1.8"
+			strokeLinecap="round"
+		/>
 		<circle cx="10" cy="6.5" r="1" fill="currentColor" />
 	</svg>
 );
@@ -87,11 +159,16 @@ const NAV_ITEMS: {
 
 const Settings = () => {
 	const dispatch = useDispatch();
-	const { soundLevel, brightnessLevel } = useSelector((s: RootState) => s.status);
-	const { backgroundImage } = useSelector((s: RootState) => s.backgroundImage);
-	const { section: reduxSection, theme, accentColor, fontFamily } = useSelector(
-		(s: RootState) => s.settings,
+	const { soundLevel, brightnessLevel } = useSelector(
+		(s: RootState) => s.status,
 	);
+	const { backgroundImage } = useSelector((s: RootState) => s.backgroundImage);
+	const {
+		section: reduxSection,
+		theme,
+		accentColor,
+		fontFamily,
+	} = useSelector((s: RootState) => s.settings);
 	const [section, setSection] = useState<Section>(reduxSection);
 	const [wifiOn, setWifiOn] = useState(true);
 	const [bluetoothOn, setBluetoothOn] = useState(false);
@@ -177,15 +254,29 @@ const Settings = () => {
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
-const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
+const SectionHeader = ({
+	title,
+	subtitle,
+}: {
+	title: string;
+	subtitle?: string;
+}) => (
 	<div className="mb-6">
 		<h2 className="text-lg font-semibold text-white">{title}</h2>
 		{subtitle && <p className="text-sm text-white/40 mt-0.5">{subtitle}</p>}
 	</div>
 );
 
-const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-	<div className={`rounded-xl border border-white/8 bg-white/4 divide-y divide-white/8 ${className}`}>
+const Card = ({
+	children,
+	className = "",
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) => (
+	<div
+		className={`rounded-xl border border-white/8 bg-white/4 divide-y divide-white/8 ${className}`}
+	>
 		{children}
 	</div>
 );
@@ -194,7 +285,13 @@ const CardRow = ({ children }: { children: React.ReactNode }) => (
 	<div className="flex items-center justify-between px-4 py-3">{children}</div>
 );
 
-const Toggle = ({ checked, onChange }: { checked: boolean; onChange: () => void }) => (
+const Toggle = ({
+	checked,
+	onChange,
+}: {
+	checked: boolean;
+	onChange: () => void;
+}) => (
 	<button
 		type="button"
 		role="switch"
@@ -272,7 +369,10 @@ const AppearanceSection = ({
 	onFontChange: (f: FontFamily) => void;
 }) => (
 	<div className="p-6 space-y-8">
-		<SectionHeader title="Appearance" subtitle="Customize the look of your desktop" />
+		<SectionHeader
+			title="Appearance"
+			subtitle="Customize the look of your desktop"
+		/>
 
 		{/* Theme */}
 		<div>
@@ -311,7 +411,11 @@ const AppearanceSection = ({
 							</div>
 							<span
 								className="text-xs font-medium capitalize"
-								style={active ? { color: "var(--app-accent)" } : { color: "rgba(255,255,255,0.6)" }}
+								style={
+									active
+										? { color: "var(--app-accent)" }
+										: { color: "rgba(255,255,255,0.6)" }
+								}
 							>
 								{t === "dark" ? "Dark" : "Light"}
 							</span>
@@ -335,7 +439,11 @@ const AppearanceSection = ({
 								type="button"
 								title={label}
 								onClick={() => onAccentChange(key)}
-								style={{ backgroundColor: hex, outline: active ? `2px solid ${hex}` : undefined, outlineOffset: active ? "2px" : undefined }}
+								style={{
+									backgroundColor: hex,
+									outline: active ? `2px solid ${hex}` : undefined,
+									outlineOffset: active ? "2px" : undefined,
+								}}
 								className={`w-7 h-7 rounded-full transition-all shrink-0 ${
 									active ? "scale-110" : "hover:scale-105 opacity-70 hover:opacity-100"
 								}`}
@@ -358,7 +466,10 @@ const AppearanceSection = ({
 				</div>
 				<CardRow>
 					<span className="text-sm text-white/60">Selected</span>
-					<span className="text-sm font-medium" style={{ color: "var(--app-accent)" }}>
+					<span
+						className="text-sm font-medium"
+						style={{ color: "var(--app-accent)" }}
+					>
 						{ACCENT_COLORS[accentColor].label}
 					</span>
 				</CardRow>
@@ -464,7 +575,10 @@ const AppearanceSection = ({
 						{theme === "dark" ? "Currently active" : "Currently inactive"}
 					</p>
 				</div>
-				<Toggle checked={theme === "dark"} onChange={() => onThemeChange(theme === "dark" ? "light" : "dark")} />
+				<Toggle
+					checked={theme === "dark"}
+					onChange={() => onThemeChange(theme === "dark" ? "light" : "dark")}
+				/>
 			</CardRow>
 		</Card>
 	</div>
@@ -543,7 +657,11 @@ const DisplaysSection = ({
 		<div className="space-y-5">
 			<Card>
 				<div className="px-4 py-4 space-y-4">
-					<Slider label="Brightness" value={brightness} onChange={onBrightnessChange} />
+					<Slider
+						label="Brightness"
+						value={brightness}
+						onChange={onBrightnessChange}
+					/>
 				</div>
 				<CardRow>
 					<div>
@@ -596,7 +714,10 @@ const NetworkSection = ({
 	onAirplaneModeToggle: () => void;
 }) => (
 	<div className="p-6">
-		<SectionHeader title="Network" subtitle="Manage Wi-Fi, Bluetooth, and connections" />
+		<SectionHeader
+			title="Network"
+			subtitle="Manage Wi-Fi, Bluetooth, and connections"
+		/>
 		<div className="space-y-5">
 			<Card>
 				<CardRow>
@@ -631,7 +752,10 @@ const NetworkSection = ({
 									<span>{net}</span>
 								</div>
 								{i === 0 && (
-									<span className="text-[10px] font-semibold" style={{ color: "var(--app-accent)" }}>
+									<span
+										className="text-[10px] font-semibold"
+										style={{ color: "var(--app-accent)" }}
+									>
 										Connected
 									</span>
 								)}
@@ -681,7 +805,14 @@ const AboutSection = () => (
 						<circle cx="32" cy="14" r="5" fill="var(--app-accent)" />
 						<circle cx="16" cy="42" r="5" fill="var(--app-accent)" />
 						<circle cx="48" cy="42" r="5" fill="var(--app-accent)" />
-						<circle cx="32" cy="32" r="22" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
+						<circle
+							cx="32"
+							cy="32"
+							r="22"
+							fill="none"
+							stroke="rgba(255,255,255,0.4)"
+							strokeWidth="2"
+						/>
 					</svg>
 				</div>
 				<div>

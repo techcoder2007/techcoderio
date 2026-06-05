@@ -142,4 +142,5 @@ const Settings = (props: SettingsProps) => (
 		</g>
 	</svg>
 );
+
 export { Settings };

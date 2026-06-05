@@ -25,10 +25,7 @@ const TASKBAR_HEIGHT = 80;
 const ANIMATION_DURATION = 280;
 const GENIE_DURATION = 550;
 
-type ResizeDirection =
-	| "n" | "s" | "e" | "w"
-	| "ne" | "nw" | "se" | "sw"
-	| null;
+type ResizeDirection = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | null;
 type WindowAnimation = "opening" | "closing" | null;
 
 const WindowManager = () => {
@@ -65,7 +62,10 @@ interface WindowProps {
 	onMaximize: () => void;
 	onFocus: () => void;
 	onDrag: (p: { x: number; y: number }) => void;
-	onResize: (s: { width: number; height: number }, p: { x: number; y: number }) => void;
+	onResize: (
+		s: { width: number; height: number },
+		p: { x: number; y: number },
+	) => void;
 }
 
 const Window = ({
@@ -84,7 +84,14 @@ const Window = ({
 	const [hoverControls, setHoverControls] = useState(false);
 
 	const dragOffset = useRef({ x: 0, y: 0 });
-	const resizeStart = useRef({ x: 0, y: 0, width: 0, height: 0, posX: 0, posY: 0 });
+	const resizeStart = useRef({
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		posX: 0,
+		posY: 0,
+	});
 	const frameRef = useRef<number | null>(null);
 	const pendingUpdate = useRef<{
 		position?: { x: number; y: number };
@@ -183,19 +190,24 @@ const Window = ({
 		let nh = resizeStart.current.height;
 		let nx = resizeStart.current.posX;
 		let ny = resizeStart.current.posY;
-		if (resizeDir.includes("e")) nw = Math.max(MIN_WIDTH, resizeStart.current.width + dx);
+		if (resizeDir.includes("e"))
+			nw = Math.max(MIN_WIDTH, resizeStart.current.width + dx);
 		if (resizeDir.includes("w")) {
 			nw = Math.max(MIN_WIDTH, resizeStart.current.width - dx);
 			nx = resizeStart.current.posX + (resizeStart.current.width - nw);
 		}
-		if (resizeDir.includes("s")) nh = Math.max(MIN_HEIGHT, resizeStart.current.height + dy);
+		if (resizeDir.includes("s"))
+			nh = Math.max(MIN_HEIGHT, resizeStart.current.height + dy);
 		if (resizeDir.includes("n")) {
 			nh = Math.max(MIN_HEIGHT, resizeStart.current.height - dy);
 			ny = resizeStart.current.posY + (resizeStart.current.height - nh);
 		}
 		nw = Math.min(nw, window.innerWidth - nx);
 		nh = Math.min(nh, window.innerHeight - TASKBAR_HEIGHT - ny);
-		pendingUpdate.current = { size: { width: nw, height: nh }, position: { x: nx, y: ny } };
+		pendingUpdate.current = {
+			size: { width: nw, height: nh },
+			position: { x: nx, y: ny },
+		};
 		if (!frameRef.current) frameRef.current = requestAnimationFrame(flushUpdate);
 	};
 	const stopResizing = () => {
@@ -226,8 +238,12 @@ const Window = ({
 		const winH = app.maximized ? window.innerHeight - TASKBAR_HEIGHT : height;
 
 		// Dock target — fallback to bottom-center if no icon registered
-		const dockX = dockRect ? dockRect.left + dockRect.width / 2 : window.innerWidth / 2;
-		const dockY = dockRect ? dockRect.top + dockRect.height / 2 : window.innerHeight - 30;
+		const dockX = dockRect
+			? dockRect.left + dockRect.width / 2
+			: window.innerWidth / 2;
+		const dockY = dockRect
+			? dockRect.top + dockRect.height / 2
+			: window.innerHeight - 30;
 
 		// Translation: from window's bottom-center to dock-center
 		// Scale origin will be 50% 100% so the window shrinks toward its bottom edge
@@ -363,8 +379,11 @@ const Window = ({
 						>
 							<svg
 								className={`w-2 h-2 text-red-900 transition-opacity ${hoverControls ? "opacity-100" : "opacity-0"}`}
-								viewBox="0 0 8 8" fill="none" stroke="currentColor"
-								strokeWidth="1.5" strokeLinecap="round"
+								viewBox="0 0 8 8"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="1.5"
+								strokeLinecap="round"
 							>
 								<path d="M2 2 L6 6 M6 2 L2 6" />
 							</svg>
@@ -377,8 +396,11 @@ const Window = ({
 						>
 							<svg
 								className={`w-2 h-2 text-yellow-900 transition-opacity ${hoverControls ? "opacity-100" : "opacity-0"}`}
-								viewBox="0 0 8 8" fill="none" stroke="currentColor"
-								strokeWidth="1.5" strokeLinecap="round"
+								viewBox="0 0 8 8"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="1.5"
+								strokeLinecap="round"
 							>
 								<path d="M1.5 4 L6.5 4" />
 							</svg>
@@ -391,7 +413,8 @@ const Window = ({
 						>
 							<svg
 								className={`w-2 h-2 text-green-900 transition-opacity ${hoverControls ? "opacity-100" : "opacity-0"}`}
-								viewBox="0 0 8 8" fill="currentColor"
+								viewBox="0 0 8 8"
+								fill="currentColor"
 							>
 								<path d="M2 2 L4 2 L2 4 Z M6 6 L4 6 L6 4 Z" />
 							</svg>
@@ -413,14 +436,62 @@ const Window = ({
 
 				{!app.maximized && (
 					<>
-						<div onPointerDown={(e) => handleResizePointerDown(e, "n")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute top-0 right-2 left-2 h-1 cursor-n-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "s")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute right-2 bottom-0 left-2 h-1 cursor-s-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "w")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute top-2 bottom-2 left-0 w-1 cursor-w-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "e")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute top-2 right-0 bottom-2 w-1 cursor-e-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "nw")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "ne")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "sw")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize touch-none" />
-						<div onPointerDown={(e) => handleResizePointerDown(e, "se")} onPointerMove={handleResizePointerMove} onPointerUp={stopResizing} onPointerCancel={stopResizing} className="absolute right-0 bottom-0 w-3 h-3 cursor-se-resize touch-none" />
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "n")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute top-0 right-2 left-2 h-1 cursor-n-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "s")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute right-2 bottom-0 left-2 h-1 cursor-s-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "w")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute top-2 bottom-2 left-0 w-1 cursor-w-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "e")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute top-2 right-0 bottom-2 w-1 cursor-e-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "nw")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "ne")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "sw")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize touch-none"
+						/>
+						<div
+							onPointerDown={(e) => handleResizePointerDown(e, "se")}
+							onPointerMove={handleResizePointerMove}
+							onPointerUp={stopResizing}
+							onPointerCancel={stopResizing}
+							className="absolute right-0 bottom-0 w-3 h-3 cursor-se-resize touch-none"
+						/>
 					</>
 				)}
 			</div>

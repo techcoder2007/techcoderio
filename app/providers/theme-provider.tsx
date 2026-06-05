@@ -4,7 +4,9 @@ import { ACCENT_COLORS, FONT_FAMILIES } from "~/lib/theme-tokens";
 import type { RootState } from "~/redux/reducers";
 
 export function ThemeProvider() {
-	const { theme, accentColor, fontFamily } = useSelector((s: RootState) => s.settings);
+	const { theme, accentColor, fontFamily } = useSelector(
+		(s: RootState) => s.settings,
+	);
 
 	useEffect(() => {
 		const root = document.documentElement;

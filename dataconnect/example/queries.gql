@@ -1,41 +1,57 @@
 # Query to retrieve all projects, ordered by displayOrder
-query GetAllProjects @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public as it retrieves public project information.") {
-  projects(orderBy: [{displayOrder: ASC}]) {
-    id
-    title
-    description
-    displayOrder
-    technologiesUsed
-    githubLink
-    liveDemoLink
-    codeSnippet
-  }
+query GetAllProjects
+@auth(
+	level: PUBLIC
+	insecureReason: "This operation is safe to expose to the public as it retrieves public project information."
+) {
+	projects(orderBy: [{ displayOrder: ASC }]) {
+		id
+		title
+		description
+		displayOrder
+		technologiesUsed
+		githubLink
+		liveDemoLink
+		codeSnippet
+	}
 }
 
 # Query to retrieve a single project by its ID
-query GetProjectById($id: UUID!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public as it retrieves public project information by ID.") {
-  project(id: $id) {
-    id
-    title
-    description
-    displayOrder
-    technologiesUsed
-    githubLink
-    liveDemoLink
-    codeSnippet
-  }
+query GetProjectById($id: UUID!)
+@auth(
+	level: PUBLIC
+	insecureReason: "This operation is safe to expose to the public as it retrieves public project information by ID."
+) {
+	project(id: $id) {
+		id
+		title
+		description
+		displayOrder
+		technologiesUsed
+		githubLink
+		liveDemoLink
+		codeSnippet
+	}
 }
 
 # Mutation to update the description of a project
-mutation UpdateProjectDescription($id: UUID!, $newDescription: String!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users, assuming appropriate backend authorization checks are in place for project ownership/permissions.") {
-  project_update(key: {id: $id}, data: {description: $newDescription}) {
-    id
-  }
+mutation UpdateProjectDescription($id: UUID!, $newDescription: String!)
+@auth(
+	level: USER
+	insecureReason: "This operation is safe to expose to all logged in users, assuming appropriate backend authorization checks are in place for project ownership/permissions."
+) {
+	project_update(key: { id: $id }, data: { description: $newDescription }) {
+		id
+	}
 }
 
 # Mutation to delete a specific menu item by its ID
-mutation DeleteMenuItem($id: UUID!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users, assuming appropriate backend authorization checks are in place for menu item ownership/permissions.") {
-  menuItem_delete(id: $id) {
-    id
-  }
+mutation DeleteMenuItem($id: UUID!)
+@auth(
+	level: USER
+	insecureReason: "This operation is safe to expose to all logged in users, assuming appropriate backend authorization checks are in place for menu item ownership/permissions."
+) {
+	menuItem_delete(id: $id) {
+		id
+	}
 }

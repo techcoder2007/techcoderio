@@ -63,7 +63,11 @@ const Taskbar = () => {
 		dispatch(openApp(id));
 	};
 
-	const handleContextMenu = (app: AllAppsState, clientX: number, clientY: number) => {
+	const handleContextMenu = (
+		app: AllAppsState,
+		clientX: number,
+		clientY: number,
+	) => {
 		setCtxMenu({ app, x: clientX, y: clientY });
 	};
 
@@ -115,9 +119,7 @@ const Taskbar = () => {
 								}}
 								title={wifiOn ? "Wi-Fi connected" : "Wi-Fi off"}
 							>
-								<Wifi
-									className={`size-4 ${wifiOn ? "text-white" : "text-white/30"}`}
-								/>
+								<Wifi className={`size-4 ${wifiOn ? "text-white" : "text-white/30"}`} />
 							</TrayButton>
 							<TrayButton
 								active={openTray === "volume"}
@@ -274,7 +276,9 @@ const DockContextMenu = ({
 			{/* App header */}
 			<div className="flex items-center gap-2.5 px-3 py-2.5 border-b border-white/8">
 				<AppIcon name={app.iconName} className="size-6 shrink-0" />
-				<span className="text-xs font-semibold text-white/90 truncate">{app.title}</span>
+				<span className="text-xs font-semibold text-white/90 truncate">
+					{app.title}
+				</span>
 			</div>
 
 			<div className="py-1">

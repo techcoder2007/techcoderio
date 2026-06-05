@@ -79,10 +79,7 @@ const AppIcon = ({ name, className, style }: AppIconProps) => {
 							d="M46 12 L52 16 L52 48 L46 52 L26 36 Z"
 							fill="rgba(255,255,255,0.3)"
 						/>
-						<path
-							d="M18 20 L26 28 L18 44 L12 40 L12 24 Z"
-							fill="rgba(0,0,0,0.15)"
-						/>
+						<path d="M18 20 L26 28 L18 44 L12 40 L12 24 Z" fill="rgba(0,0,0,0.15)" />
 					</g>
 				</svg>
 			);
@@ -164,14 +161,7 @@ const AppIcon = ({ name, className, style }: AppIconProps) => {
 						</linearGradient>
 					</defs>
 					<rect width="64" height="64" rx="12" fill="url(#calc-bg)" />
-					<rect
-						x="8"
-						y="8"
-						width="48"
-						height="14"
-						rx="3"
-						fill="#0D0D0D"
-					/>
+					<rect x="8" y="8" width="48" height="14" rx="3" fill="#0D0D0D" />
 					<text
 						x="52"
 						y="19"
@@ -274,9 +264,30 @@ const AppIcon = ({ name, className, style }: AppIconProps) => {
 						fill="url(#fil-folder)"
 					/>
 					{/* Document lines */}
-					<rect x="16" y="36" width="16" height="2.5" rx="1.25" fill="rgba(0,0,0,0.25)" />
-					<rect x="16" y="41" width="24" height="2.5" rx="1.25" fill="rgba(0,0,0,0.25)" />
-					<rect x="16" y="46" width="10" height="2.5" rx="1.25" fill="rgba(0,0,0,0.25)" />
+					<rect
+						x="16"
+						y="36"
+						width="16"
+						height="2.5"
+						rx="1.25"
+						fill="rgba(0,0,0,0.25)"
+					/>
+					<rect
+						x="16"
+						y="41"
+						width="24"
+						height="2.5"
+						rx="1.25"
+						fill="rgba(0,0,0,0.25)"
+					/>
+					<rect
+						x="16"
+						y="46"
+						width="10"
+						height="2.5"
+						rx="1.25"
+						fill="rgba(0,0,0,0.25)"
+					/>
 				</svg>
 			);
 

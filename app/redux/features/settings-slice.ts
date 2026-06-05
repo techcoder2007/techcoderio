@@ -1,9 +1,26 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-export type SettingsSection = "appearance" | "sound" | "displays" | "network" | "about";
+export type SettingsSection =
+	| "appearance"
+	| "sound"
+	| "displays"
+	| "network"
+	| "about";
 export type ThemeMode = "light" | "dark";
-export type AccentColor = "ubuntu" | "blue" | "green" | "purple" | "red" | "teal";
-export type FontFamily = "noto-mono" | "system" | "ubuntu" | "cantarell" | "dejavu" | "liberation";
+export type AccentColor =
+	| "ubuntu"
+	| "blue"
+	| "green"
+	| "purple"
+	| "red"
+	| "teal";
+export type FontFamily =
+	| "noto-mono"
+	| "system"
+	| "ubuntu"
+	| "cantarell"
+	| "dejavu"
+	| "liberation";
 
 interface SettingsState {
 	section: SettingsSection;
