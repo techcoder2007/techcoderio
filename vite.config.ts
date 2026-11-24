@@ -6,5 +6,12 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-	plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), biomePlugin()],
+	// redux-persist uses directory imports that Node ESM cannot resolve at runtime
+	ssr: { noExternal: ["redux-persist"] },
+	plugins: [
+		tailwindcss(),
+		reactRouter(),
+		tsconfigPaths(),
+		biomePlugin({ path: "app" }),
+	],
 });
